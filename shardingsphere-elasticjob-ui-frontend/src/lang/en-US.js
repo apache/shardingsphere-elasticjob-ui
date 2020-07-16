@@ -20,38 +20,47 @@ export default {
     home: 'Home',
     menuData: [
       {
-        title: 'Config Center',
+        title: 'Global settings',
         child: [
           {
-            title: 'Config Server',
-            href: '/config-center'
-          },
-          {
-            title: 'Rule Config',
-            href: '/rule-config'
-          }
-        ]
-      },
-      {
-        title: 'Registry Center',
-        child: [
-          {
-            title: 'Registry Server',
+            title: 'Registry center',
             href: '/registry-center'
           },
           {
-            title: 'Runtime Status',
-            href: '/runtime-status'
+            title: 'Event trace data source',
+            href: '/data-source'
           }
         ]
       },
       {
-        title: 'Data scaling',
-        href: '/data-scaling'
+        title: 'Job operation',
+        child: [
+          {
+            title: 'Job dimension',
+            href: '/operation-jobs'
+          },
+          {
+            title: 'Server dimension',
+            href: '/operation-servers'
+          }
+        ]
       },
       {
-        title: 'Cluster state',
-        href: '/cluster-state'
+        title: 'Job history',
+        child: [
+          {
+            title: 'Job trace',
+            href: '/history-trace'
+          },
+          {
+            title: 'History status',
+            href: '/history-status'
+          }
+        ]
+      },
+      {
+        title: 'Help',
+        href: '/job-help'
       }
     ],
     connected: 'Connected',

@@ -20,38 +20,47 @@ export default {
     home: '主页',
     menuData: [
       {
-        title: '配置中心',
+        title: '全局配置',
         child: [
           {
-            title: '服务列表',
-            href: '/config-center'
-          },
-          {
-            title: '配置管理',
-            href: '/rule-config'
-          }
-        ]
-      },
-      {
-        title: '注册中心',
-        child: [
-          {
-            title: '服务列表',
+            title: '注册中心配置',
             href: '/registry-center'
           },
           {
-            title: '运行状态',
-            href: '/runtime-status'
+            title: '事件追踪数据源配置',
+            href: '/data-source'
           }
         ]
       },
       {
-        title: '数据扩容',
-        href: '/data-scaling'
+        title: '作业操作',
+        child: [
+          {
+            title: '作业维度',
+            href: '/operation-jobs'
+          },
+          {
+            title: '服务器维度',
+            href: '/operation-servers'
+          }
+        ]
       },
       {
-        title: '节点状态',
-        href: '/cluster-state'
+        title: '作业历史',
+        child: [
+          {
+            title: '历史轨迹',
+            href: '/history-trace'
+          },
+          {
+            title: '历史状态',
+            href: '/history-status'
+          }
+        ]
+      },
+      {
+        title: '帮助',
+        href: '/job-help'
       }
     ],
     connect: '已连接',
