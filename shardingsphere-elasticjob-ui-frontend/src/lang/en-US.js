@@ -163,91 +163,17 @@ export default {
       password: 'Please enter the password of the data source'
     }
   },
-  runtimeStatus: {
-    serviceNode: 'Service Node',
-    slaveDataSourceName: 'Slave DataSource Info',
-    dataSource: {
-      schema: 'Schema',
-      masterDataSourceName: 'Master DataSource Name',
-      slaveDataSourceName: 'Slave DataSource Name'
-    },
-    instance: {
-      instanceId: 'Instance Id',
-      serverIp: 'Server Ip'
-    }
-  },
-  ruleConfig: {
-    form: {
-      inputPlaceholder: 'Please enter content'
-    },
-    schema: {
-      title: 'Add Schema',
-      name: 'Name',
-      ruleConfig: 'Rule Config',
-      dataSourceConfig: 'Data Source Config'
-    },
-    schemaRules: {
-      name: 'Please enter the name of the schema',
-      ruleConfig: 'Please enter the rule config of the schema',
-      dataSourceConfig: 'Please enter the data source config of the schema'
-    },
-    radioBtn: {
-      schema: 'Schema',
-      authentication: 'Authentication',
-      props: 'Props'
-    }
-  },
-  dataScaling: {
-    btnTxt: 'ADD',
-    tableList: {
-      jobId: 'jobId',
-      jobName: 'jobName',
-      status: 'status',
-      operate: 'operate',
-      operateStop: 'stop',
-      operateSee: 'see'
-    },
-    registDialog: {
-      title: 'Add a job',
-      source: 'Source',
-      target: 'Target',
-      jobCount: 'JobCount',
-      jobCountPlaceholder: 'Please enter jobCount',
-      username: 'Username',
-      usernamePlaceholder: 'Please enter username',
-      password: 'Password',
-      passwordPlaceholder: 'Please enter password',
-      url: 'Url',
-      urlPlaceholder: 'Please enter url',
-      btnConfirmTxt: 'Confirm',
-      btnCancelTxt: 'Cancel'
-    },
-    rules: {
-      source: 'Please select the source of the registration center',
-      target: 'Please select a target',
-      serviceUrl: 'ServiceUrl must fill'
-    },
-    notify: {
-      title: 'Prompt',
-      conSucMessage: 'Add Succeeded',
-      conFailMessage: 'Add Failed',
-      delSucMessage: 'Delete Succeeded',
-      delFailMessage: 'Delete Failed'
-    },
-    serviceDialog: {
-      title: 'Data Scaling Setting',
-      serviceName: 'Service Name',
-      serviceUrl: 'Service Url',
-      serviceNamePlaceholder: 'Please enter serviceName',
-      serviceUrlPlaceholder: 'Please enter serviceUrl'
-    }
-  },
-  clusterState: {
-    legendLabel: {
-      onLine: 'ONLINE',
-      offLine: 'OFFLINE',
-      disabled: 'DISABLED',
-      unknown: 'UNKNOWN'
-    }
+  help: {
+    design_concept_title: 'Design concept',
+    design_concept_info_1: 'Console is not related to Elastic Job, it just reading data from registry center and showing the status of jobs, or updating data to registry center which will change the configuration.',
+    design_concept_info_2: "Console can operate lifecycle for jobs, such as enable and disable, but can not the start and stop job's process, because of console server and job servers are completely distributed, console can not control the job servers.",
+    major_features_title: 'Major features',
+    major_features_info_1: 'View status of jobs and servers',
+    major_features_info_2: 'Quick update and delete jobs',
+    major_features_info_3: 'Disable and enable Jobs',
+    major_features_info_4: 'Multiple registry centers supported',
+    major_features_info_5: 'Trace jobs execute history',
+    unsupported_title: 'Unsupported',
+    unsupported_info: 'Add job. Because of job is added at first running time automatically, it is unnecessary to add job from console. So just start the job app.'
   }
 }

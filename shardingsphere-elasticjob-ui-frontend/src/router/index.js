@@ -38,6 +38,12 @@ export const constantRouterMap = [
     hidden: true,
     name: 'Data source'
   },
+  {
+    path: '/job-help',
+    component: () => import('@/views/help'),
+    hidden: true,
+    name: 'Help'
+  },
 ]
 
 export default new Router({
