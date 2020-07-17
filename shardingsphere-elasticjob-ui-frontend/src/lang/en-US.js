@@ -135,19 +135,18 @@ export default {
       digest: 'Please enter a digest'
     }
   },
-  configCenter: {
+  dataSource: {
     btnTxt: 'ADD',
-    configDialog: {
-      title: 'Add a config center',
-      editTitle: 'Edit config center',
+    addDialog: {
+      title: 'Add a data source',
       name: 'Name',
-      centerType: 'Instance Type',
-      address: 'Address',
-      orchestrationName: 'Orchestration Name',
-      namespaces: 'Namespace',
-      digest: 'Digest',
+      driver: 'Driver',
+      url: 'Url',
+      username: 'Username',
+      password: 'Password',
       btnConfirmTxt: 'Confirm',
-      btnCancelTxt: 'Cancel'
+      btnCancelTxt: 'Cancel',
+      btnConnectTestTxt: 'Test connect'
     },
     table: {
       operate: 'Operate',
@@ -157,12 +156,11 @@ export default {
       operateEdit: 'Edit'
     },
     rules: {
-      name: 'Please enter the name of the config center',
-      address: 'Please enter the config center Address',
-      namespaces: 'Please enter a Namespace',
-      centerType: 'Please select a Center Type',
-      orchestrationName: 'Please enter a Orchestration Name',
-      digest: 'Please enter a digest'
+      name: 'Please enter the name of the data source',
+      driver: 'Please enter the driver of the data source',
+      url: 'Please enter the url of the data source',
+      username: 'Please enter the username of the data source',
+      password: 'Please enter the password of the data source'
     }
   },
   runtimeStatus: {

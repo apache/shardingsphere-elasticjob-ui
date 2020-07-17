@@ -135,34 +135,32 @@ export default {
       digest: '请输入登录凭证'
     }
   },
-  configCenter: {
+  dataSource: {
     btnTxt: '添加',
-    configDialog: {
-      title: '添加配置中心',
-      editTitle: '编辑配置中心',
-      name: '配置中心名称',
-      centerType: '配置中心类型',
-      address: '配置中心地址',
-      orchestrationName: '数据治理实例',
-      namespaces: '命名空间',
-      digest: '登录凭证',
+    addDialog: {
+      title: '添加事件追踪数据源',
+      name: '数据源名称',
+      driver: '数据源驱动',
+      url: '数据源连接地址',
+      username: '数据源用户名',
+      password: '数据源密码',
       btnConfirmTxt: '确定',
-      btnCancelTxt: '取消'
+      btnCancelTxt: '取消',
+      btnConnectTestTxt: '测试连接'
     },
     table: {
       operate: '操作',
       operateConnect: '连接',
-      operateConnected: '已激活',
+      operateConnected: '已连接',
       operateDel: '删除',
       operateEdit: '编辑'
     },
     rules: {
-      name: '请输入配置中心名称',
-      centerType: '请选择配置中心类型',
-      namespaces: '请输入命名空间',
-      address: '请选输入配置中心地址',
-      orchestrationName: '请输入数据治理实例名称',
-      digest: '请输入登录凭证'
+      name: '请输入数据源名称',
+      driver: '请输入数据源驱动',
+      url: '请输入数据源连接地址',
+      username: '请输入数据源用户名',
+      password: '请输入数据源密码'
     }
   },
   runtimeStatus: {

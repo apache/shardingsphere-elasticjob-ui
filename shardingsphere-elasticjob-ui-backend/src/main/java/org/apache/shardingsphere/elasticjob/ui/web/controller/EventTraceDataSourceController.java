@@ -21,6 +21,8 @@ import org.apache.shardingsphere.elasticjob.ui.domain.EventTraceDataSourceConfig
 import org.apache.shardingsphere.elasticjob.ui.domain.EventTraceDataSourceFactory;
 import org.apache.shardingsphere.elasticjob.ui.service.EventTraceDataSourceConfigurationService;
 import org.apache.shardingsphere.elasticjob.ui.util.SessionEventTraceDataSourceConfiguration;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResult;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +41,7 @@ import java.util.Collection;
  * Event trace data source RESTful API.
  */
 @RestController
-@RequestMapping("/data-source")
+@RequestMapping("/api/data-source")
 public final class EventTraceDataSourceController {
     
     public static final String DATA_SOURCE_CONFIG_KEY = "data_source_config_key";
@@ -68,10 +70,10 @@ public final class EventTraceDataSourceController {
      * @param request HTTP request
      * @return event trace data source configurations
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON)
-    public Collection<EventTraceDataSourceConfiguration> load(@Context final HttpServletRequest request) {
+    @GetMapping("/load")
+    public ResponseResult<Collection<EventTraceDataSourceConfiguration>> load(@Context final HttpServletRequest request) {
         eventTraceDataSourceConfigurationService.loadActivated().ifPresent(eventTraceDataSourceConfig -> setDataSourceNameToSession(eventTraceDataSourceConfig, request.getSession()));
-        return eventTraceDataSourceConfigurationService.loadAll().getEventTraceDataSourceConfiguration();
+        return ResponseResultUtil.build(eventTraceDataSourceConfigurationService.loadAll().getEventTraceDataSourceConfiguration());
     }
     
     /**
@@ -80,9 +82,9 @@ public final class EventTraceDataSourceController {
      * @param config event trace data source configuration
      * @return success to added or not
      */
-    @PostMapping(produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-    public boolean add(@RequestBody final EventTraceDataSourceConfiguration config) {
-        return eventTraceDataSourceConfigurationService.add(config);
+    @PostMapping("/add")
+    public ResponseResult<Boolean> add(@RequestBody final EventTraceDataSourceConfiguration config) {
+        return ResponseResultUtil.build(eventTraceDataSourceConfigurationService.add(config));
     }
     
     /**
@@ -91,8 +93,9 @@ public final class EventTraceDataSourceController {
      * @param config event trace data source configuration
      */
     @DeleteMapping(consumes = MediaType.APPLICATION_JSON)
-    public void delete(@RequestBody final EventTraceDataSourceConfiguration config) {
+    public ResponseResult delete(@RequestBody final EventTraceDataSourceConfiguration config) {
         eventTraceDataSourceConfigurationService.delete(config.getName());
+        return ResponseResultUtil.success();
     }
     
     /**
@@ -103,8 +106,8 @@ public final class EventTraceDataSourceController {
      * @return success or not
      */
     @PostMapping(value = "/connectTest", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-    public boolean connectTest(@RequestBody final EventTraceDataSourceConfiguration config, @Context final HttpServletRequest request) {
-        return setDataSourceNameToSession(config, request.getSession());
+    public ResponseResult<Boolean> connectTest(@RequestBody final EventTraceDataSourceConfiguration config, @Context final HttpServletRequest request) {
+        return ResponseResultUtil.build(setDataSourceNameToSession(config, request.getSession()));
     }
     
     /**
@@ -115,12 +118,12 @@ public final class EventTraceDataSourceController {
      * @return success or not
      */
     @PostMapping(value = "/connect", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-    public boolean connect(@RequestBody final EventTraceDataSourceConfiguration config, @Context final HttpServletRequest request) {
+    public ResponseResult<Boolean> connect(@RequestBody final EventTraceDataSourceConfiguration config, @Context final HttpServletRequest request) {
         boolean isConnected = setDataSourceNameToSession(eventTraceDataSourceConfigurationService.find(config.getName(), eventTraceDataSourceConfigurationService.loadAll()), request.getSession());
         if (isConnected) {
             eventTraceDataSourceConfigurationService.load(config.getName());
         }
-        return isConnected;
+        return ResponseResultUtil.build(isConnected);
     }
     
     private boolean setDataSourceNameToSession(final EventTraceDataSourceConfiguration dataSourceConfig, final HttpSession session) {
