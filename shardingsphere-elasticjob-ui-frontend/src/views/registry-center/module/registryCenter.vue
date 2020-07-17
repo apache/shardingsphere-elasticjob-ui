@@ -23,6 +23,7 @@
         type="primary"
         icon="el-icon-plus"
         @click="add"
+        :disabled="isGuest"
       >{{ $t("registryCenter.btnTxt") }}</el-button>
     </div>
     <div class="table-wrap">
@@ -47,6 +48,7 @@
                 icon="el-icon-link"
                 size="small"
                 @click="handleConnect(scope.row)"
+                :disabled="isGuest"
               />
             </el-tooltip>
             <el-tooltip
@@ -60,6 +62,7 @@
                 type="danger"
                 icon="el-icon-delete"
                 @click="handlerDel(scope.row)"
+                :disabled="isGuest"
               />
             </el-tooltip>
           </template>
@@ -77,14 +80,14 @@
     </div>
     <el-dialog
       :title="$t('registryCenter.registDialog.title')"
-      :visible.sync="regustDialogVisible"
+      :visible.sync="addDialogVisible"
       width="1010px"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="170px">
         <el-form-item :label="$t('registryCenter.registDialog.name')" prop="name">
           <el-input :placeholder="$t('registryCenter.rules.name')" v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <el-form-item :label="$t('registryCenter.registDialog.address')" prop="serverLists">
+        <el-form-item :label="$t('registryCenter.registDialog.address')" prop="zkAddressList">
           <el-input
             :placeholder="$t('registryCenter.rules.address')"
             v-model="form.zkAddressList"
@@ -125,6 +128,7 @@ export default {
   data() {
     return {
       addDialogVisible: false,
+      isGuest: window.localStorage.getItem('isGuest') == 'true',
       column: [
         {
           label: this.$t('registryCenter').registDialog.name,

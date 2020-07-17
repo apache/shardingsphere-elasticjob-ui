@@ -23,6 +23,7 @@
         type="primary"
         icon="el-icon-plus"
         @click="add"
+        :disabled="isGuest"
       >{{ $t("dataSource.btnTxt") }}</el-button>
     </div>
     <div class="table-wrap">
@@ -46,6 +47,7 @@
                 type="primary"
                 icon="el-icon-link"
                 size="small"
+                :disabled="isGuest"
                 @click="handleConnect(scope.row)"
               />
             </el-tooltip>
@@ -59,6 +61,7 @@
                 size="small"
                 type="danger"
                 icon="el-icon-delete"
+                :disabled="isGuest"
                 @click="handlerDel(scope.row)"
               />
             </el-tooltip>
@@ -137,6 +140,7 @@ export default {
   data() {
     return {
       regustDialogVisible: false,
+      isGuest: window.localStorage.getItem('isGuest') == 'true',
       column: [
         {
           label: this.$t('dataSource').addDialog.name,
