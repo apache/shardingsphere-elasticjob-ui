@@ -112,7 +112,7 @@ export default {
       editTitle: 'Edit registry center',
       name: 'Name',
       centerType: 'Instance Type',
-      address: 'Address',
+      address: 'Zookeeper address',
       orchestrationName: 'Orchestration Name',
       namespaces: 'Namespace',
       digest: 'Digest',

@@ -22,6 +22,8 @@ import org.apache.shardingsphere.elasticjob.reg.exception.RegException;
 import org.apache.shardingsphere.elasticjob.ui.domain.RegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.ui.service.RegistryCenterConfigurationService;
 import org.apache.shardingsphere.elasticjob.ui.util.SessionRegistryCenterConfiguration;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResult;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +42,7 @@ import java.util.Collection;
  * Registry center RESTful API.
  */
 @RestController
-@RequestMapping("/registry-center")
+@RequestMapping("/api/registry-center")
 public final class RegistryCenterController {
     
     public static final String REG_CENTER_CONFIG_KEY = "reg_center_config_key";
@@ -68,10 +70,10 @@ public final class RegistryCenterController {
      * @param request HTTP request
      * @return registry center configurations
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON)
-    public Collection<RegistryCenterConfiguration> load(final HttpServletRequest request) {
+    @GetMapping("/load")
+    public ResponseResult<Collection<RegistryCenterConfiguration>> load(final HttpServletRequest request) {
         regCenterService.loadActivated().ifPresent(regCenterConfig -> setRegistryCenterNameToSession(regCenterConfig, request.getSession()));
-        return regCenterService.loadAll().getRegistryCenterConfiguration();
+        return ResponseResultUtil.build(regCenterService.loadAll().getRegistryCenterConfiguration());
     }
     
     /**
@@ -80,9 +82,9 @@ public final class RegistryCenterController {
      * @param config registry center configuration
      * @return success to add or not
      */
-    @PostMapping(produces = MediaType.APPLICATION_JSON)
-    public boolean add(@RequestBody final RegistryCenterConfiguration config) {
-        return regCenterService.add(config);
+    @PostMapping("/add")
+    public ResponseResult<Boolean> add(@RequestBody final RegistryCenterConfiguration config) {
+        return ResponseResultUtil.build(regCenterService.add(config));
     }
     
     /**
@@ -91,8 +93,9 @@ public final class RegistryCenterController {
      * @param config registry center configuration
      */
     @DeleteMapping(consumes = MediaType.APPLICATION_JSON)
-    public void delete(@RequestBody final RegistryCenterConfiguration config) {
+    public ResponseResult delete(@RequestBody final RegistryCenterConfiguration config) {
         regCenterService.delete(config.getName());
+        return ResponseResultUtil.success();
     }
     
     /**
@@ -103,12 +106,12 @@ public final class RegistryCenterController {
      * @return connected or not
      */
     @PostMapping(value = "/connect", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public boolean connect(@RequestBody final RegistryCenterConfiguration config, @Context final HttpServletRequest request) {
+    public ResponseResult<Boolean> connect(@RequestBody final RegistryCenterConfiguration config, @Context final HttpServletRequest request) {
         boolean isConnected = setRegistryCenterNameToSession(regCenterService.find(config.getName(), regCenterService.loadAll()), request.getSession());
         if (isConnected) {
             regCenterService.load(config.getName());
         }
-        return isConnected;
+        return ResponseResultUtil.build(isConnected);
     }
     
     private boolean setRegistryCenterNameToSession(final RegistryCenterConfiguration regCenterConfig, final HttpSession session) {

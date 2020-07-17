@@ -15,26 +15,14 @@
  * limitations under the License.
  */
 
-import Vue from 'vue'
-import Router from 'vue-router'
+import API from '@/utils/api'
 
-Vue.use(Router)
+export default {
+  getRegCenter: (params = {}) => API.get(`/api/registry-center/load`, params),
+  deleteRegCenter: (params = {}) => API.delete(`/api/registry-center`, params),
+  postRegCenter: (params = {}) => API.post(`/api/registry-center/add`, params),
+  getRegCenterActivated: (params = {}) => API.get(`/api/reg-center/activated`, params),
+  postRegCenterConnect: (params = {}) => API.post(`/api/registry-center/connect`, params),
+  updateRegCenter: (params = {}) => API.post(`/api/reg-center/update`, params)
 
-export const constantRouterMap = [
-  {
-    path: '/login',
-    component: () => import('@/views/login'),
-    hidden: true
-  },
-  {
-    path: '/registry-center',
-    component: () => import('@/views/registry-center'),
-    hidden: true,
-    name: 'Registry center'
-  },
-]
-
-export default new Router({
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
-})
+}
