@@ -22,8 +22,8 @@
         class="btn-plus"
         type="primary"
         icon="el-icon-plus"
-        @click="add"
         :disabled="isGuest"
+        @click="add"
       >{{ $t("registryCenter.btnTxt") }}</el-button>
     </div>
     <div class="table-wrap">
@@ -47,8 +47,8 @@
                 type="primary"
                 icon="el-icon-link"
                 size="small"
-                @click="handleConnect(scope.row)"
                 :disabled="isGuest"
+                @click="handleConnect(scope.row)"
               />
             </el-tooltip>
             <el-tooltip
@@ -61,8 +61,8 @@
                 size="small"
                 type="danger"
                 icon="el-icon-delete"
-                @click="handlerDel(scope.row)"
                 :disabled="isGuest"
+                @click="handlerDel(scope.row)"
               />
             </el-tooltip>
           </template>

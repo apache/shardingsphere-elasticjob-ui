@@ -22,8 +22,8 @@
         class="btn-plus"
         type="primary"
         icon="el-icon-plus"
-        @click="add"
         :disabled="isGuest"
+        @click="add"
       >{{ $t("dataSource.btnTxt") }}</el-button>
     </div>
     <div class="table-wrap">
