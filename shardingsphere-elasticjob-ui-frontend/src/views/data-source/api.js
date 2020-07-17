@@ -15,32 +15,13 @@
  * limitations under the License.
  */
 
-import Vue from 'vue'
-import Router from 'vue-router'
+import API from '@/utils/api'
 
-Vue.use(Router)
-
-export const constantRouterMap = [
-  {
-    path: '/login',
-    component: () => import('@/views/login'),
-    hidden: true
-  },
-  {
-    path: '/registry-center',
-    component: () => import('@/views/registry-center'),
-    hidden: true,
-    name: 'Registry center'
-  },
-  {
-    path: '/data-source',
-    component: () => import('@/views/data-source'),
-    hidden: true,
-    name: 'Data source'
-  },
-]
-
-export default new Router({
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRouterMap
-})
+export default {
+  load: (params = {}) => API.get(`/api/data-source/load`, params),
+  delete: (params = {}) => API.delete(`/api/data-source`, params),
+  add: (params = {}) => API.post(`/api/data-source/add`, params),
+  getRegCenterActivated: (params = {}) => API.get(`/api/data-source/activated`, params),
+  connect: (params = {}) => API.post(`/api/data-source/connect`, params),
+  connectTest: (params = {}) => API.post(`/api/data-source/connectTest`, params)
+}
