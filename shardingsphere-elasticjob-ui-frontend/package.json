@@ -14,8 +14,6 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "echarts": "^4.6.0",
-    "echarts-liquidfill": "^2.0.5",
     "element-ui": "^2.4.9",
     "js-yaml": "^3.12.0",
     "lodash": "^4.17.11",

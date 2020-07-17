@@ -36,20 +36,6 @@
         />
         <el-table-column :label="$t('registryCenter.table.operate')" fixed="right" width="200">
           <template slot-scope="scope">
-            <!--<el-tooltip
-              :content="$t('registryCenter.table.operateEdit')"
-              class="item"
-              effect="dark"
-              placement="top"
-            >
-              <el-button
-                :disabled="scope.row.activated"
-                size="small"
-                type="primary"
-                icon="el-icon-edit"
-                @click="handleEdit(scope.row)"
-              />
-            </el-tooltip>-->
             <el-tooltip
               :content="!scope.row.activated ? $t('registryCenter.table.operateConnect'): $t('registryCenter.table.operateConnected')"
               class="item"
@@ -98,12 +84,6 @@
         <el-form-item :label="$t('registryCenter.registDialog.name')" prop="name">
           <el-input :placeholder="$t('registryCenter.rules.name')" v-model="form.name" autocomplete="off" />
         </el-form-item>
-        <!--<el-form-item :label="$t('registryCenter.registDialog.centerType')" prop="instanceType">
-          <el-radio-group v-model="form.instanceType">
-            <el-radio label="Zookeeper">Zookeeper</el-radio>
-            <el-radio label="Etcd">Etcd</el-radio>
-          </el-radio-group>
-        </el-form-item>-->
         <el-form-item :label="$t('registryCenter.registDialog.address')" prop="serverLists">
           <el-input
             :placeholder="$t('registryCenter.rules.address')"
@@ -111,13 +91,6 @@
             autocomplete="off"
           />
         </el-form-item>
-        <!--<el-form-item :label="$t('registryCenter.registDialog.orchestrationName')" prop="orchestrationName">
-          <el-input
-            :placeholder="$t('registryCenter.rules.orchestrationName')"
-            v-model="form.orchestrationName"
-            autocomplete="off"
-          />
-        </el-form-item>-->
         <el-form-item :label="$t('registryCenter.registDialog.namespaces')" prop="namespace">
           <el-input
             :placeholder="$t('registryCenter.rules.namespaces')"
@@ -141,58 +114,6 @@
         >{{ $t("registryCenter.registDialog.btnConfirmTxt") }}</el-button>
       </div>
     </el-dialog>
-    <el-dialog
-      :title="$t('registryCenter.registDialog.editTitle')"
-      :visible.sync="editDialogVisible"
-      width="1010px"
-    >
-      <el-form ref="editForm" :model="editForm" :rules="rules" label-width="170px">
-        <el-form-item :label="$t('registryCenter.registDialog.name')" prop="name">
-          <el-input :placeholder="$t('registryCenter.rules.name')" v-model="editForm.name" autocomplete="off" />
-        </el-form-item>
-        <el-form-item :label="$t('registryCenter.registDialog.centerType')" prop="instanceType">
-          <el-radio-group v-model="editForm.instanceType">
-            <el-radio label="Zookeeper">Zookeeper</el-radio>
-            <el-radio label="Etcd">Etcd</el-radio>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item :label="$t('registryCenter.registDialog.address')" prop="serverLists">
-          <el-input
-            :placeholder="$t('registryCenter.rules.address')"
-            v-model="editForm.serverLists"
-            autocomplete="off"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('registryCenter.registDialog.orchestrationName')" prop="orchestrationName">
-          <el-input
-            :placeholder="$t('registryCenter.rules.orchestrationName')"
-            v-model="editForm.orchestrationName"
-            autocomplete="off"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('registryCenter.registDialog.namespaces')" prop="namespace">
-          <el-input
-            :placeholder="$t('registryCenter.rules.namespaces')"
-            v-model="editForm.namespace"
-            autocomplete="off"
-          />
-        </el-form-item>
-        <el-form-item :label="$t('registryCenter.registDialog.digest')">
-          <el-input
-            :placeholder="$t('registryCenter.rules.digest')"
-            v-model="editForm.digest"
-            autocomplete="off"
-          />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelEdit">{{ $t("registryCenter.registDialog.btnCancelTxt") }}</el-button>
-        <el-button
-          type="primary"
-          @click="confirmEdit('editForm')"
-        >{{ $t("registryCenter.registDialog.btnConfirmTxt") }}</el-button>
-      </div>
-    </el-dialog>
   </el-row>
 </template>
 <script>
@@ -203,8 +124,7 @@ export default {
   name: 'RegistryCenter',
   data() {
     return {
-      regustDialogVisible: false,
-      editDialogVisible: false,
+      addDialogVisible: false,
       column: [
         {
           label: this.$t('registryCenter').registDialog.name,
@@ -223,19 +143,6 @@ export default {
         name: '',
         zkAddressList: '',
         namespace: '',
-        // instanceType: 'Zookeeper',
-        // orchestrationName: '',
-        // orchestrationType: 'registry_center',
-        digest: ''
-      },
-      editForm: {
-        primaryName: '',
-        name: '',
-        serverLists: '',
-        namespace: '',
-        instanceType: 'Zookeeper',
-        orchestrationName: '',
-        orchestrationType: 'registry_center',
         digest: ''
       },
       rules: {
@@ -343,7 +250,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           API.postRegCenter(this.form).then(res => {
-            this.regustDialogVisible = false
+            this.addDialogVisible = false
             this.$notify({
               title: this.$t('common').notify.title,
               message: this.$t('common').notify.addSucMessage,
@@ -358,33 +265,7 @@ export default {
       })
     },
     add() {
-      this.regustDialogVisible = true
-    },
-    handleEdit(row) {
-      this.editDialogVisible = true
-      this.editForm = Object.assign({}, row)
-      this.editForm.primaryName = row.name
-    },
-    confirmEdit(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          API.updateRegCenter(this.editForm).then(res => {
-            this.editDialogVisible = false
-            this.$notify({
-              title: this.$t('common').notify.title,
-              message: this.$t('common').notify.editSucMessage,
-              type: 'success'
-            })
-            this.getRegCenter()
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
-    cancelEdit() {
-      this.editDialogVisible = false
+      this.addDialogVisible = true
     }
   }
 }

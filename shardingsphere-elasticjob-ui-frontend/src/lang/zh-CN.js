@@ -163,91 +163,17 @@ export default {
       password: '请输入数据源密码'
     }
   },
-  runtimeStatus: {
-    serviceNode: '服务节点',
-    slaveDataSourceName: '从库信息',
-    dataSource: {
-      schema: '逻辑库名',
-      masterDataSourceName: '主库名',
-      slaveDataSourceName: '从库名'
-    },
-    instance: {
-      instanceId: '节点标识',
-      serverIp: '服务ip'
-    }
-  },
-  ruleConfig: {
-    form: {
-      inputPlaceholder: '请输入内容'
-    },
-    schema: {
-      title: '添加Schema',
-      name: '名称',
-      ruleConfig: '分片配置规则',
-      dataSourceConfig: '数据源配置规则'
-    },
-    schemaRules: {
-      name: '请输入名称',
-      ruleConfig: '请输入数据分片配置规则',
-      dataSourceConfig: '请输入数据源配置规则'
-    },
-    radioBtn: {
-      schema: '数据源',
-      authentication: '认证信息',
-      props: '属性配置'
-    }
-  },
-  dataScaling: {
-    btnTxt: '添加',
-    tableList: {
-      jobId: '任务Id',
-      jobName: '任务名称',
-      status: '状态',
-      operate: '操作',
-      operateStop: '停止',
-      operateSee: '查看'
-    },
-    registDialog: {
-      title: '添加一个任务',
-      source: '源',
-      target: '目标',
-      jobCount: '任务数量',
-      jobCountPlaceholder: '请输入任务数量',
-      username: '用户名',
-      usernamePlaceholder: '请输入用户名',
-      password: '密码',
-      passwordPlaceholder: '请输入密码',
-      url: '地址',
-      urlPlaceholder: '请输入 url',
-      btnConfirmTxt: '确认',
-      btnCancelTxt: '取消'
-    },
-    rules: {
-      source: '请选择注册中心的来源',
-      target: '请选择目标',
-      serviceUrl: '服务地址必填'
-    },
-    notify: {
-      title: '提示',
-      conSucMessage: '添加成功',
-      conFailMessage: '添加失败',
-      delSucMessage: '删除成功',
-      delFailMessage: '删除失败'
-    },
-    serviceDialog: {
-      title: '数据扩容配置',
-      serviceName: '服务名称',
-      serviceUrl: '服务地址',
-      serviceNamePlaceholder: '请输入服务名称',
-      serviceUrlPlaceholder: '请输入服务地址'
-    }
-  },
-  clusterState: {
-    legendLabel: {
-      onLine: '正常',
-      offLine: '下线',
-      disabled: '禁用',
-      unknown: '未知'
-    }
+  help: {
+    design_concept_title: '设计理念',
+    design_concept_info_1: '本控制台和Elastic Job并无直接关系，是通过读取Elastic Job的注册中心数据展现作业状态，或更新注册中心数据修改全局配置。',
+    design_concept_info_2: '控制台只能控制作业本身是否运行，但不能控制作业进程的启停，因为控制台和作业本身服务器是完全分布式的，控制台并不能控制作业服务器。',
+    major_features_title: '主要功能',
+    major_features_info_1: '查看作业以及服务器状态',
+    major_features_info_2: '快捷的修改以及删除作业设置',
+    major_features_info_3: '启用和禁用作业',
+    major_features_info_4: '跨注册中心查看作业',
+    major_features_info_5: '查看作业运行轨迹和运行状态',
+    unsupported_title: '不支持项',
+    unsupported_info: '添加作业。因为作业都是在首次运行时自动添加，使用控制台添加作业并无必要。直接在作业服务器启动包含Elastic Job的作业进程即可。',
   }
 }
