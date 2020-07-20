@@ -68,6 +68,7 @@
               <el-button
                 size="mini"
                 type="info"
+                v-if="'CRASHED'!==scope.row.status"
                 @click="handleDetail(scope.row)"
                 plain>{{ $t("operationJobs.actionText.detail") }}</el-button>
               <el-button
