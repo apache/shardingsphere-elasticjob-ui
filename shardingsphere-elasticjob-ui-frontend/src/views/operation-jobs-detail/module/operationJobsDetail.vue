@@ -142,36 +142,6 @@ export default {
       searchForm: {
         jobName: ''
       },
-      rules: {
-        jobName: [
-          {
-            required: true,
-            message: this.$t('operationJobs').rules.jobName,
-            trigger: 'change'
-          }
-        ],
-        shardingTotalCount: [
-          {
-            required: true,
-            message: this.$t('operationJobs').rules.shardingTotalCount,
-            trigger: 'change'
-          }
-        ],
-        cron: [
-          {
-            required: true,
-            message: this.$t('operationJobs').rules.cron,
-            trigger: 'change'
-          }
-        ],
-        description: [
-          {
-            required: true,
-            message: this.$t('operationJobs').rules.description,
-            trigger: 'change'
-          }
-        ]
-      },
       tableData: [],
       cloneTableData: [],
       currentPage: 1,
@@ -182,10 +152,9 @@ export default {
   created() {
     this.jobName = this.$route.params.jobName ||
       localStorage.getItem("/operation-jobs/status-detail/jobName")
-    console.dir(this.jobName);
     if(!this.jobName){
-      //this.goBack()
-      //return
+      this.goBack()
+      return
     }
     this.search()
   },
