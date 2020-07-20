@@ -74,8 +74,9 @@ public final class ServerOperationController {
      * @param serverIp server IP address
      */
     @PostMapping("/{serverIp}/disable")
-    public void disableServer(@PathVariable("serverIp") final String serverIp) {
+    public ResponseResult<Boolean> disableServer(@PathVariable("serverIp") final String serverIp) {
         jobAPIService.getJobOperatorAPI().disable(null, serverIp);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -84,8 +85,9 @@ public final class ServerOperationController {
      * @param serverIp server IP address
      */
     @PostMapping("/{serverIp}/enable")
-    public void enableServer(@PathVariable("serverIp") final String serverIp) {
+    public ResponseResult<Boolean> enableServer(@PathVariable("serverIp") final String serverIp) {
         jobAPIService.getJobOperatorAPI().enable(null, serverIp);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -94,8 +96,9 @@ public final class ServerOperationController {
      * @param serverIp server IP address
      */
     @PostMapping("/{serverIp}/shutdown")
-    public void shutdownServer(@PathVariable("serverIp") final String serverIp) {
+    public ResponseResult<Boolean> shutdownServer(@PathVariable("serverIp") final String serverIp) {
         jobAPIService.getJobOperatorAPI().shutdown(null, serverIp);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -104,8 +107,9 @@ public final class ServerOperationController {
      * @param serverIp server IP address
      */
     @DeleteMapping("/{serverIp}")
-    public void removeServer(@PathVariable("serverIp") final String serverIp) {
+    public ResponseResult<Boolean> removeServer(@PathVariable("serverIp") final String serverIp) {
         jobAPIService.getJobOperatorAPI().remove(null, serverIp);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -127,8 +131,9 @@ public final class ServerOperationController {
      * @param jobName job name
      */
     @PostMapping(value = "/{serverIp}/jobs/{jobName}/disable")
-    public void disableServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> disableServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
         jobAPIService.getJobOperatorAPI().disable(jobName, serverIp);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -138,8 +143,9 @@ public final class ServerOperationController {
      * @param jobName job name
      */
     @PostMapping("/{serverIp}/jobs/{jobName}/enable")
-    public void enableServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> enableServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
         jobAPIService.getJobOperatorAPI().enable(jobName, serverIp);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -149,8 +155,9 @@ public final class ServerOperationController {
      * @param jobName job name
      */
     @PostMapping("/{serverIp}/jobs/{jobName}/shutdown")
-    public void shutdownServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> shutdownServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
         jobAPIService.getJobOperatorAPI().shutdown(jobName, serverIp);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -160,7 +167,8 @@ public final class ServerOperationController {
      * @param jobName job name
      */
     @DeleteMapping("/{serverIp}/jobs/{jobName}")
-    public void removeServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> removeServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
         jobAPIService.getJobOperatorAPI().remove(jobName, serverIp);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
 }
