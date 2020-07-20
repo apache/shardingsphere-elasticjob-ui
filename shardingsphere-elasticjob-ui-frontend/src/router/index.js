@@ -57,6 +57,12 @@ export const constantRouterMap = [
     name: 'Operation-servers'
   },
   {
+    path: '/operation-servers/status-detail',
+    component: () => import('@/views/operation-servers-detail'),
+    hidden: true,
+    name: 'Operation-servers-detail'
+  },
+  {
     path: '/job-help',
     component: () => import('@/views/help'),
     hidden: true,

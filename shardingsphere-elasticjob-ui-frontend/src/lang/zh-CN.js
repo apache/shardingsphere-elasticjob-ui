@@ -218,6 +218,7 @@ export default {
     labelInfo: {
       serverIp: '服务器IP',
       instancesNum: '运行实例数',
+      instanceCount: '运行实例数',
       jobsNum: '作业总数',
       disabledJobsNum: '禁用作业数',
       jobName: '作业名称',
