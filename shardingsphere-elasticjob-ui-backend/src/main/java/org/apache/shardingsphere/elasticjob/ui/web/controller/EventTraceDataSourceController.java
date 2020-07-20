@@ -33,8 +33,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
 /**
@@ -56,11 +54,10 @@ public final class EventTraceDataSourceController {
     /**
      * Judge whether event trace data source is activated.
      *
-     * @param request HTTP request
      * @return event trace data source is activated or not
      */
     @GetMapping("/activated")
-    public boolean activated(@Context final HttpServletRequest request) {
+    public boolean activated() {
         return eventTraceDataSourceConfigurationService.loadActivated().isPresent();
     }
     
@@ -71,7 +68,7 @@ public final class EventTraceDataSourceController {
      * @return event trace data source configurations
      */
     @GetMapping("/load")
-    public ResponseResult<Collection<EventTraceDataSourceConfiguration>> load(@Context final HttpServletRequest request) {
+    public ResponseResult<Collection<EventTraceDataSourceConfiguration>> load(final HttpServletRequest request) {
         eventTraceDataSourceConfigurationService.loadActivated().ifPresent(eventTraceDataSourceConfig -> setDataSourceNameToSession(eventTraceDataSourceConfig, request.getSession()));
         return ResponseResultUtil.build(eventTraceDataSourceConfigurationService.loadAll().getEventTraceDataSourceConfiguration());
     }
@@ -92,7 +89,7 @@ public final class EventTraceDataSourceController {
      *
      * @param config event trace data source configuration
      */
-    @DeleteMapping(consumes = MediaType.APPLICATION_JSON)
+    @DeleteMapping("")
     public ResponseResult delete(@RequestBody final EventTraceDataSourceConfiguration config) {
         eventTraceDataSourceConfigurationService.delete(config.getName());
         return ResponseResultUtil.success();
@@ -105,8 +102,8 @@ public final class EventTraceDataSourceController {
      * @param request HTTP request
      * @return success or not
      */
-    @PostMapping(value = "/connectTest", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-    public ResponseResult<Boolean> connectTest(@RequestBody final EventTraceDataSourceConfiguration config, @Context final HttpServletRequest request) {
+    @PostMapping(value = "/connectTest")
+    public ResponseResult<Boolean> connectTest(@RequestBody final EventTraceDataSourceConfiguration config, final HttpServletRequest request) {
         return ResponseResultUtil.build(setDataSourceNameToSession(config, request.getSession()));
     }
     
@@ -117,8 +114,8 @@ public final class EventTraceDataSourceController {
      * @param request HTTP request
      * @return success or not
      */
-    @PostMapping(value = "/connect", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
-    public ResponseResult<Boolean> connect(@RequestBody final EventTraceDataSourceConfiguration config, @Context final HttpServletRequest request) {
+    @PostMapping(value = "/connect")
+    public ResponseResult<Boolean> connect(@RequestBody final EventTraceDataSourceConfiguration config, final HttpServletRequest request) {
         boolean isConnected = setDataSourceNameToSession(eventTraceDataSourceConfigurationService.find(config.getName(), eventTraceDataSourceConfigurationService.loadAll()), request.getSession());
         if (isConnected) {
             eventTraceDataSourceConfigurationService.load(config.getName());

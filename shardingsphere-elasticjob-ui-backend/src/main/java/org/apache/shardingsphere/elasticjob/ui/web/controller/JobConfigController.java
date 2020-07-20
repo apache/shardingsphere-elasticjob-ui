@@ -28,8 +28,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.MediaType;
-
 /**
  * Job configuration RESTful API.
  */
@@ -50,7 +48,7 @@ public final class JobConfigController {
      * @param jobName job name
      * @return job configuration
      */
-    @GetMapping(value = "/{jobName}", produces = MediaType.APPLICATION_JSON)
+    @GetMapping(value = "/{jobName}")
     public JobConfigurationPOJO getJobConfig(@PathVariable("jobName") final String jobName) {
         return jobAPIService.getJobConfigurationAPI().getJobConfiguration(jobName);
     }
@@ -60,7 +58,7 @@ public final class JobConfigController {
      *
      * @param jobConfiguration job configuration
      */
-    @PutMapping(consumes = MediaType.APPLICATION_JSON)
+    @PutMapping("/updateJobConfig")
     public void updateJobConfig(@RequestBody final JobConfigurationPOJO jobConfiguration) {
         jobAPIService.getJobConfigurationAPI().updateJobConfiguration(jobConfiguration);
     }

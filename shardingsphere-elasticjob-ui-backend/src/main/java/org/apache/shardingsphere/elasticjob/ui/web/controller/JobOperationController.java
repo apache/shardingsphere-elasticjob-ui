@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
 /**
@@ -59,7 +58,7 @@ public final class JobOperationController {
      * 
      * @return all jobs brief info
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON)
+    @GetMapping("/getAllJobsBriefInfo")
     public Collection<JobBriefInfo> getAllJobsBriefInfo() {
         return jobAPIService.getJobStatisticsAPI().getAllJobsBriefInfo();
     }
@@ -110,7 +109,7 @@ public final class JobOperationController {
      * @param jobName job name
      * @return sharding info
      */
-    @GetMapping(value = "/{jobName}/sharding", produces = MediaType.APPLICATION_JSON)
+    @GetMapping(value = "/{jobName}/sharding")
     public Collection<ShardingInfo> getShardingInfo(@PathVariable("jobName") final String jobName) {
         return jobAPIService.getShardingStatisticsAPI().getShardingInfo(jobName);
     }
