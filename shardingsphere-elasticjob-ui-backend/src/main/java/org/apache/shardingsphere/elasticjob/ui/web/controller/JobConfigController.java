@@ -19,6 +19,8 @@ package org.apache.shardingsphere.elasticjob.ui.web.controller;
 
 import org.apache.shardingsphere.elasticjob.lite.internal.config.pojo.JobConfigurationPOJO;
 import org.apache.shardingsphere.elasticjob.ui.service.JobAPIService;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResult;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +36,7 @@ import javax.ws.rs.core.MediaType;
  * Job configuration RESTful API.
  */
 @RestController
-@RequestMapping("/jobs/config")
+@RequestMapping("/api/jobs/config")
 public final class JobConfigController {
     
     private JobAPIService jobAPIService;
@@ -51,8 +53,9 @@ public final class JobConfigController {
      * @return job configuration
      */
     @GetMapping(value = "/{jobName}", produces = MediaType.APPLICATION_JSON)
-    public JobConfigurationPOJO getJobConfig(@PathVariable("jobName") final String jobName) {
-        return jobAPIService.getJobConfigurationAPI().getJobConfiguration(jobName);
+    public ResponseResult<JobConfigurationPOJO> getJobConfig(@PathVariable("jobName") final String jobName) {
+        JobConfigurationPOJO data = jobAPIService.getJobConfigurationAPI().getJobConfiguration(jobName);
+        return ResponseResultUtil.build(data);
     }
     
     /**

@@ -20,6 +20,8 @@ package org.apache.shardingsphere.elasticjob.ui.web.controller;
 import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.JobBriefInfo;
 import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.ServerBriefInfo;
 import org.apache.shardingsphere.elasticjob.ui.service.JobAPIService;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResult;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +37,7 @@ import java.util.Collection;
  * Server operation RESTful API.
  */
 @RestController
-@RequestMapping("/servers")
+@RequestMapping("/api/servers")
 public final class ServerOperationController {
     
     private JobAPIService jobAPIService;
@@ -61,8 +63,9 @@ public final class ServerOperationController {
      * @return all servers brief info
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON)
-    public Collection<ServerBriefInfo> getAllServersBriefInfo() {
-        return jobAPIService.getServerStatisticsAPI().getAllServersBriefInfo();
+    public ResponseResult<Collection<ServerBriefInfo>> getAllServersBriefInfo() {
+        Collection<ServerBriefInfo> data = jobAPIService.getServerStatisticsAPI().getAllServersBriefInfo();
+        return ResponseResultUtil.build(data);
     }
     
     /**
@@ -112,8 +115,9 @@ public final class ServerOperationController {
      * @return Job brief info
      */
     @GetMapping(value = "/{serverIp}/jobs", produces = MediaType.APPLICATION_JSON)
-    public Collection<JobBriefInfo> getJobs(@PathVariable("serverIp") final String serverIp) {
-        return jobAPIService.getJobStatisticsAPI().getJobsBriefInfo(serverIp);
+    public ResponseResult<Collection<JobBriefInfo>> getJobs(@PathVariable("serverIp") final String serverIp) {
+        Collection<JobBriefInfo> data = jobAPIService.getJobStatisticsAPI().getJobsBriefInfo(serverIp);
+        return ResponseResultUtil.build(data);
     }
     
     /**
