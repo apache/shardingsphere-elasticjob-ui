@@ -70,6 +70,7 @@ export default {
       title: '提示',
       addSucMessage: '添加成功',
       editSucMessage: '修改成功',
+      actionSucMessage: '操作成功',
       conSucMessage: '连接成功',
       conFailMessage: '连接失败',
       delSucMessage: '删除成功',
@@ -161,6 +162,56 @@ export default {
       url: '请输入数据源连接地址',
       username: '请输入数据源用户名',
       password: '请输入数据源密码'
+    }
+  },
+  operationJobs: {
+    labelInfo: {
+      jobName: '作业名称',
+      shardingTotalCount: '作业分片总数',
+      cron: 'Cron表达式',
+      description: '作业描述信息',
+      status: '状态',
+      jobParameter: '自定义参数',
+      maxTimeDiffSeconds: '最大容忍本机与注册中心的时间误差秒数',
+      reconcileIntervalMinutes: '作业服务器状态修复周期',
+      monitorExecution: '监控作业执行时状态',
+      failover: '支持自动失效转移',
+      misfire: '支持错过重执行',
+      streamingProcess: '是否流式处理数据',
+      shardingItemParameters: '分片序列号/参数对照表',
+      jobShardingStrategyType: '作业分片策略类型',
+      jobExecutorServiceHandlerType: '定制线程池全路径',
+      jobErrorHandlerType: '定制异常处理类全路径',
+      item: '分片项',
+      serverIp: '服务器IP',
+      instanceId: '进程ID',
+      editTitle: '修改作业'
+    },
+    table: {
+      operate: '操作'
+    },
+    rules: {
+      jobName: '请输入作业名称',
+      shardingTotalCount: '请输入作业分片总数',
+      cron: '请输入Cron表达式',
+      description: '请输入作业描述信息',
+      status: '请选择作业状态'
+    },
+    statusText: {
+      OK: '正常',
+      DISABLED: '已失效',
+      CRASHED: '已下线',
+      PENDING: '等待运行',
+      SHARDING_FLAG: '分片待调整'
+    },
+    actionText: {
+      modify: '修改',
+      detail: '详情',
+      trigger: '触发',
+      disable: '失效',
+      enable: '生效',
+      shutdown: '终止',
+      remove: '删除',
     }
   },
   help: {

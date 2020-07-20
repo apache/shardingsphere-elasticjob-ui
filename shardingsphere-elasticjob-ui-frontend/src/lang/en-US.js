@@ -70,6 +70,7 @@ export default {
       title: 'Prompt',
       addSucMessage: 'Add Succeeded',
       editSucMessage: 'Edit Succeeded',
+      actionSucMessage: 'Operation Succeeded',
       conSucMessage: 'Connection Succeeded',
       conFailMessage: 'Connection Failed',
       delSucMessage: 'Delete Succeeded',
@@ -161,6 +162,56 @@ export default {
       url: 'Please enter the url of the data source',
       username: 'Please enter the username of the data source',
       password: 'Please enter the password of the data source'
+    }
+  },
+  operationJobs: {
+    labelInfo: {
+      jobName: 'Job name',
+      shardingTotalCount: 'Sharding total count',
+      cron: 'Crontab',
+      description: 'Description',
+      status: 'Status',
+      jobParameter: 'Job parameter',
+      maxTimeDiffSeconds: 'Max time diff seconds',
+      reconcileIntervalMinutes: 'Reconcile interval minutes',
+      monitorExecution: 'Monitor execution',
+      failover: 'Failover',
+      misfire: 'Misfire',
+      streamingProcess: 'Streaming process',
+      shardingItemParameters: 'Sharding item parameters',
+      jobShardingStrategyType: 'Job sharding strategy type',
+      jobExecutorServiceHandlerType: 'Executor service handler',
+      jobErrorHandlerType: 'Job error handler',
+      item: 'Sharding item',
+      serverIp: 'Server IP',
+      instanceId: 'PID',
+      editTitle: 'Update job'
+    },
+    table: {
+      operate: 'Operation'
+    },
+    rules: {
+      jobName: 'Please enter the Job name',
+      shardingTotalCount: 'Please enter the Sharding total count',
+      cron: 'Please enter the Crontab',
+      description: 'Please enter the Description',
+      status: 'Please enter the Status'
+    },
+    statusText: {
+      OK: 'OK',
+      DISABLED: 'Disabled',
+      CRASHED: 'Crashed',
+      PENDING: 'Staging',
+      SHARDING_FLAG: 'SHARDING_FLAG'
+    },
+    actionText: {
+      modify: 'Update',
+      detail: 'Detail',
+      trigger: 'Trigger',
+      disable: 'Disable',
+      enable: 'Enable',
+      shutdown: 'Shutdown',
+      remove: 'Remove',
     }
   },
   help: {
