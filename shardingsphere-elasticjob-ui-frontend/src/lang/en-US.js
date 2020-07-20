@@ -211,7 +211,32 @@ export default {
       disable: 'Disable',
       enable: 'Enable',
       shutdown: 'Shutdown',
-      remove: 'Remove',
+      remove: 'Remove'
+    }
+  },
+  operationServers: {
+    labelInfo: {
+      serverIp: 'Server IP',
+      instancesNum: 'Instance count',
+      jobsNum: 'Job num',
+      disabledJobsNum: 'Disabled jobs num',
+      jobName: 'Job name',
+      status: 'Status',
+      operate: 'Operation'
+    },
+    statusText: {
+      OK: 'Enabled',
+      DISABLED: 'Disabled',
+      CRASHED: 'Crashed',
+      PENDING: 'Staging',
+      SHARDING_FLAG: 'SHARDING_FLAG'
+    },
+    actionText: {
+      detail: 'Detail',
+      disable: 'Disable',
+      enable: 'Enable',
+      shutdown: 'Shutdown',
+      remove: 'Remove'
     }
   },
   help: {

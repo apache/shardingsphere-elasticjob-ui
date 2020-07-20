@@ -211,7 +211,32 @@ export default {
       disable: '失效',
       enable: '生效',
       shutdown: '终止',
-      remove: '删除',
+      remove: '删除'
+    }
+  },
+  operationServers: {
+    labelInfo: {
+      serverIp: '服务器IP',
+      instancesNum: '运行实例数',
+      jobsNum: '作业总数',
+      disabledJobsNum: '禁用作业数',
+      jobName: '作业名称',
+      status: '状态',
+      operate: '操作'
+    },
+    statusText: {
+      OK: '已启用',
+      DISABLED: '已失效',
+      CRASHED: '已下线',
+      PENDING: '等待运行',
+      SHARDING_FLAG: '分片待调整'
+    },
+    actionText: {
+      detail: '详情',
+      disable: '失效',
+      enable: '生效',
+      shutdown: '终止',
+      remove: '删除'
     }
   },
   help: {
