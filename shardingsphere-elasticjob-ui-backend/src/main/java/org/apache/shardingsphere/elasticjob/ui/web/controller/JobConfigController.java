@@ -64,8 +64,9 @@ public final class JobConfigController {
      * @param jobConfiguration job configuration
      */
     @PutMapping(consumes = MediaType.APPLICATION_JSON)
-    public void updateJobConfig(@RequestBody final JobConfigurationPOJO jobConfiguration) {
+    public ResponseResult<Boolean> updateJobConfig(@RequestBody final JobConfigurationPOJO jobConfiguration) {
         jobAPIService.getJobConfigurationAPI().updateJobConfiguration(jobConfiguration);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -74,7 +75,8 @@ public final class JobConfigController {
      * @param jobName job name
      */
     @DeleteMapping("/{jobName}")
-    public void removeJob(@PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> removeJob(@PathVariable("jobName") final String jobName) {
         jobAPIService.getJobConfigurationAPI().removeJobConfiguration(jobName);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
 }
