@@ -29,8 +29,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.MediaType;
-
 /**
  * Event trace history RESTful API.
  */
@@ -47,7 +45,7 @@ public final class EventTraceHistoryController {
      * @param requestParams query criteria
      * @return job execution event trace result
      */
-    @GetMapping(value = "/execution", produces = MediaType.APPLICATION_JSON)
+    @GetMapping(value = "/execution")
     public BasePageResponse<JobExecutionEvent> findJobExecutionEvents(final FindJobExecutionEventsRequest requestParams) {
         Page<JobExecutionEvent> jobExecutionEvents = eventTraceHistoryService.findJobExecutionEvents(requestParams);
         return BasePageResponse.of(jobExecutionEvents);
@@ -59,7 +57,7 @@ public final class EventTraceHistoryController {
      * @param requestParams query criteria
      * @return job status trace result
      */
-    @GetMapping(value = "/status", produces = MediaType.APPLICATION_JSON, consumes = MediaType.APPLICATION_JSON)
+    @GetMapping(value = "/status")
     public BasePageResponse<JobStatusTraceEvent> findJobStatusTraceEvents(final FindJobStatusTraceEventsRequest requestParams) {
         Page<JobStatusTraceEvent> jobStatusTraceEvents = eventTraceHistoryService.findJobStatusTraceEvents(requestParams);
         return BasePageResponse.of(jobStatusTraceEvents);
