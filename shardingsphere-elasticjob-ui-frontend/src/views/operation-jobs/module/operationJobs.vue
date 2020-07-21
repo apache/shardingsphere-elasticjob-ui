@@ -1,0 +1,567 @@
+<!--
+  - Licensed to the Apache Software Foundation (ASF) under one or more
+  - contributor license agreements.  See the NOTICE file distributed with
+  - this work for additional information regarding copyright ownership.
+  - The ASF licenses this file to You under the Apache License, Version 2.0
+  - (the "License"); you may not use this file except in compliance with
+  - the License.  You may obtain a copy of the License at
+  -
+  -     http://www.apache.org/licenses/LICENSE-2.0
+  -
+  - Unless required by applicable law or agreed to in writing, software
+  - distributed under the License is distributed on an "AS IS" BASIS,
+  - WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  - See the License for the specific language governing permissions and
+  - limitations under the License.
+  -->
+
+<template>
+  <el-row class="box-card">
+    <div class="btn-group pull-right" style="float: right;">
+      <el-input
+        v-model="searchForm.jobName"
+        placeholder="Search"
+        clearable
+        @clear="search"
+        @change="search"
+        autocomplete="off" >
+        <i slot="prefix" class="el-input__icon el-icon-search"></i>
+        <el-button slot="append" icon="el-icon-search"
+          @click="search"></el-button>
+      </el-input>
+    </div>
+    <div class="table-wrap">
+      <el-table
+        :data="tableData"
+        stripe
+        border
+        style="width: 100%">
+        <el-table-column
+          v-for="(item, index) in column"
+          :key="index"
+          :prop="item.prop"
+          :label="item.label"
+          :width="item.width"
+        >
+        <template slot-scope="scope">
+          <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
+          <el-button
+            v-if="'status'===item.prop"
+            size="mini"
+            :type="statusColor[scope.row[item.prop]]"
+            plain>
+            {{ $t("operationJobs.statusText."+scope.row[item.prop]) }}
+            </el-button>
+        </template>
+        </el-table-column>
+        <el-table-column
+          :label="$t('operationJobs.table.operate')"
+          fixed="right" width="300">
+          <template slot-scope="scope">
+            <el-button-group>
+              <el-button
+                size="mini"
+                type="primary"
+                :disabled="isGuest"
+                @click="handleModify(scope.row)"
+                plain>{{ $t("operationJobs.actionText.modify") }}</el-button>
+              <el-button
+                size="mini"
+                type="info"
+                v-if="'CRASHED'!==scope.row.status"
+                @click="handleDetail(scope.row)"
+                plain>{{ $t("operationJobs.actionText.detail") }}</el-button>
+              <el-button
+                size="mini"
+                type="success"
+                :disabled="isGuest"
+                v-if="'OK'===scope.row.status"
+                @click="handleTrigger(scope.row)"
+                plain>{{ $t("operationJobs.actionText.trigger") }}</el-button>
+              <el-button
+                size="mini"
+                type="success"
+                :disabled="isGuest"
+                v-if="'DISABLED'===scope.row.status"
+                @click="handleEnable(scope.row)"
+                plain>{{ $t("operationJobs.actionText.enable") }}</el-button>
+              <el-button
+                size="mini"
+                type="warning"
+                :disabled="isGuest"
+                v-if="'OK'===scope.row.status"
+                @click="handleDisable(scope.row)"
+                plain>{{ $t("operationJobs.actionText.disable") }}</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                :disabled="isGuest"
+                v-if="'CRASHED'!==scope.row.status"
+                @click="handleShutdown(scope.row)"
+                plain>{{ $t("operationJobs.actionText.shutdown") }}</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                icon="el-icon-delete"
+                :disabled="isGuest"
+                v-if="'CRASHED'===scope.row.status"
+                @click="handlerRemove(scope.row)"
+                plain>{{ $t("operationJobs.actionText.remove") }}</el-button>
+            </el-button-group>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pagination">
+        <el-pagination
+          :total="total"
+          :current-page="currentPage"
+          background
+          layout="prev, pager, next"
+          @current-change="handleCurrentChange"
+        />
+      </div>
+    </div>
+    <el-dialog
+      :title="$t('operationJobs.labelInfo.editTitle')"
+      :visible.sync="modifyDialogVisible"
+      width="1010px"
+    >
+      <el-form ref="editForm" :model="editForm" :rules="rules" label-width="40px">
+
+        <el-form-item>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.jobName') }}
+            </el-col>
+            <el-col :span="7">
+              <el-input
+                  disabled
+                  :placeholder="$t('operationJobs.rules.jobName')"
+                  v-model="editForm.jobName"
+                  autocomplete="off"
+                />
+            </el-col>
+            <el-col :span="1">
+              &nbsp;
+            </el-col>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.cron') }}
+            </el-col>
+            <el-col :span="1">
+              &nbsp;
+            </el-col>
+            <el-col :span="7">
+              <el-input
+                  :placeholder="$t('operationJobs.rules.cron')"
+                  v-model="editForm.cron"
+                  autocomplete="off"
+                />
+            </el-col>
+        </el-form-item>
+
+        <el-form-item>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.shardingTotalCount') }}
+            </el-col>
+            <el-col :span="8">
+              <el-input-number
+                  :placeholder="$t('operationJobs.labelInfo.shardingTotalCount')"
+                  v-model="editForm.shardingTotalCount"
+                  autocomplete="off"
+                />
+            </el-col>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.jobParameter') }}
+            </el-col>
+            <el-col :span="8">
+              <el-input
+                  :placeholder="$t('operationJobs.labelInfo.jobParameter')"
+                  v-model="editForm.jobParameter"
+                  autocomplete="off"
+                />
+            </el-col>
+        </el-form-item>
+
+        <el-form-item>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.maxTimeDiffSeconds') }}
+            </el-col>
+            <el-col :span="8">
+              <el-input-number
+                  :placeholder="$t('operationJobs.labelInfo.maxTimeDiffSeconds')"
+                  v-model="editForm.maxTimeDiffSeconds"
+                  autocomplete="off"
+                />
+            </el-col>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.monitorExecution') }}
+            </el-col>
+            <el-col :span="8">
+              <el-checkbox v-model="editForm.monitorExecution">{{ $t('operationJobs.labelInfo.monitorExecution')}} </el-checkbox>
+            </el-col>
+        </el-form-item>
+
+        <el-form-item>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.failover') }}
+            </el-col>
+            <el-col :span="8">
+              <el-checkbox v-model="editForm.failover">{{ $t('operationJobs.labelInfo.failover')}} </el-checkbox>
+            </el-col>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.misfire') }}
+            </el-col>
+            <el-col :span="8">
+              <el-checkbox v-model="editForm.misfire">{{ $t('operationJobs.labelInfo.misfire')}} </el-checkbox>
+            </el-col>
+        </el-form-item>
+
+        <el-form-item>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.streamingProcess') }}
+            </el-col>
+            <el-col :span="8">
+              <el-checkbox v-model="editForm.streamingProcess2">{{ $t('operationJobs.labelInfo.streamingProcess')}} </el-checkbox>
+            </el-col>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.shardingItemParameters') }}
+            </el-col>
+            <el-col :span="8">
+              <el-input
+                  type="textarea"
+                  :placeholder="$t('operationJobs.labelInfo.shardingItemParameters')"
+                  v-model="editForm.shardingItemParameters"
+                  autocomplete="off"
+                />
+            </el-col>
+        </el-form-item>
+
+        <el-form-item>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.jobShardingStrategyType') }}
+            </el-col>
+            <el-col :span="7">
+              <el-input
+                  :placeholder="$t('operationJobs.labelInfo.jobShardingStrategyType')"
+                  v-model="editForm.jobShardingStrategyType"
+                  autocomplete="off"
+                />
+            </el-col>
+            <el-col :span="1">
+              &nbsp;
+            </el-col>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.jobExecutorServiceHandlerType') }}
+            </el-col>
+            <el-col :span="8">
+              <el-input
+                  :placeholder="$t('operationJobs.labelInfo.jobExecutorServiceHandlerType')"
+                  v-model="editForm.jobExecutorServiceHandlerType"
+                  autocomplete="off"
+                />
+            </el-col>
+        </el-form-item>
+
+        <el-form-item>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.jobErrorHandlerType') }}
+            </el-col>
+            <el-col :span="7">
+              <el-input
+                  :placeholder="$t('operationJobs.labelInfo.jobErrorHandlerType')"
+                  v-model="editForm.jobErrorHandlerType"
+                  autocomplete="off"
+                />
+            </el-col>
+            <el-col :span="1">
+              &nbsp;
+            </el-col>
+            <el-col :span="4">
+              {{ $t('operationJobs.labelInfo.description') }}
+            </el-col>
+            <el-col :span="8">
+              <el-input
+                  type="textarea"
+                  :placeholder="$t('operationJobs.rules.description')"
+                  v-model="editForm.description"
+                  autocomplete="off"
+                />
+            </el-col>
+        </el-form-item>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="modifyDialogVisible = false">{{ $t('btn.cancel') }}</el-button>
+        <el-button
+          type="primary"
+          @click="onEditConfirm('editForm')"
+        >{{ $t('btn.confirm') }}</el-button>
+      </div>
+    </el-dialog>
+  </el-row>
+</template>
+<script>
+import { mapActions } from 'vuex'
+import clone from 'lodash/clone'
+import API from '../api'
+export default {
+  name: 'OperationJobs',
+  data() {
+    return {
+      modifyDialogVisible: false,
+      isGuest: window.localStorage.getItem('isGuest') == 'true',
+      column: [
+        {
+          label: this.$t('operationJobs').labelInfo.jobName,
+          prop: 'jobName',
+          width : 200
+        },
+        {
+          label: this.$t('operationJobs').labelInfo.shardingTotalCount,
+          prop: 'shardingTotalCount',
+          width : 140
+        },
+        {
+          label: this.$t('operationJobs').labelInfo.cron,
+          prop: 'cron',
+          width : 120
+        },
+        {
+          label: this.$t('operationJobs').labelInfo.description,
+          prop: 'description',
+          width : 120
+        },
+        {
+          label: this.$t('operationJobs').labelInfo.status,
+          prop: 'status',
+          width : 120
+        }
+      ],
+      statusColor: {
+        OK: 'success',
+        DISABLED: 'warning',
+        CRASHED: 'info',
+        SHARDING_FLAG: 'primary'
+      },
+      searchForm: {
+        jobName: ''
+      },
+      editForm: {
+        jobName: '',
+        props : {},
+        shardingTotalCount: 1,
+        cron: '',
+        description: '',
+        jobParameter: '',
+        maxTimeDiffSeconds: -1,
+        reconcileIntervalMinutes: 0,
+        monitorExecution: false,
+        failover: false,
+        misfire: false,
+        streamingProcess2: false,
+        shardingItemParameters: '',
+        jobShardingStrategyType: '',
+        jobExecutorServiceHandlerType: '',
+        jobErrorHandlerType: ''
+      },
+      rules: {
+        jobName: [
+          {
+            required: true,
+            message: this.$t('operationJobs').rules.jobName,
+            trigger: 'change'
+          }
+        ],
+        shardingTotalCount: [
+          {
+            required: true,
+            message: this.$t('operationJobs').rules.shardingTotalCount,
+            trigger: 'change'
+          }
+        ],
+        cron: [
+          {
+            required: true,
+            message: this.$t('operationJobs').rules.cron,
+            trigger: 'change'
+          }
+        ],
+        description: [
+          {
+            required: true,
+            message: this.$t('operationJobs').rules.description,
+            trigger: 'change'
+          }
+        ]
+      },
+      tableData: [],
+      cloneTableData: [],
+      currentPage: 1,
+      pageSize: 10,
+      total: 0
+    }
+  },
+  created() {
+    this.search()
+  },
+  methods: {
+    ...mapActions(['setRegCenterActivated']),
+    handleCurrentChange(val) {
+      const data = clone(this.cloneTableData)
+      this.currentPage = val
+      this.tableData = data.splice(this.pageSize*(val - 1), this.pageSize)
+    },
+    getAllJobsBriefInfo() {
+      var params = {
+      }
+      API.getAllJobsBriefInfo(params).then(res => {
+        const data = Array.prototype.filter.call(res.model, this.filterSearchData)
+        this.total = data.length
+        this.cloneTableData = clone(data)
+        this.tableData = data.splice(this.pageSize*(this.currentPage - 1), this.pageSize)
+      })
+    },
+    filterSearchData(model) {
+      if(!this.searchForm.jobName){
+        return true;
+      }
+      if(!model){
+        return true;
+      }
+      return model.jobName && model.jobName.toLowerCase().includes(this.searchForm.jobName.toLowerCase());
+    },
+    handleModify(row) {
+      const params = {
+        jobName: row.jobName
+      }
+      //
+      API.getJobConfig(params).then(res => {
+        const data = res.model;
+        data.props = data.props || {};
+        if("true" === data.props['streaming.process']){
+          data.streamingProcess2 = true
+        } else if(!data.props['streaming.process'] || "false" === data.props['streaming.process']){
+          data.streamingProcess2 = false
+        } else {
+          data.streamingProcess2 = true
+        }
+        this.editForm = data
+        this.modifyDialogVisible = true
+      })
+    },
+    handleDetail(row) {
+      const params = {
+        jobName: row.jobName
+      }
+      localStorage.setItem("/operation-jobs/status-detail/jobName", params.jobName);
+      this.$router.push({path: '/operation-jobs/status-detail', params: params })
+    },
+    handleTrigger(row) {
+      const params = {
+        jobName: row.jobName
+      }
+      API.triggerJob(params).then(res => {
+        this.$notify({
+          title: this.$t('common').notify.title,
+          message: this.$t('common').notify.actionSucMessage,
+          type: 'success'
+        })
+        this.search()
+      })
+    },
+    handleEnable(row) {
+      const params = {
+        jobName: row.jobName
+      }
+      API.enableJob(params).then(res => {
+        this.$notify({
+          title: this.$t('common').notify.title,
+          message: this.$t('common').notify.actionSucMessage,
+          type: 'success'
+        })
+        this.search()
+      })
+    },
+    handleDisable(row) {
+      const params = {
+        jobName: row.jobName
+      }
+      API.disableJob(params).then(res => {
+        this.$notify({
+          title: this.$t('common').notify.title,
+          message: this.$t('common').notify.actionSucMessage,
+          type: 'success'
+        })
+        this.search()
+      })
+    },
+    handleShutdown(row) {
+      const params = {
+        jobName: row.jobName
+      }
+      API.shutdownJob(params).then(res => {
+        this.$notify({
+          title: this.$t('common').notify.title,
+          message: this.$t('common').notify.actionSucMessage,
+          type: 'success'
+        })
+        this.search()
+      })
+    },
+    handlerRemove(row) {
+      const params = {
+        jobName: row.jobName
+      }
+      API.removeJob(params).then(res => {
+        this.$notify({
+          title: this.$t('common').notify.title,
+          message: this.$t('common').notify.delSucMessage,
+          type: 'success'
+        })
+        this.search()
+      })
+    },
+    onEditConfirm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // fixData
+          const data = clone(this.editForm);
+          data.props = data.props || {};
+          if(data.streamingProcess2){
+            data.props['streaming.process'] = "true";
+          } else {
+            data.props['streaming.process'] = "false";
+          }
+          //
+          API.updateJobConfig(data).then(res => {
+            this.modifyDialogVisible = false
+            this.$notify({
+              title: this.$t('common').notify.title,
+              message: this.$t('common').notify.addSucMessage,
+              type: 'success'
+            })
+            this.search()
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    search() {
+        this.getAllJobsBriefInfo()
+    }
+  }
+}
+</script>
+<style lang='scss' scoped>
+.btn-group {
+  margin-bottom: 20px;
+}
+.pagination {
+  float: right;
+  margin: 10px -10px 10px 0;
+}
+.el-form .el-col{
+  padding-left: 4px;
+}
+</style>

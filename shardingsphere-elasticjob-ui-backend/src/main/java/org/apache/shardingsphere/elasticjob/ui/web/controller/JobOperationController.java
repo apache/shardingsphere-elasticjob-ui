@@ -20,6 +20,8 @@ package org.apache.shardingsphere.elasticjob.ui.web.controller;
 import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.JobBriefInfo;
 import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.ShardingInfo;
 import org.apache.shardingsphere.elasticjob.ui.service.JobAPIService;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResult;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,7 +36,7 @@ import java.util.Collection;
  * Job operation RESTful API.
  */
 @RestController
-@RequestMapping("/jobs")
+@RequestMapping("/api/jobs")
 public final class JobOperationController {
     
     private JobAPIService jobAPIService;
@@ -60,8 +62,9 @@ public final class JobOperationController {
      * @return all jobs brief info
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON)
-    public Collection<JobBriefInfo> getAllJobsBriefInfo() {
-        return jobAPIService.getJobStatisticsAPI().getAllJobsBriefInfo();
+    public ResponseResult<Collection<JobBriefInfo>> getAllJobsBriefInfo() {
+        Collection<JobBriefInfo> data = jobAPIService.getJobStatisticsAPI().getAllJobsBriefInfo();
+        return ResponseResultUtil.build(data);
     }
     
     /**
@@ -70,8 +73,9 @@ public final class JobOperationController {
      * @param jobName job name
      */
     @PostMapping("/{jobName}/trigger")
-    public void triggerJob(@PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> triggerJob(@PathVariable("jobName") final String jobName) {
         jobAPIService.getJobOperatorAPI().trigger(jobName);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -80,8 +84,9 @@ public final class JobOperationController {
      * @param jobName job name
      */
     @PostMapping(value = "/{jobName}/disable")
-    public void disableJob(@PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> disableJob(@PathVariable("jobName") final String jobName) {
         jobAPIService.getJobOperatorAPI().disable(jobName, null);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -90,8 +95,9 @@ public final class JobOperationController {
      * @param jobName job name
      */
     @PostMapping(value = "/{jobName}/enable")
-    public void enableJob(@PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> enableJob(@PathVariable("jobName") final String jobName) {
         jobAPIService.getJobOperatorAPI().enable(jobName, null);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -100,8 +106,9 @@ public final class JobOperationController {
      * @param jobName job name
      */
     @PostMapping(value = "/{jobName}/shutdown")
-    public void shutdownJob(@PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> shutdownJob(@PathVariable("jobName") final String jobName) {
         jobAPIService.getJobOperatorAPI().shutdown(jobName, null);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -111,8 +118,9 @@ public final class JobOperationController {
      * @return sharding info
      */
     @GetMapping(value = "/{jobName}/sharding", produces = MediaType.APPLICATION_JSON)
-    public Collection<ShardingInfo> getShardingInfo(@PathVariable("jobName") final String jobName) {
-        return jobAPIService.getShardingStatisticsAPI().getShardingInfo(jobName);
+    public ResponseResult<Collection<ShardingInfo>> getShardingInfo(@PathVariable("jobName") final String jobName) {
+        Collection<ShardingInfo> data =  jobAPIService.getShardingStatisticsAPI().getShardingInfo(jobName);
+        return ResponseResultUtil.build(data);
     }
     
     /**
@@ -122,8 +130,9 @@ public final class JobOperationController {
      * @param item sharding item
      */
     @PostMapping(value = "/{jobName}/sharding/{item}/disable")
-    public void disableSharding(@PathVariable("jobName") final String jobName, @PathVariable("item") final String item) {
+    public ResponseResult<Boolean> disableSharding(@PathVariable("jobName") final String jobName, @PathVariable("item") final String item) {
         jobAPIService.getShardingOperateAPI().disable(jobName, item);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -133,7 +142,8 @@ public final class JobOperationController {
      * @param item sharding item
      */
     @PostMapping(value = "/{jobName}/sharding/{item}/enable")
-    public void enableSharding(@PathVariable("jobName") final String jobName, @PathVariable("item") final String item) {
+    public ResponseResult<Boolean> enableSharding(@PathVariable("jobName") final String jobName, @PathVariable("item") final String item) {
         jobAPIService.getShardingOperateAPI().enable(jobName, item);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
 }
