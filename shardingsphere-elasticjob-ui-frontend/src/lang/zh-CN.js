@@ -240,6 +240,24 @@ export default {
       remove: '删除'
     }
   },
+  historyTrace: {
+    column: {
+      jobName: '作业名称',
+      serverIp: '服务器IP',
+      shardingItem: '分片项',
+      executeResult: '执行结果',
+      failureCause: '失败原因',
+      startTime: '开始时间',
+      completeTime: '完成时间'
+    },
+    searchForm: {
+      jobName: '请输入作业名称',
+      serverIp: '请输入服务器IP',
+      startTime: '请输入开始时间',
+      CompleteTime: '请输入完成时间',
+      executeResult: '请选择执行结果'
+    }
+  },
   help: {
     design_concept_title: '设计理念',
     design_concept_info_1: '本控制台和Elastic Job并无直接关系，是通过读取Elastic Job的注册中心数据展现作业状态，或更新注册中心数据修改全局配置。',

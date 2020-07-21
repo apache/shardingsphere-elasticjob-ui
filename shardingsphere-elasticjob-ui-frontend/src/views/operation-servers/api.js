@@ -18,7 +18,7 @@
 import API from '@/utils/api'
 
 export default {
-  getAllServersBriefInfo: (params = {}) => API.get(`/api/servers`, params),
+  getAllServersBriefInfo: (params = {}) => API.get(`/api/servers/getAllServersBriefInfo`, params),
   getServersTotalCount: (params = {}) => API.get(`/api/servers/count`, params),
 
   disableServer: (params = {}) => API.post('/api/servers/' + params.serverIp + '/disable'),

@@ -239,6 +239,24 @@ export default {
       remove: 'Remove'
     }
   },
+  historyTrace: {
+    column: {
+      jobName: 'Job name',
+      serverIp: 'Server IP',
+      shardingItem: 'Sharding item',
+      executeResult: 'Execute result',
+      failureCause: 'Failure reason',
+      startTime: 'Start time',
+      completeTime: 'Complete time'
+    },
+    searchForm: {
+      jobName: 'Job name',
+      serverIp: 'Server ip',
+      startTime: 'Start time',
+      CompleteTime: 'Complete time',
+      executeResult: 'Select execute result'
+    }
+  },
   help: {
     design_concept_title: 'Design concept',
     design_concept_info_1: 'Console is not related to Elastic Job, it just reading data from registry center and showing the status of jobs, or updating data to registry center which will change the configuration.',
