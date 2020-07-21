@@ -255,7 +255,9 @@ export default {
       serverIp: '请输入服务器IP',
       startTime: '请输入开始时间',
       CompleteTime: '请输入完成时间',
-      executeResult: '请选择执行结果'
+      executeResult: '请选择执行结果',
+      executeSuccess: '成功',
+      executeFailed: '失败'
     }
   },
   help: {

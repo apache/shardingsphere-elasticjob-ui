@@ -117,10 +117,10 @@ export default {
       executeResultItems: [
         {
           value: true,
-          label: '成功'
+          label: this.$t('historyTrace').searchForm.executeSuccess
         }, {
           value: false,
-          label: '失败'
+          label: this.$t('historyTrace').searchForm.executeFailed
         }
       ],
       searchForm: {

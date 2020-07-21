@@ -254,7 +254,9 @@ export default {
       serverIp: 'Server ip',
       startTime: 'Start time',
       CompleteTime: 'Complete time',
-      executeResult: 'Select execute result'
+      executeResult: 'Select execute result',
+      executeSuccess: 'Success',
+      executeFailed: 'Failure'
     }
   },
   help: {
