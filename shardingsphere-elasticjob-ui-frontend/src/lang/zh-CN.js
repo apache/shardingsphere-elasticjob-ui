@@ -123,7 +123,7 @@ export default {
     table: {
       operate: '操作',
       operateConnect: '连接',
-      operateConnected: '已激活',
+      operateConnected: '已连接',
       operateDel: '删除',
       operateEdit: '编辑'
     },

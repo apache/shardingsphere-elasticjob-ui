@@ -21,8 +21,6 @@ export default {
   getRegCenter: (params = {}) => API.get(`/api/registry-center/load`, params),
   deleteRegCenter: (params = {}) => API.delete(`/api/registry-center`, params),
   postRegCenter: (params = {}) => API.post(`/api/registry-center/add`, params),
-  getRegCenterActivated: (params = {}) => API.get(`/api/reg-center/activated`, params),
-  postRegCenterConnect: (params = {}) => API.post(`/api/registry-center/connect`, params),
-  updateRegCenter: (params = {}) => API.post(`/api/reg-center/update`, params)
-
+  getRegCenterActivated: (params = {}) => API.get(`/api/registry-center/activated`, params),
+  postRegCenterConnect: (params = {}) => API.post(`/api/registry-center/connect`, params)
 }
