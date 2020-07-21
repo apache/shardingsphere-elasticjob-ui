@@ -18,7 +18,7 @@
 import API from '@/utils/api'
 
 export default {
-  getAllJobsBriefInfo: (params = {}) => API.get(`/api/jobs`, params),
+  getAllJobsBriefInfo: (params = {}) => API.get(`/api/jobs/getAllJobsBriefInfo`, params),
   getJobsTotalCount: (params = {}) => API.get(`/api/jobs/count`, params),
 
   triggerJob: (params = {}) => API.post('/api/jobs/' + params.jobName + '/trigger'),

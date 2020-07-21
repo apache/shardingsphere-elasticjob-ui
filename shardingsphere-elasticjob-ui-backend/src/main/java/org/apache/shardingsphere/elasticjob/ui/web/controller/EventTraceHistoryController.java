@@ -23,9 +23,13 @@ import org.apache.shardingsphere.elasticjob.ui.dto.request.FindJobExecutionEvent
 import org.apache.shardingsphere.elasticjob.ui.dto.request.FindJobStatusTraceEventsRequest;
 import org.apache.shardingsphere.elasticjob.ui.dto.response.BasePageResponse;
 import org.apache.shardingsphere.elasticjob.ui.service.EventTraceHistoryService;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResult;
+import org.apache.shardingsphere.elasticjob.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Event trace history RESTful API.
  */
 @RestController
-@RequestMapping("/event-trace")
+@RequestMapping("/api/event-trace")
 public final class EventTraceHistoryController {
     
     @Autowired
@@ -45,10 +49,10 @@ public final class EventTraceHistoryController {
      * @param requestParams query criteria
      * @return job execution event trace result
      */
-    @GetMapping(value = "/execution")
-    public BasePageResponse<JobExecutionEvent> findJobExecutionEvents(final FindJobExecutionEventsRequest requestParams) {
+    @PostMapping(value = "/execution")
+    public ResponseResult<BasePageResponse<JobExecutionEvent>> findJobExecutionEvents(@RequestBody final FindJobExecutionEventsRequest requestParams) {
         Page<JobExecutionEvent> jobExecutionEvents = eventTraceHistoryService.findJobExecutionEvents(requestParams);
-        return BasePageResponse.of(jobExecutionEvents);
+        return ResponseResultUtil.build(BasePageResponse.of(jobExecutionEvents));
     }
     
     /**
