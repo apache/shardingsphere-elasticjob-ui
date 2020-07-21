@@ -18,7 +18,7 @@ shardingsphere-elasticjob-lite-ui-frontend/shardingsphere-elasticjob-cloud-ui-fr
 
 ### ShardingSphere ElasticJob UI Backend
 
-shardingsphere-elasticjob-lite-ui-backend、shardingsphere-elasticjob-cloud-ui-backend is a standard spring boot project.
+shardingsphere-elasticjob-lite-ui-backend, shardingsphere-elasticjob-cloud-ui-backend is a standard spring boot project.
 
 ## How to Build
 
