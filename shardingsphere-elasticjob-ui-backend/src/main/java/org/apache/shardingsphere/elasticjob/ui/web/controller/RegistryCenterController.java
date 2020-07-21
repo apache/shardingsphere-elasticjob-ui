@@ -34,8 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
 /**
@@ -92,7 +90,7 @@ public final class RegistryCenterController {
      *
      * @param config registry center configuration
      */
-    @DeleteMapping(consumes = MediaType.APPLICATION_JSON)
+    @DeleteMapping
     public ResponseResult delete(@RequestBody final RegistryCenterConfiguration config) {
         regCenterService.delete(config.getName());
         return ResponseResultUtil.success();
@@ -105,8 +103,8 @@ public final class RegistryCenterController {
      * @param request HTTP request
      * @return connected or not
      */
-    @PostMapping(value = "/connect", consumes = MediaType.APPLICATION_JSON, produces = MediaType.APPLICATION_JSON)
-    public ResponseResult<Boolean> connect(@RequestBody final RegistryCenterConfiguration config, @Context final HttpServletRequest request) {
+    @PostMapping(value = "/connect")
+    public ResponseResult<Boolean> connect(@RequestBody final RegistryCenterConfiguration config, final HttpServletRequest request) {
         boolean isConnected = setRegistryCenterNameToSession(regCenterService.find(config.getName(), regCenterService.loadAll()), request.getSession());
         if (isConnected) {
             regCenterService.load(config.getName());

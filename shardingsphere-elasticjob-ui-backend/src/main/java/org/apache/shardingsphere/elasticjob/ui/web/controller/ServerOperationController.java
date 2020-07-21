@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
 /**
@@ -62,7 +61,7 @@ public final class ServerOperationController {
      * 
      * @return all servers brief info
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON)
+    @GetMapping("/getAllServersBriefInfo")
     public ResponseResult<Collection<ServerBriefInfo>> getAllServersBriefInfo() {
         Collection<ServerBriefInfo> data = jobAPIService.getServerStatisticsAPI().getAllServersBriefInfo();
         return ResponseResultUtil.build(data);
@@ -118,7 +117,7 @@ public final class ServerOperationController {
      * @param serverIp server IP address
      * @return Job brief info
      */
-    @GetMapping(value = "/{serverIp}/jobs", produces = MediaType.APPLICATION_JSON)
+    @GetMapping(value = "/{serverIp}/jobs")
     public ResponseResult<Collection<JobBriefInfo>> getJobs(@PathVariable("serverIp") final String serverIp) {
         Collection<JobBriefInfo> data = jobAPIService.getJobStatisticsAPI().getJobsBriefInfo(serverIp);
         return ResponseResultUtil.build(data);
