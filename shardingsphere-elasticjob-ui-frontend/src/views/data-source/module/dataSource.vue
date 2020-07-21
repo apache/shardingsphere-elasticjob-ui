@@ -44,7 +44,7 @@
               placement="top"
             >
               <el-button
-                type="primary"
+                :type="scope.row.activated ? 'success' : 'primary'"
                 icon="el-icon-link"
                 size="small"
                 :disabled="isGuest"

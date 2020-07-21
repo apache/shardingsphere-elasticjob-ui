@@ -18,9 +18,5 @@
 import API from '@/utils/api'
 
 export default {
-  getRegCenter: (params = {}) => API.get(`/api/registry-center/load`, params),
-  deleteRegCenter: (params = {}) => API.delete(`/api/registry-center`, params),
-  postRegCenter: (params = {}) => API.post(`/api/registry-center/add`, params),
-  getRegCenterActivated: (params = {}) => API.get(`/api/registry-center/activated`, params),
-  postRegCenterConnect: (params = {}) => API.post(`/api/registry-center/connect`, params)
+  loadStatus: (params = {}) => API.post(`/api/event-trace/status`, params)
 }

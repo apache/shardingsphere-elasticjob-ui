@@ -44,7 +44,7 @@
               placement="top"
             >
               <el-button
-                type="primary"
+                :type="scope.row.activated ? 'success' : 'primary'"
                 icon="el-icon-link"
                 size="small"
                 :disabled="isGuest"
@@ -209,7 +209,7 @@ export default {
         this.cloneTableData = clone(res.model)
         this.tableData = data.splice(0, this.pageSize)
       })
-      //this.getRegCenterActivated()
+      this.getRegCenterActivated()
     },
     getRegCenterActivated() {
       API.getRegCenterActivated().then(res => {

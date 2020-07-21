@@ -58,8 +58,8 @@ public final class RegistryCenterController {
      * @return registry center is activated or not
      */
     @GetMapping("/activated")
-    public boolean activated() {
-        return regCenterService.loadActivated().isPresent();
+    public ResponseResult<RegistryCenterConfiguration> activated() {
+        return ResponseResultUtil.build(regCenterService.loadActivated().get());
     }
     
     /**

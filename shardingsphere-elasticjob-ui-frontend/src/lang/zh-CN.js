@@ -123,7 +123,7 @@ export default {
     table: {
       operate: '操作',
       operateConnect: '连接',
-      operateConnected: '已激活',
+      operateConnected: '已连接',
       operateDel: '删除',
       operateEdit: '编辑'
     },
@@ -258,6 +258,27 @@ export default {
       executeResult: '请选择执行结果',
       executeSuccess: '成功',
       executeFailed: '失败'
+    }
+  },
+  historyStatus: {
+    column: {
+      jobName: '作业名称',
+      shardingItem: '分片项',
+      state: '状态',
+      createTime: '创建时间',
+      remark: '备注'
+    },
+    searchForm: {
+      jobName: '请输入作业名称',
+      startTime: '请输入创建开始时间',
+      CompleteTime: '请输入创建结束时间',
+      state: '选择状态',
+      stateStaging: '等待运行',
+      stateFailed: '运行失败',
+      stateFinished: '已完成',
+      stateRunning: '运行中',
+      stateError: '启动失败',
+      stateKilled: '主动终止'
     }
   },
   help: {
