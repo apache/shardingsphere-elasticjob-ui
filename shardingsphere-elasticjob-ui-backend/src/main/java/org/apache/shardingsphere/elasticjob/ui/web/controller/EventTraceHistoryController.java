@@ -61,9 +61,9 @@ public final class EventTraceHistoryController {
      * @param requestParams query criteria
      * @return job status trace result
      */
-    @GetMapping(value = "/status")
-    public BasePageResponse<JobStatusTraceEvent> findJobStatusTraceEvents(final FindJobStatusTraceEventsRequest requestParams) {
+    @PostMapping(value = "/status")
+    public ResponseResult<BasePageResponse<JobStatusTraceEvent>> findJobStatusTraceEvents(@RequestBody final FindJobStatusTraceEventsRequest requestParams) {
         Page<JobStatusTraceEvent> jobStatusTraceEvents = eventTraceHistoryService.findJobStatusTraceEvents(requestParams);
-        return BasePageResponse.of(jobStatusTraceEvents);
+        return ResponseResultUtil.build(BasePageResponse.of(jobStatusTraceEvents));
     }
 }

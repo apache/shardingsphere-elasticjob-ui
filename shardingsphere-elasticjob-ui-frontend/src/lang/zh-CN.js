@@ -260,6 +260,27 @@ export default {
       executeFailed: '失败'
     }
   },
+  historyStatus: {
+    column: {
+      jobName: '作业名称',
+      shardingItem: '分片项',
+      state: '状态',
+      createTime: '创建时间',
+      remark: '备注'
+    },
+    searchForm: {
+      jobName: '请输入作业名称',
+      startTime: '请输入创建开始时间',
+      CompleteTime: '请输入创建结束时间',
+      state: '选择状态',
+      stateStaging: '等待运行',
+      stateFailed: '运行失败',
+      stateFinished: '已完成',
+      stateRunning: '运行中',
+      stateError: '启动失败',
+      stateKilled: '主动终止'
+    }
+  },
   help: {
     design_concept_title: '设计理念',
     design_concept_info_1: '本控制台和Elastic Job并无直接关系，是通过读取Elastic Job的注册中心数据展现作业状态，或更新注册中心数据修改全局配置。',
