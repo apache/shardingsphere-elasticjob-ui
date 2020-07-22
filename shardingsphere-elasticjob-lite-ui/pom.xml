@@ -32,7 +32,6 @@
     <modules>
         <module>shardingsphere-elasticjob-lite-ui-frontend</module>
         <module>shardingsphere-elasticjob-lite-ui-backend</module>
-        <module>shardingsphere-elasticjob-lite-ui-distribution</module>
     </modules>
     
     <properties>

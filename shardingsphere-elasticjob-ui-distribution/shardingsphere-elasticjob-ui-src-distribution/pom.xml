@@ -22,24 +22,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.shardingsphere</groupId>
-        <artifactId>shardingsphere-elasticjob-cloud-ui-distribution</artifactId>
+        <artifactId>shardingsphere-elasticjob-ui-distribution</artifactId>
         <version>3.0.0-alpha-SNAPSHOT</version>
     </parent>
-    <artifactId>shardingsphere-elasticjob-cloud-ui-src-distribution</artifactId>
+    <artifactId>shardingsphere-elasticjob-ui-src-distribution</artifactId>
     <name>${project.artifactId}</name>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-elasticjob-cloud-ui-frontend</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-elasticjob-cloud-ui-backend</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
 
     <profiles>
         <profile>
@@ -50,14 +37,14 @@
                         <artifactId>maven-assembly-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>cloud-ui-src</id>
+                                <id>ui-src</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>single</goal>
                                 </goals>
                                 <configuration>
                                     <descriptors>
-                                        <descriptor>src/main/assembly/shardingsphere-elasticjob-cloud-ui-src-distribution.xml</descriptor>
+                                        <descriptor>src/main/assembly/shardingsphere-elasticjob-ui-src-distribution.xml</descriptor>
                                     </descriptors>
                                 </configuration>
                             </execution>

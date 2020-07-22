@@ -32,7 +32,6 @@
     <modules>
         <module>shardingsphere-elasticjob-cloud-ui-frontend</module>
         <module>shardingsphere-elasticjob-cloud-ui-backend</module>
-        <module>shardingsphere-elasticjob-cloud-ui-distribution</module>
     </modules>
     
     <properties>

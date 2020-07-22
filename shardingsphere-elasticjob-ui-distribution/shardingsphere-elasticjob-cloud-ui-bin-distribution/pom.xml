@@ -22,16 +22,16 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.apache.shardingsphere</groupId>
-        <artifactId>shardingsphere-elasticjob-lite-ui-distribution</artifactId>
+        <artifactId>shardingsphere-elasticjob-ui-distribution</artifactId>
         <version>3.0.0-alpha-SNAPSHOT</version>
     </parent>
-    <artifactId>shardingsphere-elasticjob-lite-ui-bin-distribution</artifactId>
+    <artifactId>shardingsphere-elasticjob-cloud-ui-bin-distribution</artifactId>
     <name>${project.artifactId}</name>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-elasticjob-lite-ui-backend</artifactId>
+            <artifactId>shardingsphere-elasticjob-cloud-ui-backend</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -69,12 +69,12 @@
                         <artifactId>maven-assembly-plugin</artifactId>
                         <configuration>
                             <descriptors>
-                                <descriptor>src/main/assembly/shardingsphere-elasticjob-lite-ui-bin-distribution.xml</descriptor>
+                                <descriptor>src/main/assembly/shardingsphere-elasticjob-cloud-ui-bin-distribution.xml</descriptor>
                             </descriptors>
                         </configuration>
                         <executions>
                             <execution>
-                                <id>lite-ui-bin</id>
+                                <id>cloud-ui-bin</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>single</goal>
@@ -94,17 +94,17 @@
                         <artifactId>dockerfile-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>lite-ui-bin</id>
+                                <id>cloud-ui-bin</id>
                                 <goals>
                                     <goal>build</goal>
                                 </goals>
                             </execution>
                         </executions>
                         <configuration>
-                            <repository>apache/shardingsphere-elasticjob-lite-ui</repository>
+                            <repository>apache/shardingsphere-elasticjob-cloud-ui</repository>
                             <tag>${project.version}</tag>
                             <buildArgs>
-                                <APP_NAME>${project.build.finalName}-shardingsphere-elasticjob-lite-ui-bin</APP_NAME>
+                                <APP_NAME>${project.build.finalName}-shardingsphere-elasticjob-cloud-ui-bin</APP_NAME>
                             </buildArgs>
                         </configuration>
                     </plugin>
