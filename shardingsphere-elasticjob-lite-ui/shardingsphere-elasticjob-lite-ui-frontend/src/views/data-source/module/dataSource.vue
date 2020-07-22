@@ -19,10 +19,10 @@
   <el-row class="box-card">
     <div class="btn-group">
       <el-button
+        :disabled="isGuest"
         class="btn-plus"
         type="primary"
         icon="el-icon-plus"
-        :disabled="isGuest"
         @click="add"
       >{{ $t("dataSource.btnTxt") }}</el-button>
     </div>
@@ -45,9 +45,9 @@
             >
               <el-button
                 :type="scope.row.activated ? 'success' : 'primary'"
+                :disabled="isGuest"
                 icon="el-icon-link"
                 size="small"
-                :disabled="isGuest"
                 @click="handleConnect(scope.row)"
               />
             </el-tooltip>
@@ -58,10 +58,10 @@
               placement="top"
             >
               <el-button
+                :disabled="isGuest"
                 size="small"
                 type="danger"
                 icon="el-icon-delete"
-                :disabled="isGuest"
                 @click="handlerDel(scope.row)"
               />
             </el-tooltip>
@@ -140,7 +140,7 @@ export default {
   data() {
     return {
       regustDialogVisible: false,
-      isGuest: window.localStorage.getItem('isGuest') == 'true',
+      isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
           label: this.$t('dataSource').addDialog.name,

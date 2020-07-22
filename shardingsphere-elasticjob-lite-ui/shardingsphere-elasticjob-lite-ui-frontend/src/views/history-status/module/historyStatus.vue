@@ -24,18 +24,22 @@
         clearable>
       </el-input>
       <el-date-picker
+        :placeholder="$t('historyStatus.searchForm.startTime')"
         v-model="searchForm.start"
         type="datetime"
-        :placeholder="$t('historyStatus.searchForm.startTime')"
         clearable>
       </el-date-picker>
       <el-date-picker
+        :placeholder="$t('historyStatus.searchForm.CompleteTime')"
         v-model="searchForm.end"
         type="datetime"
-        :placeholder="$t('historyStatus.searchForm.CompleteTime')"
         clearable>
       </el-date-picker>
-      <el-select v-model="searchForm.state" clearable :placeholder="$t('historyStatus.searchForm.state')">
+      <el-select
+        :placeholder="$t('historyStatus.searchForm.state')"
+        v-model="searchForm.state"
+        clearable
+        >
         <el-option
           v-for="item in stateItems"
           :key="item.value"

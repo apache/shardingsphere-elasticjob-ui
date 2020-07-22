@@ -29,18 +29,22 @@
         clearable>
       </el-input>
       <el-date-picker
+        :placeholder="$t('historyTrace.searchForm.startTime')"
         v-model="searchForm.start"
         type="datetime"
-        :placeholder="$t('historyTrace.searchForm.startTime')"
         clearable>
       </el-date-picker>
       <el-date-picker
+        :placeholder="$t('historyTrace.searchForm.CompleteTime')"
         v-model="searchForm.end"
         type="datetime"
-        :placeholder="$t('historyTrace.searchForm.CompleteTime')"
         clearable>
       </el-date-picker>
-      <el-select v-model="searchForm.isSuccess" clearable :placeholder="$t('historyTrace.searchForm.executeResult')">
+      <el-select
+        :placeholder="$t('historyTrace.searchForm.executeResult')"
+        v-model="searchForm.isSuccess"
+        clearable
+        >
         <el-option
           v-for="item in executeResultItems"
           :key="item.value"

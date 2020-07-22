@@ -16,6 +16,7 @@
     "axios": "^0.18.0",
     "element-ui": "^2.4.9",
     "lodash": "^4.17.11",
+    "normalize.css": "^8.0.1",
     "vue": "^2.5.2",
     "vue-i18n": "^8.4.0",
     "vue-router": "^3.0.1",
