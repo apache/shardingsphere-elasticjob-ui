@@ -25,7 +25,7 @@
       </el-input>
       <el-input
         :placeholder="$t('historyTrace.searchForm.serverIp')"
-        v-model="searchForm.serverIp"
+        v-model="searchForm.ip"
         clearable>
       </el-input>
       <el-date-picker
@@ -65,6 +65,7 @@
           :prop="item.prop"
           :label="item.label"
           :width="item.width"
+          :formatter = "item.formatter"
         />
       </el-table>
       <div class="pagination">
@@ -103,7 +104,10 @@ export default {
         },
         {
           label: this.$t('historyTrace').column.executeResult,
-          prop: 'success'
+          prop: 'success',
+          formatter: function(row,cell,value) {
+            return value+''
+          }
         },
         {
           label: this.$t('historyTrace').column.failureCause,
@@ -147,15 +151,21 @@ export default {
   methods: {
     ...mapActions(['setRegCenterActivated']),
     handleCurrentChange(val) {
-      const data = clone(this.cloneTableData)
-      this.tableData = data.splice(val - 1, this.pageSize)
+      const page = {
+        pageSize: this.pageSize,
+        pageNumber: val
+      }
+      API.loadExecution(Object.assign(this.searchForm, page)).then(res => {
+        const data = res.model.rows
+        this.total = res.model.total
+        this.tableData = data
+      })
     },
     getJobTrace() {
       API.loadExecution(this.searchForm).then(res => {
-        const data = res.model
-        this.total = data.length
-        this.cloneTableData = clone(res.model)
-        this.tableData = data.splice(0, this.pageSize)
+        const data = res.model.rows
+        this.total = res.model.total
+        this.tableData = data
       })
     }
   }
