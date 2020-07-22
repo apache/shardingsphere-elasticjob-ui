@@ -17,10 +17,10 @@
 
 package org.apache.shardingsphere.elasticjob.cloud.ui.web.controller;
 
-import org.apache.shardingsphere.elasticjob.lite.internal.config.pojo.JobConfigurationPOJO;
 import org.apache.shardingsphere.elasticjob.cloud.ui.service.JobAPIService;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResultUtil;
+import org.apache.shardingsphere.elasticjob.infra.pojo.JobConfigurationPOJO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
