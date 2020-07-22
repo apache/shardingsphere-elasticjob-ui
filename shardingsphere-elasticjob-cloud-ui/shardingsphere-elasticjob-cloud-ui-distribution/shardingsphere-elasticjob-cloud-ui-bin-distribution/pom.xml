@@ -74,7 +74,7 @@
                         </configuration>
                         <executions>
                             <execution>
-                                <id>shardingsphere-elasticjob-cloud-ui-bin</id>
+                                <id>cloud-ui-bin</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>single</goal>
@@ -94,7 +94,7 @@
                         <artifactId>dockerfile-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>shardingsphere-elasticjob-cloud-ui-bin</id>
+                                <id>cloud-ui-bin</id>
                                 <goals>
                                     <goal>build</goal>
                                 </goals>

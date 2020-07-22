@@ -61,7 +61,7 @@
     </dependencyManagement>
     
     <build>
-        <finalName>apache-shardingsphere-elasticjob-cloud-${project.version}</finalName>
+        <finalName>apache-shardingsphere-elasticjob-${project.version}</finalName>
         <extensions>
             <extension>
                 <groupId>kr.motd.maven</groupId>

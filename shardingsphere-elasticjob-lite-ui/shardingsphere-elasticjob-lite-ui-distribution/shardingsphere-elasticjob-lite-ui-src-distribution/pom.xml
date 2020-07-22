@@ -50,7 +50,7 @@
                         <artifactId>maven-assembly-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>shardingsphere-elasticjob-lite-ui-src</id>
+                                <id>lite-ui-src</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>single</goal>
