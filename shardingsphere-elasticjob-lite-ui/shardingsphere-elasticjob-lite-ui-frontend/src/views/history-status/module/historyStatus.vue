@@ -90,7 +90,7 @@ export default {
         },
         {
           label: this.$t('historyStatus').column.shardingItem,
-          prop: 'shardingItem'
+          prop: 'shardingItems'
         },
         {
           label: this.$t('historyStatus').column.state,
@@ -147,15 +147,21 @@ export default {
   methods: {
     ...mapActions(['setRegCenterActivated']),
     handleCurrentChange(val) {
-      const data = clone(this.cloneTableData)
-      this.tableData = data.splice(val - 1, this.pageSize)
+      const page = {
+        pageSize: this.pageSize,
+        pageNumber: val
+      }
+      API.loadStatus(Object.assign(this.searchForm, page)).then(res => {
+        const data = res.model.rows
+        this.total = res.model.total
+        this.tableData = data
+      })
     },
     getJobStatus() {
       API.loadStatus(this.searchForm).then(res => {
-        const data = res.model
-        this.total = data.length
-        this.cloneTableData = clone(res.model)
-        this.tableData = data.splice(0, this.pageSize)
+        const data = res.model.rows
+        this.total = res.model.total
+        this.tableData = data
       })
     }
   }
