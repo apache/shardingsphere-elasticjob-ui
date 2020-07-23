@@ -27,7 +27,7 @@
     </parent>
     <artifactId>shardingsphere-elasticjob-ui-src-distribution</artifactId>
     <name>${project.artifactId}</name>
-
+    
     <profiles>
         <profile>
             <id>release</id>

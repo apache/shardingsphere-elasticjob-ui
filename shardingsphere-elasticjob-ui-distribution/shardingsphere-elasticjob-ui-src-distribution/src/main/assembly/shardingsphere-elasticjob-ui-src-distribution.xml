@@ -57,12 +57,12 @@
                 <exclude>**/shardingsphere-elasticjob-lite-ui-frontend/node/**</exclude>
                 <exclude>**/shardingsphere-elasticjob-lite-ui-frontend/node_modules/**</exclude>
                 <exclude>**/shardingsphere-elasticjob-lite-ui-frontend/etc/**</exclude>
-
                 <exclude>**/shardingsphere-elasticjob-cloud-ui-frontend/test/coverage/**</exclude>
                 <exclude>**/shardingsphere-elasticjob-cloud-ui-frontend/dist/**</exclude>
                 <exclude>**/shardingsphere-elasticjob-cloud-ui-frontend/node/**</exclude>
                 <exclude>**/shardingsphere-elasticjob-cloud-ui-frontend/node_modules/**</exclude>
                 <exclude>**/shardingsphere-elasticjob-cloud-ui-frontend/etc/**</exclude>
+
                 <!-- eclipse ignore -->
                 <exclude>**/.settings/**</exclude>
                 <exclude>**/.project</exclude>
