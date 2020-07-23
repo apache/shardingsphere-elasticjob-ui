@@ -27,27 +27,31 @@ export default {
             href: '/registry-center'
           },
           {
-            title: 'Event trace data source',
-            href: '/data-source'
+            title: 'App config',
+            href: '/app-config'
           }
         ]
       },
       {
-        title: 'Job operation',
+        title: 'Job',
         child: [
           {
-            title: 'Job dimension',
-            href: '/operation-jobs'
+            title: 'Config',
+            href: '/job-config'
           },
           {
-            title: 'Server dimension',
-            href: '/operation-servers'
+            title: 'Status',
+            href: '/job-status'
           }
         ]
       },
       {
         title: 'Job history',
         child: [
+          {
+            title: 'History dashboard',
+            href: '/history-dashboard'
+          },
           {
             title: 'Job trace',
             href: '/history-trace'
@@ -57,10 +61,6 @@ export default {
             href: '/history-status'
           }
         ]
-      },
-      {
-        title: 'Help',
-        href: '/job-help'
       }
     ],
     connected: 'Connected',
@@ -136,7 +136,7 @@ export default {
       digest: 'Please enter a digest'
     }
   },
-  dataSource: {
+  appConfig: {
     btnTxt: 'ADD',
     addDialog: {
       title: 'Add a data source',
@@ -150,11 +150,15 @@ export default {
       btnConnectTestTxt: 'Test connect'
     },
     table: {
+      appName: 'App name',
+      appUrl: 'App URL',
+      script: 'Bootstrap script',
       operate: 'Operate',
-      operateConnect: 'Connect',
-      operateConnected: 'Connected',
+      operateDetail: 'Detail',
+      operateModify: 'Update',
+      operateDisable: 'Disable',
+      operateEnable: 'Enable',
       operateDel: 'Del',
-      operateEdit: 'Edit'
     },
     rules: {
       name: 'Please enter the name of the data source',
@@ -163,134 +167,5 @@ export default {
       username: 'Please enter the username of the data source',
       password: 'Please enter the password of the data source'
     }
-  },
-  operationJobs: {
-    labelInfo: {
-      jobName: 'Job name',
-      shardingTotalCount: 'Sharding total count',
-      cron: 'Crontab',
-      description: 'Description',
-      status: 'Status',
-      jobParameter: 'Job parameter',
-      maxTimeDiffSeconds: 'Max time diff seconds',
-      reconcileIntervalMinutes: 'Reconcile interval minutes',
-      monitorExecution: 'Monitor execution',
-      failover: 'Failover',
-      misfire: 'Misfire',
-      streamingProcess: 'Streaming process',
-      shardingItemParameters: 'Sharding item parameters',
-      jobShardingStrategyType: 'Job sharding strategy type',
-      jobExecutorServiceHandlerType: 'Executor service handler',
-      jobErrorHandlerType: 'Job error handler',
-      item: 'Sharding item',
-      serverIp: 'Server IP',
-      instanceId: 'PID',
-      editTitle: 'Update job'
-    },
-    table: {
-      operate: 'Operation'
-    },
-    rules: {
-      jobName: 'Please enter the Job name',
-      shardingTotalCount: 'Please enter the Sharding total count',
-      cron: 'Please enter the Crontab',
-      description: 'Please enter the Description',
-      status: 'Please enter the Status'
-    },
-    statusText: {
-      OK: 'OK',
-      DISABLED: 'Disabled',
-      CRASHED: 'Crashed',
-      PENDING: 'Staging',
-      SHARDING_FLAG: 'SHARDING_FLAG'
-    },
-    actionText: {
-      modify: 'Update',
-      detail: 'Detail',
-      trigger: 'Trigger',
-      disable: 'Disable',
-      enable: 'Enable',
-      shutdown: 'Shutdown',
-      remove: 'Remove'
-    }
-  },
-  operationServers: {
-    labelInfo: {
-      serverIp: 'Server IP',
-      instancesNum: 'Instance count',
-      jobsNum: 'Job num',
-      disabledJobsNum: 'Disabled jobs num',
-      jobName: 'Job name',
-      status: 'Status',
-      operate: 'Operation'
-    },
-    statusText: {
-      OK: 'Enabled',
-      DISABLED: 'Disabled',
-      CRASHED: 'Crashed',
-      PENDING: 'Staging',
-      SHARDING_FLAG: 'SHARDING_FLAG'
-    },
-    actionText: {
-      detail: 'Detail',
-      disable: 'Disable',
-      enable: 'Enable',
-      shutdown: 'Shutdown',
-      remove: 'Remove'
-    }
-  },
-  historyTrace: {
-    column: {
-      jobName: 'Job name',
-      serverIp: 'Server IP',
-      shardingItem: 'Sharding item',
-      executeResult: 'Execute result',
-      failureCause: 'Failure reason',
-      startTime: 'Start time',
-      completeTime: 'Complete time'
-    },
-    searchForm: {
-      jobName: 'Job name',
-      serverIp: 'Server ip',
-      startTime: 'Start time',
-      CompleteTime: 'Complete time',
-      executeResult: 'Select execute result',
-      executeSuccess: 'Success',
-      executeFailed: 'Failure'
-    }
-  },
-  historyStatus: {
-    column: {
-      jobName: 'Job name',
-      shardingItem: 'Sharding item',
-      state: 'Status',
-      createTime: 'Creation time',
-      remark: 'Comments'
-    },
-    searchForm: {
-      jobName: 'Job name',
-      startTime: 'Creation start time',
-      CompleteTime: 'Creation end time',
-      state: 'Select state',
-      stateStaging: 'Staging',
-      stateFailed: 'Failed',
-      stateFinished: 'Finished',
-      stateRunning: 'Running',
-      stateError: 'Error',
-      stateKilled: 'Killed'
-    }
-  },
-  help: {
-    design_concept_title: 'Design concept',
-    design_concept_info_1: 'Console is not related to Elastic Job, it just reading data from registry center and showing the status of jobs, or updating data to registry center which will change the configuration.',
-    design_concept_info_2: "Console can operate lifecycle for jobs, such as enable and disable, but can not the start and stop job's process, because of console server and job servers are completely distributed, console can not control the job servers.",
-    major_features_title: 'Major features',
-    major_features_info_1: 'View status of jobs and servers',
-    major_features_info_2: 'Quick update and delete jobs',
-    major_features_info_3: 'Disable and enable Jobs',
-    major_features_info_4: 'Multiple registry centers supported',
-    major_features_info_5: 'Trace jobs execute history',
-    unsupported_title: 'Unsupported',
-    unsupported_info: 'Add job. Because of job is added at first running time automatically, it is unnecessary to add job from console. So just start the job app.'
   }
 }
