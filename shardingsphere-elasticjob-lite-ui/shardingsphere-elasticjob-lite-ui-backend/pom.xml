@@ -25,12 +25,12 @@
     </parent>
     <artifactId>shardingsphere-elasticjob-lite-ui-backend</artifactId>
     <name>${project.artifactId}</name>
-
+    
     <properties>
         <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
         <springframework.version>5.2.7.RELEASE</springframework.version>
     </properties>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.apache.shardingsphere.elasticjob</groupId>
@@ -117,7 +117,7 @@
             <artifactId>commons-dbcp</artifactId>
             <version>1.4</version>
         </dependency>
-
+        
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
