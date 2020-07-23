@@ -27,21 +27,21 @@ export default {
             href: '/registry-center'
           },
           {
-            title: '事件追踪数据源配置',
-            href: '/data-source'
+            title: '应用配置',
+            href: '/app-config'
           }
         ]
       },
       {
-        title: '作业操作',
+        title: '作业',
         child: [
           {
-            title: '作业维度',
-            href: '/operation-jobs'
+            title: '配置',
+            href: '/job-config'
           },
           {
-            title: '服务器维度',
-            href: '/operation-servers'
+            title: '状态',
+            href: '/job-status'
           }
         ]
       },
@@ -49,18 +49,18 @@ export default {
         title: '作业历史',
         child: [
           {
-            title: '历史轨迹',
+            title: '历史dashboard',
+            href: '/history-dashboard'
+          },
+          {
+            title: '作业历史轨迹',
             href: '/history-trace'
           },
           {
-            title: '历史状态',
+            title: '作业运行状态',
             href: '/history-status'
           }
         ]
-      },
-      {
-        title: '帮助',
-        href: '/job-help'
       }
     ],
     connect: '已连接',
@@ -136,7 +136,7 @@ export default {
       digest: '请输入登录凭证'
     }
   },
-  dataSource: {
+  appConfig: {
     btnTxt: '添加',
     addDialog: {
       title: '添加事件追踪数据源',
@@ -150,11 +150,15 @@ export default {
       btnConnectTestTxt: '测试连接'
     },
     table: {
+      appName: '应用名称',
+      appUrl: '应用所在路径',
+      script: '启动脚本',
       operate: '操作',
-      operateConnect: '连接',
-      operateConnected: '已连接',
+      operateDetail: '详情',
+      operateModify: '修改',
       operateDel: '删除',
-      operateEdit: '编辑'
+      operateDisable: '失效',
+      operateEnable: '生效'
     },
     rules: {
       name: '请输入数据源名称',
@@ -163,135 +167,5 @@ export default {
       username: '请输入数据源用户名',
       password: '请输入数据源密码'
     }
-  },
-  operationJobs: {
-    labelInfo: {
-      jobName: '作业名称',
-      shardingTotalCount: '作业分片总数',
-      cron: 'Cron表达式',
-      description: '作业描述信息',
-      status: '状态',
-      jobParameter: '自定义参数',
-      maxTimeDiffSeconds: '最大容忍本机与注册中心的时间误差秒数',
-      reconcileIntervalMinutes: '作业服务器状态修复周期',
-      monitorExecution: '监控作业执行时状态',
-      failover: '支持自动失效转移',
-      misfire: '支持错过重执行',
-      streamingProcess: '是否流式处理数据',
-      shardingItemParameters: '分片序列号/参数对照表',
-      jobShardingStrategyType: '作业分片策略类型',
-      jobExecutorServiceHandlerType: '定制线程池全路径',
-      jobErrorHandlerType: '定制异常处理类全路径',
-      item: '分片项',
-      serverIp: '服务器IP',
-      instanceId: '进程ID',
-      editTitle: '修改作业'
-    },
-    table: {
-      operate: '操作'
-    },
-    rules: {
-      jobName: '请输入作业名称',
-      shardingTotalCount: '请输入作业分片总数',
-      cron: '请输入Cron表达式',
-      description: '请输入作业描述信息',
-      status: '请选择作业状态'
-    },
-    statusText: {
-      OK: '正常',
-      DISABLED: '已失效',
-      CRASHED: '已下线',
-      PENDING: '等待运行',
-      SHARDING_FLAG: '分片待调整'
-    },
-    actionText: {
-      modify: '修改',
-      detail: '详情',
-      trigger: '触发',
-      disable: '失效',
-      enable: '生效',
-      shutdown: '终止',
-      remove: '删除'
-    }
-  },
-  operationServers: {
-    labelInfo: {
-      serverIp: '服务器IP',
-      instancesNum: '运行实例数',
-      instanceCount: '运行实例数',
-      jobsNum: '作业总数',
-      disabledJobsNum: '禁用作业数',
-      jobName: '作业名称',
-      status: '状态',
-      operate: '操作'
-    },
-    statusText: {
-      OK: '已启用',
-      DISABLED: '已失效',
-      CRASHED: '已下线',
-      PENDING: '等待运行',
-      SHARDING_FLAG: '分片待调整'
-    },
-    actionText: {
-      detail: '详情',
-      disable: '失效',
-      enable: '生效',
-      shutdown: '终止',
-      remove: '删除'
-    }
-  },
-  historyTrace: {
-    column: {
-      jobName: '作业名称',
-      serverIp: '服务器IP',
-      shardingItem: '分片项',
-      executeResult: '执行结果',
-      failureCause: '失败原因',
-      startTime: '开始时间',
-      completeTime: '完成时间'
-    },
-    searchForm: {
-      jobName: '请输入作业名称',
-      serverIp: '请输入服务器IP',
-      startTime: '请输入开始时间',
-      CompleteTime: '请输入完成时间',
-      executeResult: '请选择执行结果',
-      executeSuccess: '成功',
-      executeFailed: '失败'
-    }
-  },
-  historyStatus: {
-    column: {
-      jobName: '作业名称',
-      shardingItem: '分片项',
-      state: '状态',
-      createTime: '创建时间',
-      remark: '备注'
-    },
-    searchForm: {
-      jobName: '请输入作业名称',
-      startTime: '请输入创建开始时间',
-      CompleteTime: '请输入创建结束时间',
-      state: '选择状态',
-      stateStaging: '等待运行',
-      stateFailed: '运行失败',
-      stateFinished: '已完成',
-      stateRunning: '运行中',
-      stateError: '启动失败',
-      stateKilled: '主动终止'
-    }
-  },
-  help: {
-    design_concept_title: '设计理念',
-    design_concept_info_1: '本控制台和Elastic Job并无直接关系，是通过读取Elastic Job的注册中心数据展现作业状态，或更新注册中心数据修改全局配置。',
-    design_concept_info_2: '控制台只能控制作业本身是否运行，但不能控制作业进程的启停，因为控制台和作业本身服务器是完全分布式的，控制台并不能控制作业服务器。',
-    major_features_title: '主要功能',
-    major_features_info_1: '查看作业以及服务器状态',
-    major_features_info_2: '快捷的修改以及删除作业设置',
-    major_features_info_3: '启用和禁用作业',
-    major_features_info_4: '跨注册中心查看作业',
-    major_features_info_5: '查看作业运行轨迹和运行状态',
-    unsupported_title: '不支持项',
-    unsupported_info: '添加作业。因为作业都是在首次运行时自动添加，使用控制台添加作业并无必要。直接在作业服务器启动包含Elastic Job的作业进程即可。',
   }
 }

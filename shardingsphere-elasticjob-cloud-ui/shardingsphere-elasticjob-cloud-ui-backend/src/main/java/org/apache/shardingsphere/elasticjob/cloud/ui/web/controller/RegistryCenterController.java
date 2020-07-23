@@ -17,13 +17,13 @@
 
 package org.apache.shardingsphere.elasticjob.cloud.ui.web.controller;
 
-import org.apache.shardingsphere.elasticjob.lite.lifecycle.internal.reg.RegistryCenterFactory;
-import org.apache.shardingsphere.elasticjob.reg.exception.RegException;
 import org.apache.shardingsphere.elasticjob.cloud.ui.domain.RegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.cloud.ui.service.RegistryCenterConfigurationService;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.RegistryCenterFactory;
 import org.apache.shardingsphere.elasticjob.cloud.ui.util.SessionRegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResultUtil;
+import org.apache.shardingsphere.elasticjob.reg.exception.RegException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

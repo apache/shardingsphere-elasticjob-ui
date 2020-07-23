@@ -34,6 +34,4 @@ import javax.xml.bind.annotation.XmlRootElement;
 public final class GlobalConfiguration {
     
     private RegistryCenterConfigurations registryCenterConfigurations;
-    
-    private EventTraceDataSourceConfigurations eventTraceDataSourceConfigurations;
 }
