@@ -15,23 +15,12 @@
  * limitations under the License.
  */
 
-package org.apache.shardingsphere.elasticjob.cloud.ui.domain;
+import API from '@/utils/api'
 
-import lombok.Getter;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
-/**
- * Event trace data source configurations.
- */
-@Getter
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public final class EventTraceDataSourceConfigurations {
-    
-    private Set<EventTraceDataSourceConfiguration> eventTraceDataSourceConfiguration = new LinkedHashSet<>();
+export default {
+  getApp: (params = {}) => API.get(`/api/app/list`, params),
+  deleteRegCenter: (params = {}) => API.delete(`/api/registry-center`, params),
+  postRegCenter: (params = {}) => API.post(`/api/registry-center/add`, params),
+  getRegCenterActivated: (params = {}) => API.get(`/api/registry-center/activated`, params),
+  postRegCenterConnect: (params = {}) => API.post(`/api/registry-center/connect`, params)
 }

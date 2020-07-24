@@ -29,12 +29,13 @@
     <properties>
         <spring-boot.version>2.3.1.RELEASE</spring-boot.version>
         <springframework.version>5.2.7.RELEASE</springframework.version>
+        <commons-dbcp.version>1.4</commons-dbcp.version>
     </properties>
     
     <dependencies>
         <dependency>
             <groupId>org.apache.shardingsphere.elasticjob</groupId>
-            <artifactId>elasticjob-lite-lifecycle</artifactId>
+            <artifactId>elasticjob-cloud-scheduler</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
@@ -115,9 +116,8 @@
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
+            <version>${commons-dbcp.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -146,7 +146,6 @@
                     </resources>
                 </configuration>
             </plugin>
-            
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

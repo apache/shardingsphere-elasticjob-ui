@@ -25,7 +25,19 @@ export const constantRouterMap = [
     path: '/login',
     component: () => import('@/views/login'),
     hidden: true
-  }
+  },
+  {
+    path: '/registry-center',
+    component: () => import('@/views/registry-center'),
+    hidden: true,
+    name: 'Registry center'
+  },
+  {
+    path: '/app-config',
+    component: () => import('@/views/app-config'),
+    hidden: true,
+    name: 'App config'
+  },
 ]
 
 export default new Router({

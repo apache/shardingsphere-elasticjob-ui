@@ -13,8 +13,8 @@ ShardingSphere ElasticJob UI是 [ShardingSphere ElasticJob](https://shardingsphe
 
 shardingsphere-elasticjob-lite-ui-frontend/shardingsphere-elasticjob-cloud-ui-frontend 模块基于 [vue](https://github.com/vuejs/vue) ，并使用了UI工具包 [element](https://github.com/ElemeFE/element) 。
 
-* [shardingsphere-elasticjob-lite-ui/shardingsphere-elasticjob-lite-ui-frontend/README.md](shardingsphere-elasticjob-lite-ui/shardingsphere-elasticjob-lite-ui-frontend/README.md)
-* [shardingsphere-elasticjob-cloud-ui/shardingsphere-elasticjob-cloud-ui-frontend/README.md](shardingsphere-elasticjob-cloud-ui/shardingsphere-elasticjob-cloud-ui-frontend/README.md)
+- [shardingsphere-elasticjob-lite-ui/shardingsphere-elasticjob-lite-ui-frontend/README.md](shardingsphere-elasticjob-lite-ui/shardingsphere-elasticjob-lite-ui-frontend/README.md)
+- [shardingsphere-elasticjob-cloud-ui/shardingsphere-elasticjob-cloud-ui-frontend/README.md](shardingsphere-elasticjob-cloud-ui/shardingsphere-elasticjob-cloud-ui-frontend/README.md)
 
 ### ShardingSphere ElasticJob UI 后端
 
@@ -28,5 +28,5 @@ cd shardingsphere-elasticjob-ui/
 mvn clean package -Prelease
 ```
 
-- 从 `shardingsphere-elasticjob-ui/shardingsphere-elasticjob-lite-ui/shardingsphere-elasticjob-lite-ui-distribution/shardingsphere-elasticjob-lite-ui-bin-distribution/target/apache-shardingsphere-${latest.release.version}-shardingsphere-elasticjob-lite-ui-bin.tar.gz` 中获取 lite 软件包。
-- 从 `shardingsphere-elasticjob-ui/shardingsphere-elasticjob-cloud-ui/shardingsphere-elasticjob-cloud-ui-distribution/shardingsphere-elasticjob-cloud-ui-bin-distribution/target/apache-shardingsphere-${latest.release.version}-shardingsphere-elasticjob-cloud-ui-bin.tar.gz` 中获取 cloud 软件包。
+- 从 `shardingsphere-elasticjob-ui/shardingsphere-elasticjob-ui-distribution/shardingsphere-elasticjob-lite-ui-bin-distribution/target/apache-shardingsphere-${latest.release.version}-shardingsphere-elasticjob-lite-ui-bin.tar.gz` 中获取 lite 软件包。
+- 从 `shardingsphere-elasticjob-ui/shardingsphere-elasticjob-ui-distribution/shardingsphere-elasticjob-cloud-ui-bin-distribution/target/apache-shardingsphere-${latest.release.version}-shardingsphere-elasticjob-cloud-ui-bin.tar.gz` 中获取 cloud 软件包。

@@ -34,7 +34,7 @@
             <artifactId>shardingsphere-elasticjob-lite-ui-backend</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+    
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -45,7 +45,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -58,7 +57,7 @@
             </exclusions>
         </dependency>
     </dependencies>
-
+    
     <profiles>
         <profile>
             <id>release</id>
