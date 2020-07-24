@@ -139,15 +139,18 @@ export default {
   appConfig: {
     btnTxt: '添加',
     addDialog: {
-      title: '添加事件追踪数据源',
-      name: '数据源名称',
-      driver: '数据源驱动',
-      url: '数据源连接地址',
-      username: '数据源用户名',
-      password: '数据源密码',
-      btnConfirmTxt: '确定',
-      btnCancelTxt: '取消',
-      btnConnectTestTxt: '测试连接'
+      title: '添加应用',
+      appName: '应用名称',
+      script: '启动脚本',
+      cpu: 'CPU核数',
+      memory: '占用内存(MB)',
+      sampling: '作业事件采样次数(仅Daemon)',
+      cacheEnable: '是否在本地缓存应用',
+      appURL: '应用所在路径'
+    },
+    dialog: {
+      editTitle: '修改应用',
+      detailTitle: '应用详情'
     },
     table: {
       appName: '应用名称',
@@ -161,11 +164,16 @@ export default {
       operateEnable: '生效'
     },
     rules: {
-      name: '请输入数据源名称',
-      driver: '请输入数据源驱动',
-      url: '请输入数据源连接地址',
-      username: '请输入数据源用户名',
-      password: '请输入数据源密码'
+      appName: '请输入应用名称',
+      appURL: '请输入应用所在路径',
+      bootstrapScript: '请输入启动脚本',
+      cpuCount: '请输入CPU核数',
+      memoryMB: '请输入内存占用',
+      eventTraceSamplingCount: '请输入作业事件采样次数'
+    },
+    tips: {
+      disableSuccess: '失效成功',
+      enableSuccess: '生效成功'
     }
   }
 }
