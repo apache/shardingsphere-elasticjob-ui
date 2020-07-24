@@ -42,7 +42,7 @@
               size="mini"
               type="primary"
               :disabled="isGuest"
-              @click="handleModify(scope.row)"
+              @click="handleDetail(scope.row)"
               plain>{{ $t("appConfig.table.operateDetail") }}</el-button>
             <el-button
               size="mini"
@@ -54,14 +54,14 @@
               size="mini"
               type="primary"
               :disabled="isGuest"
-              @click="handleModify(scope.row)"
+              @click="handleDelete(scope.row)"
               plain>{{ $t("appConfig.table.operateDel") }}</el-button>
             <el-button
               size="mini"
               type="primary"
               :disabled="isGuest"
-              @click="handleModify(scope.row)"
-              plain>{{ $t("appConfig.table.operateDisable") }}</el-button>
+              @click="handleDisable(scope.row)"
+              plain>{{ scope.row.disabled ? $t("appConfig.table.operateEnable") : $t("appConfig.table.operateDisable")}}</el-button>
             </el-button-group>
           </template>
         </el-table-column>
@@ -77,42 +77,121 @@
       </div>
     </div>
     <el-dialog
-      :title="$t('appConfig.registDialog.title')"
+      :title="$t('appConfig.addDialog.title')"
       :visible.sync="addDialogVisible"
       width="1010px"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="170px">
-        <el-form-item :label="$t('appConfig.registDialog.name')" prop="name">
-          <el-input :placeholder="$t('appConfig.rules.name')" v-model="form.name" autocomplete="off" />
+      <el-form ref="form" :model="form" :rules="rules" label-width="210px">
+        <el-form-item :label="$t('appConfig.addDialog.appName')" prop="appName">
+          <el-input :placeholder="$t('appConfig.rules.appName')" v-model="form.appName" autocomplete="off" />
         </el-form-item>
-        <el-form-item :label="$t('appConfig.registDialog.address')" prop="zkAddressList">
+        <el-form-item :label="$t('appConfig.addDialog.script')" prop="bootstrapScript">
           <el-input
-            :placeholder="$t('appConfig.rules.address')"
-            v-model="form.zkAddressList"
+            :placeholder="'bin/start.sh'"
+            v-model="form.bootstrapScript"
             autocomplete="off"
           />
         </el-form-item>
-        <el-form-item :label="$t('appConfig.registDialog.namespaces')" prop="namespace">
+        <el-form-item :label="$t('appConfig.addDialog.cpu')" prop="cpuCount">
           <el-input
-            :placeholder="$t('appConfig.rules.namespaces')"
-            v-model="form.namespace"
+            :placeholder="$t('appConfig.rules.cpuCount')"
+            v-model="form.cpuCount"
             autocomplete="off"
           />
         </el-form-item>
-        <el-form-item :label="$t('appConfig.registDialog.digest')">
+        <el-form-item :label="$t('appConfig.addDialog.memory')" prop="memoryMB">
           <el-input
-            :placeholder="$t('appConfig.rules.digest')"
-            v-model="form.digest"
+            :placeholder="$t('appConfig.rules.memoryMB')"
+            v-model="form.memoryMB"
             autocomplete="off"
           />
+        </el-form-item>
+        <el-form-item :label="$t('appConfig.addDialog.sampling')" prop="eventTraceSamplingCount">
+          <el-input
+            :placeholder="$t('appConfig.rules.eventTraceSamplingCount')"
+            v-model="form.eventTraceSamplingCount"
+            autocomplete="off"
+          />
+        </el-form-item>
+        <el-form-item :label="$t('appConfig.addDialog.appURL')" prop="appURL">
+          <el-input
+            :placeholder="$t('appConfig.rules.appURL')"
+            v-model="form.appURL"
+            autocomplete="off"
+          />
+        </el-form-item>
+        <el-form-item :label="$t('appConfig.addDialog.cacheEnable')" prop="cacheEnable">
+          <el-checkbox v-model="form.appCacheEnable"></el-checkbox>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="regustDialogVisible = false">{{ $t("appConfig.registDialog.btnCancelTxt") }}</el-button>
+        <el-button @click="addDialogVisible = false">{{ $t("btn.cancel") }}</el-button>
         <el-button
           type="primary"
           @click="onConfirm('form')"
-        >{{ $t("appConfig.registDialog.btnConfirmTxt") }}</el-button>
+        >{{ $t("btn.submit") }}</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog
+      :title="isEdit ? $t('appConfig.dialog.editTitle') : $t('appConfig.dialog.detailTitle')"
+      :visible.sync="editDialogVisible"
+      width="1010px"
+    >
+      <el-form ref="editForm" :model="editForm" :rules="rules" label-width="210px">
+        <el-form-item :label="$t('appConfig.addDialog.appName')" prop="appName">
+          <el-input :placeholder="$t('appConfig.rules.appName')" v-model="editForm.appName" autocomplete="off" disabled/>
+        </el-form-item>
+        <el-form-item :label="$t('appConfig.addDialog.script')" prop="bootstrapScript">
+          <el-input
+            :placeholder="'bin/start.sh'"
+            v-model="editForm.bootstrapScript"
+            autocomplete="off"
+            disabled
+          />
+        </el-form-item>
+        <el-form-item :label="$t('appConfig.addDialog.cpu')" prop="cpuCount">
+          <el-input
+            :placeholder="$t('appConfig.rules.cpuCount')"
+            v-model="editForm.cpuCount"
+            autocomplete="off"
+            disabled
+          />
+        </el-form-item>
+        <el-form-item :label="$t('appConfig.addDialog.memory')" prop="memoryMB">
+          <el-input
+            :placeholder="$t('appConfig.rules.memoryMB')"
+            v-model="editForm.memoryMB"
+            autocomplete="off"
+            disabled
+          />
+        </el-form-item>
+        <el-form-item :label="$t('appConfig.addDialog.sampling')" prop="eventTraceSamplingCount">
+          <el-input
+            :placeholder="$t('appConfig.rules.eventTraceSamplingCount')"
+            v-model="editForm.eventTraceSamplingCount"
+            autocomplete="off"
+            :disabled="!isEdit"
+          />
+        </el-form-item>
+        <el-form-item :label="$t('appConfig.addDialog.appURL')" prop="appURL">
+          <el-input
+            :placeholder="$t('appConfig.rules.appURL')"
+            v-model="editForm.appURL"
+            autocomplete="off"
+            disabled
+          />
+        </el-form-item>
+        <el-form-item :label="$t('appConfig.addDialog.cacheEnable')" prop="cacheEnable">
+          <el-checkbox v-model="editForm.appCacheEnable" :disabled="!isEdit"></el-checkbox>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editDialogVisible = false">{{ $t("btn.cancel") }}</el-button>
+        <el-button
+          v-if="isEdit"
+          type="primary"
+          @click="edit('editForm')"
+        >{{ $t("btn.submit") }}</el-button>
       </div>
     </el-dialog>
   </el-row>
@@ -126,6 +205,8 @@ export default {
   data() {
     return {
       addDialogVisible: false,
+      editDialogVisible: false,
+      isEdit: false,
       isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
@@ -142,44 +223,55 @@ export default {
         }
       ],
       form: {
-        name: '',
-        zkAddressList: '',
-        namespace: '',
-        digest: ''
+        appName: '',
+        appURL: '',
+        bootstrapScript: '',
+        cpuCount: '1',
+        memoryMB: '128',
+        eventTraceSamplingCount: '0',
+        appCacheEnable: true
       },
+      editForm: {},
       rules: {
-        name: [
+        appName: [
           {
             required: true,
-            message: this.$t('appConfig').rules.name,
+            message: this.$t('appConfig').rules.appName,
             trigger: 'change'
           }
         ],
-        zkAddressList: [
+        bootstrapScript: [
           {
             required: true,
-            message: this.$t('appConfig').rules.address,
+            message: this.$t('appConfig').rules.bootstrapScript,
             trigger: 'change'
           }
         ],
-        namespace: [
+        cpuCount: [
           {
             required: true,
-            message: this.$t('appConfig').rules.namespaces,
+            message: this.$t('appConfig').rules.cpuCount,
             trigger: 'change'
           }
         ],
-        instanceType: [
+        memoryMB: [
           {
             required: true,
-            message: this.$t('appConfig').rules.centerType,
+            message: this.$t('appConfig').rules.memoryMB,
             trigger: 'change'
           }
         ],
-        orchestrationName: [
+        eventTraceSamplingCount: [
           {
             required: true,
-            message: this.$t('appConfig').rules.orchestrationName,
+            message: this.$t('appConfig').rules.eventTraceSamplingCount,
+            trigger: 'change'
+          }
+        ],
+        appURL: [
+          {
+            required: true,
+            message: this.$t('appConfig').rules.appURL,
             trigger: 'change'
           }
         ]
@@ -251,14 +343,14 @@ export default {
     onConfirm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          API.postRegCenter(this.form).then(res => {
+          API.addApp(this.form).then(res => {
             this.addDialogVisible = false
             this.$notify({
               title: this.$t('common').notify.title,
               message: this.$t('common').notify.addSucMessage,
               type: 'success'
             })
-            this.getRegCenter()
+            this.getApp()
           })
         } else {
           console.log('error submit!!')
@@ -268,6 +360,65 @@ export default {
     },
     add() {
       this.addDialogVisible = true
+    },
+    handleDetail(row) {
+      this.isEdit = false
+      this.editForm = row
+      this.editDialogVisible = true
+    },
+    handleModify(row) {
+      this.isEdit = true
+      this.editForm = row
+      this.editDialogVisible = true
+    },
+    edit(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          API.update(this.editForm).then(res => {
+            this.editDialogVisible = false
+            this.$notify({
+              title: this.$t('common').notify.title,
+              message: this.$t('common').notify.editSucMessage,
+              type: 'success'
+            })
+            this.getApp()
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    handleDelete(row) {
+      API.delete({'appName': row.appName}).then(res => {
+        this.$notify({
+          title: this.$t('common').notify.title,
+          message: this.$t('common').notify.delSucMessage,
+          type: 'success'
+        })
+        this.getApp()
+      })
+    },
+    handleDisable(row) {
+      if (row.disabled) {
+        API.enable({'appName': row.appName}).then(res => {
+          this.$notify({
+            title: this.$t('common').notify.title,
+            message: this.$t('appConfig').tips.enableSuccess,
+            type: 'success'
+          })
+          this.getApp()
+        })
+      } else {
+        API.disable({'appName': row.appName}).then(res => {
+          this.$notify({
+            title: this.$t('common').notify.title,
+            message: this.$t('appConfig').tips.disableSuccess,
+            type: 'success'
+          })
+          this.getApp()
+        })
+      }
     }
   }
 }

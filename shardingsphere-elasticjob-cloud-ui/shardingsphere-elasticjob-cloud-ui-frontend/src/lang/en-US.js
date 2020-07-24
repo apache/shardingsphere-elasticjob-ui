@@ -139,15 +139,18 @@ export default {
   appConfig: {
     btnTxt: 'ADD',
     addDialog: {
-      title: 'Add a data source',
-      name: 'Name',
-      driver: 'Driver',
-      url: 'Url',
-      username: 'Username',
-      password: 'Password',
-      btnConfirmTxt: 'Confirm',
-      btnCancelTxt: 'Cancel',
-      btnConnectTestTxt: 'Test connect'
+      title: 'Add app',
+      appName: 'App name',
+      script: 'Bootstrap script',
+      cpu: 'CPU count',
+      memory: 'Memory(MB)',
+      sampling: 'Event trace sampling count',
+      cacheEnable: 'App cache enable',
+      appURL: 'App URL'
+    },
+    dialog: {
+      editTitle: 'Modify app',
+      detailTitle: 'App detail'
     },
     table: {
       appName: 'App name',
@@ -161,11 +164,17 @@ export default {
       operateDel: 'Del',
     },
     rules: {
-      name: 'Please enter the name of the data source',
-      driver: 'Please enter the driver of the data source',
-      url: 'Please enter the url of the data source',
-      username: 'Please enter the username of the data source',
-      password: 'Please enter the password of the data source'
+      appName: 'Please input app name',
+      appURL: 'Please input app url',
+      bootstrapScript: 'Please input bootstrap script',
+      cpuCount: 'Please input cpu count',
+      memoryMB: 'Please input memory',
+      eventTraceSamplingCount: 'Please input event trace sampling count'
+    },
+    tips: {
+      disableSuccess: 'Disable Success',
+      enableSuccess: 'Enable Success'
     }
+
   }
 }

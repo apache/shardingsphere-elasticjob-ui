@@ -19,8 +19,9 @@ import API from '@/utils/api'
 
 export default {
   getApp: (params = {}) => API.get(`/api/app/list`, params),
-  deleteRegCenter: (params = {}) => API.delete(`/api/registry-center`, params),
-  postRegCenter: (params = {}) => API.post(`/api/registry-center/add`, params),
-  getRegCenterActivated: (params = {}) => API.get(`/api/registry-center/activated`, params),
-  postRegCenterConnect: (params = {}) => API.post(`/api/registry-center/connect`, params)
+  delete: (params = {}) => API.delete(`/api/app/` + params.appName, params),
+  addApp: (params = {}) => API.post(`/api/app/register`, params),
+  update: (params = {}) => API.post(`/api/app/update`, params),
+  disable: (params = {}) => API.post(`/api/app/` + params.appName + `/disable`, params),
+  enable: (params = {}) => API.post(`/api/app/` + params.appName + `/enable`, params)
 }
