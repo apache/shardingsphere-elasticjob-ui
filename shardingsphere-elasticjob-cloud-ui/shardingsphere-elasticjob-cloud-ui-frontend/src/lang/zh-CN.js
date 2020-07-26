@@ -77,6 +77,7 @@ export default {
       delFailMessage: '删除失败',
       updateCompletedMessage: '更新成功',
       updateFaildMessage: '更新失败',
+      appNotRegisterMessage: '应用未注册',
       confirmDelOperator: '确认删除'
     },
     loginOut: '退出登录',
@@ -174,6 +175,78 @@ export default {
     tips: {
       disableSuccess: '失效成功',
       enableSuccess: '生效成功'
+    }
+  },
+  jobConfig: {
+    labelInfo: {
+      addBtnText: '添加',
+      jobName: '作业名称',
+      appName: '应用名称',
+      shardingTotalCount: '作业分片总数',
+      cron: 'Cron表达式',
+      description: '作业描述信息',
+      status: '状态',
+      jobExecutionType: '执行类型',
+      jobParameter: '自定义参数',
+      cpuCount: 'CPU核数',
+      memoryMB: '单片作业内存(MB)',
+      failover: '支持自动失效转移',
+      misfire: '支持错过重执行',
+      applicationContext: 'Spring配置文件相对路径及名称',
+      shardingItemParameters: '分片序列号/参数对照表',
+      scriptCommandLine: 'SCRIPT类型作业命令行执行脚本',
+      streamingProcess: '是否流式处理数据',
+      beanName: '实体名称',
+      addTitle: '添加作业',
+      editTitle: '修改作业',
+      operate: '操作'
+    },
+    rules: {
+      jobName: '请输入作业名称',
+      appName: '请输入应用名称',
+      jobExecutionType: '请选择执行类型',
+      shardingTotalCount: '请输入作业分片总数',
+      applicationContext: 'META-INF\\applicationContext.xml',
+      shardingItemParameters: '0=a,1=b,2=c',
+      cron: '请输入Cron表达式',
+      cpuCount: '请输入CPU核数',
+      memoryMB: '请输入单片作业内存(MB)',
+      description: '请输入作业描述信息',
+      status: '请选择作业状态'
+    },
+    statusText: {
+      OK: '正常',
+      DISABLED: '已失效',
+      CRASHED: '已下线',
+      PENDING: '等待运行',
+      SHARDING_FLAG: '分片待调整'
+    },
+    actionText: {
+      modify: '修改',
+      detail: '详情',
+      trigger: '触发',
+      disable: '失效',
+      enable: '生效',
+      shutdown: '终止',
+      remove: '删除'
+    }
+  },
+  jobStatus: {
+    tab: {
+      running: '运行任务',
+      ready: '待运行任务',
+      failover: '待失效转移任务',
+    },
+    labelInfo: {
+      id: '任务主键',
+      taskName: '任务名称',
+      jobName: '作业名称',
+      severIp: '服务器IP',
+      type: '执行类型',
+      shardingItems: '分片项',
+      times: '剩余执行次数',
+      originalTaskId: '原任务主键',
+      operate: '操作'
     }
   }
 }

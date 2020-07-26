@@ -78,9 +78,9 @@ public final class CloudAppController {
      * @return cloud app config
      */
     @GetMapping("/{appName}")
-    public CloudAppConfigurationPOJO detail(@PathVariable("appName") final String appName) {
+    public ResponseResult<CloudAppConfigurationPOJO> detail(@PathVariable("appName") final String appName) {
         Optional<CloudAppConfigurationPOJO> appConfig = CloudServiceFactory.getAppConfigService().load(appName);
-        return appConfig.orElse(null);
+        return ResponseResultUtil.build(appConfig.orElse(null));
     }
     
     /**
