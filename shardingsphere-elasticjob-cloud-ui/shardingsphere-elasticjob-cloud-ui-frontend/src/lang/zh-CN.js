@@ -230,5 +230,23 @@ export default {
       shutdown: '终止',
       remove: '删除'
     }
+  },
+  jobStatus: {
+    tab: {
+      running: '运行任务',
+      ready: '待运行任务',
+      failover: '待失效转移任务',
+    },
+    labelInfo: {
+      id: '任务主键',
+      taskName: '任务名称',
+      jobName: '作业名称',
+      severIp: '服务器IP',
+      type: '执行类型',
+      shardingItems: '分片项',
+      times: '剩余执行次数',
+      originalTaskId: '原任务主键',
+      operate: '操作'
+    }
   }
 }

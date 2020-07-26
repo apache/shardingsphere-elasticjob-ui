@@ -230,5 +230,23 @@ export default {
       shutdown: 'Shutdown',
       remove: 'Remove'
     }
+  },
+  jobStatus: {
+    tab: {
+      running: 'Running tasks',
+      ready: 'Ready jobs',
+      failover: 'Failover tasks',
+    },
+    labelInfo: {
+      id: 'Task ID',
+      taskName: 'Task name',
+      jobName: 'Job name',
+      severIp: 'Server IP',
+      type: 'Job execution type',
+      shardingItems: 'Sharding item',
+      times: 'Remaining execution times',
+      originalTaskId: 'Original task ID',
+      operate: 'Operate'
+    }
   }
 }
