@@ -38,6 +38,18 @@ export const constantRouterMap = [
     hidden: true,
     name: 'App config'
   },
+  {
+    path: '/job-config',
+    component: () => import('@/views/job-config'),
+    hidden: true,
+    name: 'Job config'
+  },
+  {
+    path: '/job-config/job-detail',
+    component: () => import('@/views/job-detail'),
+    hidden: true,
+    name: 'Job detail'
+  }
 ]
 
 export default new Router({
