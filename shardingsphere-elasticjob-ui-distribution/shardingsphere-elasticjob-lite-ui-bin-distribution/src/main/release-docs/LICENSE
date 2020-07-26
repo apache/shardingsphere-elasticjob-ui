@@ -286,11 +286,11 @@ The text of each license is the standard Apache 2.0 license.
     spring-web-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-web/5.1.5.RELEASE, Apache 2.0
     spring-webmvc-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-webmvc/5.1.5.RELEASE, Apache 2.0
     tomcat-annotations-api-8.5.40: https://tomcat.apache.org, Apache 2.0
-    tomcat-embed-core-8.5.40: ttps://tomcat.apache.org, Apache 2.0
-    tomcat-embed-el-8.5.40: ttps://tomcat.apache.org, Apache 2.0
-    tomcat-embed-websocket-8.5.40: ttps://tomcat.apache.org, Apache 2.0
-    tomcat-jdbc-8.5.40: ttps://tomcat.apache.org, Apache 2.0
-    tomcat-juli-8.5.40: ttps://tomcat.apache.org, Apache 2.0
+    tomcat-embed-core-8.5.40: https://tomcat.apache.org, Apache 2.0
+    tomcat-embed-el-8.5.40: https://tomcat.apache.org, Apache 2.0
+    tomcat-embed-websocket-8.5.40: https://tomcat.apache.org, Apache 2.0
+    tomcat-jdbc-8.5.40: https://tomcat.apache.org, Apache 2.0
+    tomcat-juli-8.5.40: https://tomcat.apache.org, Apache 2.0
     zookeeper-3.6.0: https://github.com/apache/zookeeper, Apache 2.0
     zookeeper-jute-3.6.0: https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper-jute/3.6.0, Apache 2.0
 
@@ -317,8 +317,8 @@ The text of each license is also included at licenses/LICENSE-[project].txt.
     aspectjweaver-1.8.14: https://mvnrepository.com/artifact/org.aspectj/aspectjweaver/1.9.2, EPL 1.0
     h2-1.4.199: https://github.com/h2database/h2database/blob/master/LICENSE.txt, MPL 2.0 or EPL 1.0
     junit-4.12: https://mvnrepository.com/artifact/junit/junit/4.12, EPL 1.0
-    logback-classic-1.1.11: https://github.com/qos-ch/logback: EPL 1.0
-    logback-core-1.1.11: https://github.com/qos-ch/logback: EPL 1.0
+    logback-classic-1.1.11: https://github.com/qos-ch/logback, EPL 1.0
+    logback-core-1.1.11: https://github.com/qos-ch/logback, EPL 1.0
     mchange-commons-java-0.2.15: https://mvnrepository.com/artifact/com.mchange/mchange-commons-java/0.2.15, EPL 1.0 + LGPL 2.1
 
 ========================================================================
