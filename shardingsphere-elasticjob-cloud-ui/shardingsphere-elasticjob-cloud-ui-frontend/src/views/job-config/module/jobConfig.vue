@@ -19,36 +19,34 @@
   <el-row class="box-card">
     <el-form :model="searchForm" class="demo-form-inline">
       <el-form-item>
-          <el-col :span="4">
+        <el-col :span="4">
+          <el-button
+            :disabled="isGuest"
+            class="btn-plus"
+            type="primary"
+            icon="el-icon-plus"
+            @click="handleAdd">{{ $t("jobConfig.labelInfo.addBtnText") }}</el-button>
+        </el-col>
+        <el-col :span="14">
+          &nbsp;
+        </el-col>
+        <el-col :span="6">
+          <el-input
+            v-model="searchForm.jobName"
+            placeholder="Search"
+            clearable
+            autocomplete="off"
+            @clear="search"
+            @change="search">
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
             <el-button
-                :disabled="isGuest"
-                class="btn-plus"
-                type="primary"
-                icon="el-icon-plus"
-                @click="handleAdd"
-            >{{ $t("jobConfig.labelInfo.addBtnText") }}</el-button>
-          </el-col>
-          <el-col :span="14">
-              &nbsp;
-          </el-col>
-          <el-col :span="6">
-            <el-input
-              v-model="searchForm.jobName"
-              placeholder="Search"
-              clearable
-              @clear="search"
-              @change="search"
-              autocomplete="off" >
-              <i slot="prefix" class="el-input__icon el-icon-search"></i>
-              <el-button slot="append" icon="el-icon-search"
-                @click="search"></el-button>
-            </el-input>
-          </el-col>
-        </el-form-item>
+              slot="append"
+              icon="el-icon-search"
+              @click="search"></el-button>
+          </el-input>
+        </el-col>
+      </el-form-item>
     </el-form>
-    <div class="btn-group pull-right" style="float: right;">
-
-    </div>
     <div class="table-wrap">
       <el-table
         :data="tableData"
@@ -60,49 +58,49 @@
           :key="index"
           :prop="item.prop"
           :label="item.label"
-          :width="item.width"
-        >
-        <template slot-scope="scope">
-          <span>{{ scope.row[item.prop] }}</span>
-        </template>
+          :width="item.width">
+          <template slot-scope="scope">
+            <span>{{ scope.row[item.prop] }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           :label="$t('jobConfig.labelInfo.operate')"
-          fixed="right" width="300">
+          fixed="right"
+          width="300">
           <template slot-scope="scope">
             <el-button-group>
               <el-button
                 size="mini"
                 type="info"
-                @click="handleDetail(scope.row)"
-                plain>{{ $t("jobConfig.actionText.detail") }}</el-button>
+                plain
+                @click="handleDetail(scope.row)">{{ $t("jobConfig.actionText.detail") }}</el-button>
               <el-button
+                :disabled="isGuest"
                 size="mini"
                 type="primary"
-                :disabled="isGuest"
-                @click="handleModify(scope.row)"
-                plain>{{ $t("jobConfig.actionText.modify") }}</el-button>
+                plain
+                @click="handleModify(scope.row)">{{ $t("jobConfig.actionText.modify") }}</el-button>
               <el-button
+                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 icon="el-icon-delete"
-                :disabled="isGuest"
-                @click="handlerRemove(scope.row)"
-                plain>{{ $t("jobConfig.actionText.remove") }}</el-button>
+                plain
+                @click="handlerRemove(scope.row)">{{ $t("jobConfig.actionText.remove") }}</el-button>
               <el-button
+                v-if="scope.row.disabled"
+                :disabled="isGuest"
                 size="mini"
                 type="success"
-                :disabled="isGuest"
-                v-if="scope.row.disabled"
-                @click="handleEnable(scope.row)"
-                plain>{{ $t("jobConfig.actionText.enable") }}</el-button>
+                plain
+                @click="handleEnable(scope.row)">{{ $t("jobConfig.actionText.enable") }}</el-button>
               <el-button
+                v-if="!scope.row.disabled"
+                :disabled="isGuest"
                 size="mini"
                 type="warning"
-                :disabled="isGuest"
-                v-if="!scope.row.disabled"
-                @click="handleDisable(scope.row)"
-                plain>{{ $t("jobConfig.actionText.disable") }}</el-button>
+                plain
+                @click="handleDisable(scope.row)">{{ $t("jobConfig.actionText.disable") }}</el-button>
             </el-button-group>
           </template>
         </el-table-column>
@@ -120,188 +118,185 @@
     <el-dialog
       :title="editTitle"
       :visible.sync="modifyDialogVisible"
-      width="1010px"
-    >
+      width="1010px">
       <el-form ref="editForm" :model="editForm" :rules="rules" label-width="40px">
 
         <el-form-item prop="jobName">
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.jobName') }}
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                  v-model="editForm.jobName"
-                  :disabled="editForm.editMode"
-                  :placeholder="$t('jobConfig.rules.jobName')"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="1">
-              &nbsp;
-            </el-col>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.cron') }}
-            </el-col>
-            <el-col :span="1">
-              &nbsp;
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                  v-model="editForm.cron"
-                  :placeholder="$t('jobConfig.rules.cron')"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.jobName') }}
+          </el-col>
+          <el-col :span="7">
+            <el-input
+              v-model="editForm.jobName"
+              :disabled="editForm.editMode"
+              :placeholder="$t('jobConfig.rules.jobName')"
+              autocomplete="off"/>
+          </el-col>
+          <el-col :span="1">
+            &nbsp;
+          </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.cron') }}
+          </el-col>
+          <el-col :span="1">
+            &nbsp;
+          </el-col>
+          <el-col :span="7">
+            <el-input
+              v-model="editForm.cron"
+              :placeholder="$t('jobConfig.rules.cron')"
+              autocomplete="off"/>
+          </el-col>
         </el-form-item>
 
         <el-form-item prop="appName">
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.appName') }}
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                  v-model="editForm.appName"
-                  :disabled="editForm.editMode"
-                  :placeholder="$t('jobConfig.rules.appName')"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="1">
-              &nbsp;
-            </el-col>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.jobExecutionType') }}
-            </el-col>
-            <el-col :span="1">
-              &nbsp;
-            </el-col>
-            <el-col :span="7">
-              <el-select v-model="editForm.jobExecutionType"
-                :placeholder="$t('jobConfig.rules.jobExecutionType')">
-                <el-option
-                    v-for="item in jobExecutionTypeOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-              </el-select>
-            </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.appName') }}
+          </el-col>
+          <el-col :span="7">
+            <el-input
+              v-model="editForm.appName"
+              :disabled="editForm.editMode"
+              :placeholder="$t('jobConfig.rules.appName')"
+              autocomplete="off"/>
+          </el-col>
+          <el-col :span="1">
+            &nbsp;
+          </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.jobExecutionType') }}
+          </el-col>
+          <el-col :span="1">
+            &nbsp;
+          </el-col>
+          <el-col :span="7">
+            <el-select
+              v-model="editForm.jobExecutionType"
+              :placeholder="$t('jobConfig.rules.jobExecutionType')">
+              <el-option
+                v-for="item in jobExecutionTypeOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value">
+              </el-option>
+            </el-select>
+          </el-col>
         </el-form-item>
 
         <el-form-item prop="shardingTotalCount">
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.shardingTotalCount') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input-number
-                  :placeholder="$t('jobConfig.labelInfo.shardingTotalCount')"
-                  v-model="editForm.shardingTotalCount"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.jobParameter') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input
-                  :placeholder="$t('jobConfig.labelInfo.jobParameter')"
-                  v-model="editForm.jobParameter"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.shardingTotalCount') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input-number
+              :placeholder="$t('jobConfig.labelInfo.shardingTotalCount')"
+              v-model="editForm.shardingTotalCount"
+              autocomplete="off"
+            />
+          </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.jobParameter') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input
+              :placeholder="$t('jobConfig.labelInfo.jobParameter')"
+              v-model="editForm.jobParameter"
+              autocomplete="off"
+            />
+          </el-col>
         </el-form-item>
 
         <el-form-item prop="cpuCount">
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.cpuCount') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input-number
-                  :placeholder="$t('jobConfig.labelInfo.cpuCount')"
-                  :precision="3"
-                  :step="0.001"
-                  v-model="editForm.cpuCount"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.memoryMB') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input-number
-                  :placeholder="$t('jobConfig.labelInfo.memoryMB')"
-                  :min="1"
-                  v-model="editForm.memoryMB"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.cpuCount') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input-number
+              :placeholder="$t('jobConfig.labelInfo.cpuCount')"
+              :precision="3"
+              :step="0.001"
+              v-model="editForm.cpuCount"
+              autocomplete="off"
+            />
+          </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.memoryMB') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input-number
+              :placeholder="$t('jobConfig.labelInfo.memoryMB')"
+              :min="1"
+              v-model="editForm.memoryMB"
+              autocomplete="off"
+            />
+          </el-col>
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.failover') }}
-            </el-col>
-            <el-col :span="8">
-              <el-checkbox v-model="editForm.failover">{{ $t('jobConfig.labelInfo.failover')}} </el-checkbox>
-            </el-col>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.misfire') }}
-            </el-col>
-            <el-col :span="8">
-              <el-checkbox v-model="editForm.misfire">{{ $t('jobConfig.labelInfo.misfire')}} </el-checkbox>
-            </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.failover') }}
+          </el-col>
+          <el-col :span="8">
+            <el-checkbox v-model="editForm.failover">{{ $t('jobConfig.labelInfo.failover') }} </el-checkbox>
+          </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.misfire') }}
+          </el-col>
+          <el-col :span="8">
+            <el-checkbox v-model="editForm.misfire">{{ $t('jobConfig.labelInfo.misfire') }} </el-checkbox>
+          </el-col>
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.applicationContext') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input
-                  type="textarea"
-                  :placeholder="$t('jobConfig.rules.applicationContext')"
-                  v-model="editForm.applicationContext"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.shardingItemParameters') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input
-                  type="textarea"
-                  :placeholder="$t('jobConfig.rules.shardingItemParameters')"
-                  v-model="editForm.shardingItemParameters"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.applicationContext') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input
+              v-model="editForm.applicationContext"
+              :placeholder="$t('jobConfig.rules.applicationContext')"
+              type="textarea"
+              autocomplete="off"
+            />
+          </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.shardingItemParameters') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input
+              v-model="editForm.shardingItemParameters"
+              :placeholder="$t('jobConfig.rules.shardingItemParameters')"
+              type="textarea"
+              autocomplete="off"
+            />
+          </el-col>
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.beanName') }}
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                  :placeholder="$t('jobConfig.labelInfo.beanName')"
-                  v-model="editForm.beanName"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="1">
-              &nbsp;
-            </el-col>
-            <el-col :span="4">
-              {{ $t('jobConfig.labelInfo.description') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input
-                  type="textarea"
-                  :placeholder="$t('jobConfig.rules.description')"
-                  v-model="editForm.description"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.beanName') }}
+          </el-col>
+          <el-col :span="7">
+            <el-input
+              :placeholder="$t('jobConfig.labelInfo.beanName')"
+              v-model="editForm.beanName"
+              autocomplete="off"
+            />
+          </el-col>
+          <el-col :span="1">
+            &nbsp;
+          </el-col>
+          <el-col :span="4">
+            {{ $t('jobConfig.labelInfo.description') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input
+              v-model="editForm.description"
+              :placeholder="$t('jobConfig.rules.description')"
+              type="textarea"
+              autocomplete="off"
+            />
+          </el-col>
         </el-form-item>
 
       </el-form>
@@ -320,31 +315,31 @@ import { mapActions } from 'vuex'
 import clone from 'lodash/clone'
 import API from '../api'
 export default {
-  name: 'jobConfig',
+  name: 'JobConfig',
   data() {
     return {
       modifyDialogVisible: false,
-      isGuest: window.localStorage.getItem('isGuest') == 'true',
+      isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
           label: this.$t('jobConfig').labelInfo.jobName,
           prop: 'jobName',
-          width : 280
+          width: 280
         },
         {
           label: this.$t('jobConfig').labelInfo.appName,
           prop: 'appName',
-          width : 160
+          width: 160
         },
         {
           label: this.$t('jobConfig').labelInfo.shardingTotalCount,
           prop: 'shardingTotalCount',
-          width : 140
+          width: 140
         },
         {
           label: this.$t('jobConfig').labelInfo.cron,
           prop: 'cron',
-          width : 120
+          width: 120
         }
       ],
       jobExecutionTypeOptions: [{
@@ -375,7 +370,7 @@ export default {
         memoryMB: 1,
         beanName: '',
         description: '',
-        props : {},
+        props: {},
         failover: false,
         misfire: false,
         streamingProcess2: false,
@@ -423,7 +418,7 @@ export default {
             message: this.$t('jobConfig').rules.memoryMB,
             trigger: 'change'
           }
-        ],
+        ]
       },
       editTitle: this.$t('jobConfig').labelInfo.editTitle,
       tableData: [],
@@ -441,7 +436,7 @@ export default {
     handleCurrentChange(val) {
       const data = clone(this.cloneTableData)
       this.currentPage = val
-      this.tableData = data.splice(this.pageSize*(val - 1), this.pageSize)
+      this.tableData = data.splice(this.pageSize * (val - 1), this.pageSize)
     },
     getJobConfig() {
       var params = {
@@ -450,14 +445,14 @@ export default {
         const data = Array.prototype.filter.call(res.model, this.filterSearchData)
         this.total = data.length
         this.cloneTableData = clone(data)
-        this.tableData = data.splice(this.pageSize*(this.currentPage - 1), this.pageSize)
+        this.tableData = data.splice(this.pageSize * (this.currentPage - 1), this.pageSize)
       })
     },
     filterSearchData(model) {
-      if(!this.searchForm.jobName){
+      if (!this.searchForm.jobName) {
         return true
       }
-      if(!model){
+      if (!model) {
         return true
       }
       return model.jobName && model.jobName.toLowerCase().includes(this.searchForm.jobName.toLowerCase())
@@ -475,7 +470,7 @@ export default {
         memoryMB: 1,
         beanName: '',
         description: '',
-        props : {},
+        props: {},
         failover: false,
         misfire: false,
         streamingProcess2: false,
@@ -493,15 +488,15 @@ export default {
       API.getJobDetail(params).then(res => {
         const data = res.model
         data.props = data.props || {}
-        if("true" === data.props['streaming.process']){
+        if (data.props['streaming.process'] === 'true') {
           data.streamingProcess2 = true
-        } else if(!data.props['streaming.process'] || "false" === data.props['streaming.process']){
+        } else if (!data.props['streaming.process'] || data.props['streaming.process'] === 'false') {
           data.streamingProcess2 = false
         } else {
           data.streamingProcess2 = true
         }
-        this.editTitle =  this.$t('jobConfig').labelInfo.editTitle
-        data.editMode= true
+        this.editTitle = this.$t('jobConfig').labelInfo.editTitle
+        data.editMode = true
         this.editForm = data
         this.modifyDialogVisible = true
       })
@@ -510,8 +505,8 @@ export default {
       const params = {
         jobName: row.jobName
       }
-      localStorage.setItem("/job-config/job-detail/jobName", params.jobName)
-      this.$router.push({path: '/job-config/job-detail', params: params })
+      localStorage.setItem('/job-config/job-detail/jobName', params.jobName)
+      this.$router.push({ path: '/job-config/job-detail', params: params })
     },
     handleEnable(row) {
       const params = {
@@ -553,45 +548,44 @@ export default {
       })
     },
     onEditConfirm(formName) {
-        const params = {
-          appName: this.editForm.appName
-        }
-        if(!this.editForm.cron){
-          this.$notify({
-            title: this.$t('common').notify.title,
-            message: this.$t('jobConfig').rules.cron,
-            type: 'error'
-          })
-          return
-        }
+      const params = {
+        appName: this.editForm.appName
+      }
+      if (!this.editForm.cron) {
+        this.$notify({
+          title: this.$t('common').notify.title,
+          message: this.$t('jobConfig').rules.cron,
+          type: 'error'
+        })
+        return
+      }
 
-        this.$refs[formName].validate(valid => {
-          if (valid) {
-            API.getAppDetail(params).then(res => {
-              const data = res.model
-              if(!data){
-                this.$notify({
-                    title: this.$t('common').notify.title,
-                    message: this.$t('common').notify.appNotRegisterMessage  + ':' + params.appName,
-                    type: 'error'
-                })
-                return false
-              } else {
-                this.onEditConfirmReal(formName)
-              }
-            })
-          } else {
-            if(!params.appName){
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          API.getAppDetail(params).then(res => {
+            const data = res.model
+            if (!data) {
               this.$notify({
                 title: this.$t('common').notify.title,
-                message: this.$t('jobConfig').rules.appName,
+                message: this.$t('common').notify.appNotRegisterMessage + ':' + params.appName,
                 type: 'error'
               })
+              return false
+            } else {
+              this.onEditConfirmReal(formName)
             }
-            return false
+          })
+        } else {
+          if (!params.appName) {
+            this.$notify({
+              title: this.$t('common').notify.title,
+              message: this.$t('jobConfig').rules.appName,
+              type: 'error'
+            })
           }
-        })
-
+          return false
+        }
+      })
     },
     onEditConfirmReal(formName) {
       this.$refs[formName].validate(valid => {
@@ -599,13 +593,13 @@ export default {
           // fixData
           const data = clone(this.editForm)
           data.props = data.props || {}
-          if(data.streamingProcess2){
-            data.props['streaming.process'] = "true"
+          if (data.streamingProcess2) {
+            data.props['streaming.process'] = 'true'
           } else {
-            data.props['streaming.process'] = "false"
+            data.props['streaming.process'] = 'false'
           }
           //
-          if(data.editMode){
+          if (data.editMode) {
             API.updateJobConfig(data).then(res => {
               this.modifyDialogVisible = false
               this.$notify({
@@ -633,7 +627,7 @@ export default {
       })
     },
     search() {
-        this.getJobConfig()
+      this.getJobConfig()
     }
   }
 }

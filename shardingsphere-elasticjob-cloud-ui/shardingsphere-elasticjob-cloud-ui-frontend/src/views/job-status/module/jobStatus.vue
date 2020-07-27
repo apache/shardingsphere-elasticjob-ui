@@ -16,144 +16,162 @@
   -->
 
 <template>
-  <el-tabs v-model="activeTabName"
+  <el-tabs
+    v-model="activeTabName"
     type="card"
     class="box-card"
     @tab-click="handleTabSwitch">
-    <el-tab-pane name="running"
-      :label="$t('jobStatus.tab.running')" >
-        <div class="btn-group pull-right" style="float: right;">
-          <el-input
-            v-model="searchFormRunning.jobName"
-            placeholder="Search"
-            clearable
-            @clear="searchRunning"
-            @change="searchRunning"
-            autocomplete="off" >
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            <el-button slot="append" icon="el-icon-search"
-              @click="searchRunning"></el-button>
-          </el-input>
-        </div>
-        <div class="table-wrap">
-          <el-table
-            :data="tableDataRunning"
-            stripe
-            border
-            style="width: 100%">
-            <el-table-column
-              v-for="(item, index) in columnRunning"
-              :key="index"
-              :prop="item.prop"
-              :label="item.label"
-              :width="item.width"
-            >
+    <el-tab-pane
+      :label="$t('jobStatus.tab.running')"
+      name="running">
+      <div
+        class="btn-group pull-right"
+        style="float: right;">
+        <el-input
+          v-model="searchFormRunning.jobName"
+          placeholder="Search"
+          clearable
+          autocomplete="off"
+          @clear="searchRunning"
+          @change="searchRunning">
+          <i
+            slot="prefix"
+            class="el-input__icon el-icon-search"></i>
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+            @click="searchRunning"></el-button>
+        </el-input>
+      </div>
+      <div class="table-wrap">
+        <el-table
+          :data="tableDataRunning"
+          stripe
+          border
+          style="width: 100%">
+          <el-table-column
+            v-for="(item, index) in columnRunning"
+            :key="index"
+            :prop="item.prop"
+            :label="item.label"
+            :width="item.width"
+          >
             <template slot-scope="scope">
               <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
             </template>
-            </el-table-column>
-          </el-table>
-          <div class="pagination">
-            <el-pagination
-              :total="totalRunning"
-              :current-page="currentPageRunning"
-              background
-              layout="prev, pager, next"
-              @current-change="handleCurrentChangeRunning"
-            />
-          </div>
+          </el-table-column>
+        </el-table>
+        <div class="pagination">
+          <el-pagination
+            :total="totalRunning"
+            :current-page="currentPageRunning"
+            background
+            layout="prev, pager, next"
+            @current-change="handleCurrentChangeRunning"
+          />
         </div>
+      </div>
     </el-tab-pane>
-    <el-tab-pane name="ready"
+    <el-tab-pane
       :lazy="lazyInit"
-      :label="$t('jobStatus.tab.ready')">
-        <div class="btn-group pull-right" style="float: right;">
-          <el-input
-            v-model="searchFormReady.jobName"
-            placeholder="Search"
-            clearable
-            @clear="searchReady"
-            @change="searchReady"
-            autocomplete="off" >
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            <el-button slot="append" icon="el-icon-search"
-              @click="searchReady"></el-button>
-          </el-input>
-        </div>
-        <div class="table-wrap">
-          <el-table
-            :data="tableDataReady"
-            stripe
-            border
-            style="width: 100%">
-            <el-table-column
-              v-for="(item, index) in columnReady"
-              :key="index"
-              :prop="item.prop"
-              :label="item.label"
-              :width="item.width"
-            >
+      :label="$t('jobStatus.tab.ready')"
+      name="ready">
+      <div class="btn-group pull-right" style="float: right;">
+        <el-input
+          v-model="searchFormReady.jobName"
+          placeholder="Search"
+          clearable
+          autocomplete="off"
+          @clear="searchReady"
+          @change="searchReady">
+          <i
+            slot="prefix"
+            class="el-input__icon el-icon-search"></i>
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+            @click="searchReady"></el-button>
+        </el-input>
+      </div>
+      <div class="table-wrap">
+        <el-table
+          :data="tableDataReady"
+          stripe
+          border
+          style="width: 100%">
+          <el-table-column
+            v-for="(item, index) in columnReady"
+            :key="index"
+            :prop="item.prop"
+            :label="item.label"
+            :width="item.width"
+          >
             <template slot-scope="scope">
               <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
             </template>
-            </el-table-column>
-          </el-table>
-          <div class="pagination">
-            <el-pagination
-              :total="totalReady"
-              :current-page="currentPageReady"
-              background
-              layout="prev, pager, next"
-              @current-change="handleCurrentChangeReady"
-            />
-          </div>
+          </el-table-column>
+        </el-table>
+        <div class="pagination">
+          <el-pagination
+            :total="totalReady"
+            :current-page="currentPageReady"
+            background
+            layout="prev, pager, next"
+            @current-change="handleCurrentChangeReady"
+          />
         </div>
-      </el-tab-pane>
-    <el-tab-pane name="failover"
+      </div>
+    </el-tab-pane>
+    <el-tab-pane
       :lazy="lazyInit"
-      :label="$t('jobStatus.tab.failover')">
-        <div class="btn-group pull-right" style="float: right;">
-          <el-input
-            v-model="searchFormFailover.jobName"
-            placeholder="Search"
-            clearable
-            @clear="searchFailover"
-            @change="searchFailover"
-            autocomplete="off" >
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            <el-button slot="append" icon="el-icon-search"
-              @click="searchFailover"></el-button>
-          </el-input>
-        </div>
-        <div class="table-wrap">
-          <el-table
-            :data="tableDataFailover"
-            stripe
-            border
-            style="width: 100%">
-            <el-table-column
-              v-for="(item, index) in columnFailover"
-              :key="index"
-              :prop="item.prop"
-              :label="item.label"
-              :width="item.width"
-            >
+      :label="$t('jobStatus.tab.failover')"
+      name="failover">
+      <div class="btn-group pull-right" style="float: right;">
+        <el-input
+          v-model="searchFormFailover.jobName"
+          placeholder="Search"
+          clearable
+          autocomplete="off"
+          @clear="searchFailover"
+          @change="searchFailover">
+          <i
+            slot="prefix"
+            class="el-input__icon el-icon-search"></i>
+          <el-button
+            slot="append"
+            icon="el-icon-search"
+            @click="searchFailover"></el-button>
+        </el-input>
+      </div>
+      <div class="table-wrap">
+        <el-table
+          :data="tableDataFailover"
+          stripe
+          border
+          style="width: 100%">
+          <el-table-column
+            v-for="(item, index) in columnFailover"
+            :key="index"
+            :prop="item.prop"
+            :label="item.label"
+            :width="item.width"
+          >
             <template slot-scope="scope">
               <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
             </template>
-            </el-table-column>
-          </el-table>
-          <div class="pagination">
-            <el-pagination
-              :total="totalFailover"
-              :current-page="currentPageFailover"
-              background
-              layout="prev, pager, next"
-              @current-change="handleCurrentChangeFailover"
-            />
-          </div>
+          </el-table-column>
+        </el-table>
+        <div class="pagination">
+          <el-pagination
+            :total="totalFailover"
+            :current-page="currentPageFailover"
+            background
+            layout="prev, pager, next"
+            @current-change="handleCurrentChangeFailover"
+          />
         </div>
-      </el-tab-pane>
+      </div>
+    </el-tab-pane>
   </el-tabs>
 </template>
 <script>
@@ -164,63 +182,63 @@ export default {
   name: 'JobStatus',
   data() {
     return {
-      isGuest: window.localStorage.getItem('isGuest') == 'true',
+      isGuest: window.localStorage.getItem('isGuest') === 'true',
       activeTabName: 'running',
       lazyInit: true,
       columnRunning: [
         {
           label: this.$t('jobStatus').labelInfo.id,
           prop: 'id',
-          width : 380
+          width: 380
         },
         {
           label: this.$t('jobStatus').labelInfo.taskName,
           prop: 'jobName',
-          width : 200
+          width: 200
         },
         {
           label: this.$t('jobStatus').labelInfo.severIp,
           prop: 'slaveId',
-          width : 160
+          width: 160
         },
         {
           label: this.$t('jobStatus').labelInfo.type,
           prop: 'type',
-          width : 150
+          width: 150
         },
         {
           label: this.$t('jobStatus').labelInfo.shardingItems,
           prop: 'shardingItemsTitle',
-          width : 180
+          width: 180
         }
       ],
       columnReady: [
         {
           label: this.$t('jobStatus').labelInfo.jobName,
           prop: 'jobName',
-          width : 800
+          width: 800
         },
         {
           label: this.$t('jobStatus').labelInfo.times,
           prop: 'times',
-          width : 300
+          width: 300
         }
       ],
       columnFailover: [
         {
           label: this.$t('jobStatus').labelInfo.jobName,
           prop: 'jobName',
-          width : 400
+          width: 400
         },
         {
           label: this.$t('jobStatus').labelInfo.originalTaskId,
           prop: 'originalTaskId',
-          width : 440
+          width: 440
         },
         {
           label: this.$t('jobStatus').labelInfo.shardingItems,
           prop: 'shardingItemsTitle',
-          width : 300
+          width: 300
         }
       ],
       searchFormRunning: {
@@ -246,7 +264,7 @@ export default {
       cloneTableDataFailover: [],
       currentPageFailover: 1,
       pageSizeFailover: 10,
-      totalFailover: 0,
+      totalFailover: 0
     }
   },
   created() {
@@ -255,30 +273,29 @@ export default {
   methods: {
     ...mapActions(['setRegCenterActivated']),
     handleTabSwitch(tab, event) {
-      //
-      const tabName = tab.name;
-      if(tabName === 'running'){
+      const tabName = tab.name
+      if (tabName === 'running') {
         this.searchRunning()
-      } else if(tabName === 'ready'){
+      } else if (tabName === 'ready') {
         this.searchReady()
-      } else if(tabName === 'failover'){
+      } else if (tabName === 'failover') {
         this.searchFailover()
       }
     },
     handleCurrentChangeRunning(val) {
       const data = clone(this.cloneTableDataRunning)
       this.currentPageRunning = val
-      this.tableDataRunning = data.splice(this.pageSizeRunning*(val - 1), this.pageSizeRunning)
+      this.tableDataRunning = data.splice(this.pageSizeRunning * (val - 1), this.pageSizeRunning)
     },
     handleCurrentChangeReady(val) {
       const data = clone(this.cloneTableDataReady)
       this.currentPageReady = val
-      this.tableDataReady = data.splice(this.pageSizeReady*(val - 1), this.pageSizeReady)
+      this.tableDataReady = data.splice(this.pageSizeReady * (val - 1), this.pageSizeReady)
     },
     handleCurrentChangeFailover(val) {
       const data = clone(this.cloneTableDataFailover)
       this.currentPageFailover = val
-      this.tableDataFailover = data.splice(this.pageSizeFailover*(val - 1), this.pageSizeFailover)
+      this.tableDataFailover = data.splice(this.pageSizeFailover * (val - 1), this.pageSizeFailover)
     },
     findAllRunningTasks() {
       var params = {
@@ -287,7 +304,7 @@ export default {
         const data = Array.prototype.filter.call(res.model, this.filterSearchDataRunning)
         this.totalRunning = data.length
         this.cloneTableDataRunning = clone(data)
-        this.tableDataRunning = data.splice(this.pageSizeRunning*(this.currentPageRunning - 1), this.pageSizeRunning)
+        this.tableDataRunning = data.splice(this.pageSizeRunning * (this.currentPageRunning - 1), this.pageSizeRunning)
       })
     },
     findAllReadyTasks() {
@@ -297,7 +314,7 @@ export default {
         const data = Array.prototype.filter.call(res.model, this.filterSearchDataReady)
         this.totalReady = data.length
         this.cloneTableDataReady = clone(data)
-        this.tableDataReady = data.splice(this.pageSizeReady*(this.currentPageReady - 1), this.pageSizeReady)
+        this.tableDataReady = data.splice(this.pageSizeReady * (this.currentPageReady - 1), this.pageSizeReady)
       })
     },
     findAllFailoverTasks() {
@@ -307,7 +324,7 @@ export default {
         const data = Array.prototype.filter.call(res.model, this.filterSearchDataFailover)
         this.totalFailover = data.length
         this.cloneTableDataFailover = clone(data)
-        this.tableDataFailover = data.splice(this.pageSizeFailover*(this.currentPageFailover - 1), this.pageSizeFailover)
+        this.tableDataFailover = data.splice(this.pageSizeFailover * (this.currentPageFailover - 1), this.pageSizeFailover)
       })
     },
     filterSearchDataRunning(model) {
@@ -315,44 +332,44 @@ export default {
       model.jobName = metaInfo.jobName
       const shardingItems = metaInfo.shardingItems || []
       model.shardingItemsTitle = shardingItems.join(',')
-      if(!this.searchFormRunning.jobName){
-        return true;
+      if (!this.searchFormRunning.jobName) {
+        return true
       }
-      if(!model){
-        return true;
+      if (!model) {
+        return true
       }
-      return model.jobName && model.jobName.toLowerCase().includes(this.searchFormRunning.jobName.toLowerCase());
+      return model.jobName && model.jobName.toLowerCase().includes(this.searchFormRunning.jobName.toLowerCase())
     },
     filterSearchDataReady(model) {
-      if(!this.searchFormReady.jobName){
-        return true;
+      if (!this.searchFormReady.jobName) {
+        return true
       }
-      if(!model){
-        return true;
+      if (!model) {
+        return true
       }
-      return model.jobName && model.jobName.toLowerCase().includes(this.searchFormReady.jobName.toLowerCase());
+      return model.jobName && model.jobName.toLowerCase().includes(this.searchFormReady.jobName.toLowerCase())
     },
     filterSearchDataFailover(model) {
       const taskInfo = model.taskInfo || {}
       model.jobName = taskInfo.jobName
       const shardingItems = taskInfo.shardingItems || []
       model.shardingItemsTitle = shardingItems.join(',')
-      if(!this.searchFormFailover.jobName){
-        return true;
+      if (!this.searchFormFailover.jobName) {
+        return true
       }
-      if(!model){
-        return true;
+      if (!model) {
+        return true
       }
-      return model.jobName && model.jobName.toLowerCase().includes(this.searchFormFailover.jobName.toLowerCase());
+      return model.jobName && model.jobName.toLowerCase().includes(this.searchFormFailover.jobName.toLowerCase())
     },
     searchRunning() {
-        this.findAllRunningTasks()
+      this.findAllRunningTasks()
     },
     searchReady() {
-        this.findAllReadyTasks()
+      this.findAllReadyTasks()
     },
     searchFailover() {
-        this.findAllFailoverTasks()
+      this.findAllFailoverTasks()
     }
   }
 }
