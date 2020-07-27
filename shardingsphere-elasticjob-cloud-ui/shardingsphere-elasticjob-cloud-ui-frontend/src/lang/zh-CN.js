@@ -235,7 +235,7 @@ export default {
     tab: {
       running: '运行任务',
       ready: '待运行任务',
-      failover: '待失效转移任务',
+      failover: '待失效转移任务'
     },
     labelInfo: {
       id: '任务主键',

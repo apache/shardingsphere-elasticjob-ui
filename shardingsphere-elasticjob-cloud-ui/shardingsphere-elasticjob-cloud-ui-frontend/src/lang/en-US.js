@@ -162,7 +162,7 @@ export default {
       operateModify: 'Update',
       operateDisable: 'Disable',
       operateEnable: 'Enable',
-      operateDel: 'Del',
+      operateDel: 'Del'
     },
     rules: {
       appName: 'Please input app name',
@@ -235,7 +235,7 @@ export default {
     tab: {
       running: 'Running tasks',
       ready: 'Ready jobs',
-      failover: 'Failover tasks',
+      failover: 'Failover tasks'
     },
     labelInfo: {
       id: 'Task ID',

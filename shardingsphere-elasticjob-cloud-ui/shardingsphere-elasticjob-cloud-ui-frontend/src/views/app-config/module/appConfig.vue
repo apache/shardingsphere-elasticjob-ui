@@ -38,30 +38,30 @@
         <el-table-column :label="$t('appConfig.table.operate')" fixed="right" width="300">
           <template slot-scope="scope">
             <el-button-group>
-            <el-button
-              size="mini"
-              type="primary"
-              :disabled="isGuest"
-              @click="handleDetail(scope.row)"
-              plain>{{ $t("appConfig.table.operateDetail") }}</el-button>
-            <el-button
-              size="mini"
-              type="primary"
-              :disabled="isGuest"
-              @click="handleModify(scope.row)"
-              plain>{{ $t("appConfig.table.operateModify") }}</el-button>
-            <el-button
-              size="mini"
-              type="primary"
-              :disabled="isGuest"
-              @click="handleDelete(scope.row)"
-              plain>{{ $t("appConfig.table.operateDel") }}</el-button>
-            <el-button
-              size="mini"
-              type="primary"
-              :disabled="isGuest"
-              @click="handleDisable(scope.row)"
-              plain>{{ scope.row.disabled ? $t("appConfig.table.operateEnable") : $t("appConfig.table.operateDisable")}}</el-button>
+              <el-button
+                :disabled="isGuest"
+                size="mini"
+                type="primary"
+                plain
+                @click="handleDetail(scope.row)">{{ $t("appConfig.table.operateDetail") }}</el-button>
+              <el-button
+                :disabled="isGuest"
+                size="mini"
+                type="primary"
+                plain
+                @click="handleModify(scope.row)">{{ $t("appConfig.table.operateModify") }}</el-button>
+              <el-button
+                :disabled="isGuest"
+                size="mini"
+                type="primary"
+                plain
+                @click="handleDelete(scope.row)">{{ $t("appConfig.table.operateDel") }}</el-button>
+              <el-button
+                :disabled="isGuest"
+                size="mini"
+                type="primary"
+                plain
+                @click="handleDisable(scope.row)">{{ scope.row.disabled ? $t("appConfig.table.operateEnable") : $t("appConfig.table.operateDisable") }}</el-button>
             </el-button-group>
           </template>
         </el-table-column>
@@ -169,8 +169,8 @@
           <el-input
             :placeholder="$t('appConfig.rules.eventTraceSamplingCount')"
             v-model="editForm.eventTraceSamplingCount"
-            autocomplete="off"
             :disabled="!isEdit"
+            autocomplete="off"
           />
         </el-form-item>
         <el-form-item :label="$t('appConfig.addDialog.appURL')" prop="appURL">
@@ -390,7 +390,7 @@ export default {
       })
     },
     handleDelete(row) {
-      API.delete({'appName': row.appName}).then(res => {
+      API.delete({ 'appName': row.appName }).then(res => {
         this.$notify({
           title: this.$t('common').notify.title,
           message: this.$t('common').notify.delSucMessage,
@@ -401,7 +401,7 @@ export default {
     },
     handleDisable(row) {
       if (row.disabled) {
-        API.enable({'appName': row.appName}).then(res => {
+        API.enable({ 'appName': row.appName }).then(res => {
           this.$notify({
             title: this.$t('common').notify.title,
             message: this.$t('appConfig').tips.enableSuccess,
@@ -410,7 +410,7 @@ export default {
           this.getApp()
         })
       } else {
-        API.disable({'appName': row.appName}).then(res => {
+        API.disable({ 'appName': row.appName }).then(res => {
           this.$notify({
             title: this.$t('common').notify.title,
             message: this.$t('appConfig').tips.disableSuccess,
