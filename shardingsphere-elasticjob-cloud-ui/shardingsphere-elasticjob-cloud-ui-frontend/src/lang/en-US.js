@@ -77,6 +77,7 @@ export default {
       delFailMessage: 'Delete Failed',
       updateCompletedMessage: 'Update Completed',
       updateFaildMessage: 'Update Faild',
+      appNotRegisterMessage: 'App name is unregistered',
       confirmDelOperator: 'Confirm delete'
     },
     loginOut: 'Sign Out',
@@ -175,6 +176,77 @@ export default {
       disableSuccess: 'Disable Success',
       enableSuccess: 'Enable Success'
     }
-
+  },
+  jobConfig: {
+    labelInfo: {
+      addBtnText: 'ADD',
+      jobName: 'Job name',
+      appName: 'App name',
+      shardingTotalCount: 'Sharding total count',
+      cron: 'Crontab',
+      description: 'Description',
+      status: 'Status',
+      jobExecutionType: 'Execution type',
+      jobParameter: 'Job parameter',
+      cpuCount: 'CPU count',
+      memoryMB: 'Memory(MB)',
+      failover: 'Failover',
+      misfire: 'Misfire',
+      applicationContext: 'Application context',
+      shardingItemParameters: 'Sharding item parameters',
+      scriptCommandLine: 'Script command line',
+      streamingProcess: 'Streaming process',
+      beanName: 'Bean name',
+      addTitle: 'Add job',
+      editTitle: 'Update job',
+      operate: 'Operate'
+    },
+    rules: {
+      jobName: 'Please enter the Job name',
+      appName: 'Please input app name',
+      jobExecutionType: 'Please input Execution type',
+      shardingTotalCount: 'Please enter the Sharding total count',
+      applicationContext: 'Please input META-INF\\applicationContext.xml',
+      shardingItemParameters: 'Please input 0=a,1=b,2=c',
+      cron: 'Please enter the Crontab',
+      cpuCount: 'Please input CPU count',
+      memoryMB: 'Please input Memory(MB)',
+      description: 'Please enter the Description',
+      status: 'Please enter the Status'
+    },
+    statusText: {
+      OK: 'Enabled',
+      DISABLED: 'Disabled',
+      CRASHED: 'Crashed',
+      PENDING: 'Staging',
+      SHARDING_FLAG: 'SHARDING_FLAG'
+    },
+    actionText: {
+      modify: 'Update',
+      detail: 'Detail',
+      trigger: 'Trigger',
+      disable: 'Disable',
+      enable: 'Enable',
+      shutdown: 'Shutdown',
+      remove: 'Remove'
+    }
+  },
+  jobStatus: {
+    tab: {
+      running: 'Running tasks',
+      ready: 'Ready jobs',
+      failover: 'Failover tasks',
+    },
+    labelInfo: {
+      id: 'Task ID',
+      taskName: 'Task name',
+      jobName: 'Job name',
+      severIp: 'Server IP',
+      type: 'Job execution type',
+      shardingItems: 'Sharding item',
+      times: 'Remaining execution times',
+      originalTaskId: 'Original task ID',
+      operate: 'Operate'
+    }
   }
 }

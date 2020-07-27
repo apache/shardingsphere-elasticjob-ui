@@ -35,6 +35,8 @@ import org.apache.shardingsphere.elasticjob.cloud.statistics.type.job.JobRegiste
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.job.JobRunningStatistics;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.task.TaskResultStatistics;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.task.TaskRunningStatistics;
+import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResult;
+import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResultUtil;
 import org.apache.shardingsphere.elasticjob.infra.context.TaskContext;
 import org.apache.shardingsphere.elasticjob.infra.exception.JobSystemException;
 import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
@@ -102,7 +104,7 @@ public final class CloudJobController {
     public static void init(final CoordinatorRegistryCenter regCenter, final ProducerManager producerManager) {
         CloudJobController.regCenter = regCenter;
         CloudJobController.producerManager = producerManager;
-        Optional<TracingConfiguration> tracingConfiguration = BootstrapEnvironment.getInstance().getTracingConfiguration();
+        Optional<TracingConfiguration> tracingConfiguration = BootstrapEnvironment.getINSTANCE().getTracingConfiguration();
         jobEventRdbSearch = tracingConfiguration.map(tracingConfiguration1 -> new JobEventRdbSearch((DataSource) tracingConfiguration1.getStorage())).orElse(null);
     }
     
@@ -111,8 +113,9 @@ public final class CloudJobController {
      * @param cloudJobConfig cloud job configuration
      */
     @PostMapping("/register")
-    public void register(@RequestBody final CloudJobConfigurationPOJO cloudJobConfig) {
+    public ResponseResult<Boolean> register(@RequestBody final CloudJobConfigurationPOJO cloudJobConfig) {
         producerManager.register(cloudJobConfig);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -120,8 +123,9 @@ public final class CloudJobController {
      * @param cloudJobConfig cloud job configuration
      */
     @PutMapping("/update")
-    public void update(@RequestBody final CloudJobConfigurationPOJO cloudJobConfig) {
+    public ResponseResult<Boolean> update(@RequestBody final CloudJobConfigurationPOJO cloudJobConfig) {
         producerManager.update(cloudJobConfig);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -129,8 +133,9 @@ public final class CloudJobController {
      * @param jobName job name
      */
     @DeleteMapping("/{jobName}/deregister")
-    public void deregister(@PathVariable final String jobName) {
+    public ResponseResult<Boolean> deregister(@PathVariable final String jobName) {
         producerManager.deregister(jobName);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -139,8 +144,9 @@ public final class CloudJobController {
      * @return true is disabled, otherwise not
      */
     @GetMapping("/{jobName}/disable")
-    public boolean isDisabled(@PathVariable("jobName") final String jobName) {
-        return facadeService.isJobDisabled(jobName);
+    public ResponseResult<Boolean> isDisabled(@PathVariable("jobName") final String jobName) {
+        boolean result = facadeService.isJobDisabled(jobName);
+        return ResponseResultUtil.build(result);
     }
     
     /**
@@ -148,12 +154,13 @@ public final class CloudJobController {
      * @param jobName job name
      */
     @PostMapping("/{jobName}/enable")
-    public void enable(@PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> enable(@PathVariable("jobName") final String jobName) {
         Optional<CloudJobConfigurationPOJO> configOptional = configService.load(jobName);
         if (configOptional.isPresent()) {
             facadeService.enableJob(jobName);
             producerManager.reschedule(jobName);
         }
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -161,11 +168,12 @@ public final class CloudJobController {
      * @param jobName job name
      */
     @PostMapping("/{jobName}/disable")
-    public void disable(@PathVariable("jobName") final String jobName) {
+    public ResponseResult<Boolean> disable(@PathVariable("jobName") final String jobName) {
         if (configService.load(jobName).isPresent()) {
             facadeService.disableJob(jobName);
             producerManager.unschedule(jobName);
         }
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -173,12 +181,13 @@ public final class CloudJobController {
      * @param jobName job name
      */
     @PostMapping("/trigger")
-    public void trigger(@RequestBody final String jobName) {
+    public ResponseResult<Boolean> trigger(@RequestBody final String jobName) {
         Optional<CloudJobConfigurationPOJO> config = configService.load(jobName);
         if (config.isPresent() && CloudJobExecutionType.DAEMON == config.get().getJobExecutionType()) {
             throw new JobSystemException("Daemon job '%s' cannot support trigger.", jobName);
         }
         facadeService.addTransient(jobName);
+        return ResponseResultUtil.build(Boolean.TRUE);
     }
     
     /**
@@ -187,9 +196,9 @@ public final class CloudJobController {
      * @return the job detail
      */
     @GetMapping("/jobs/{jobName}")
-    public CloudJobConfigurationPOJO detail(@PathVariable("jobName") final String jobName) {
+    public ResponseResult<CloudJobConfigurationPOJO> detail(@PathVariable("jobName") final String jobName) {
         Optional<CloudJobConfigurationPOJO> cloudJobConfig = configService.load(jobName);
-        return cloudJobConfig.orElse(null);
+        return ResponseResultUtil.build(cloudJobConfig.orElse(null));
     }
     
     /**
@@ -197,8 +206,8 @@ public final class CloudJobController {
      * @return all jobs
      */
     @GetMapping("/jobs")
-    public Collection<CloudJobConfigurationPOJO> findAllJobs() {
-        return configService.loadAll();
+    public ResponseResult<Collection<CloudJobConfigurationPOJO>> findAllJobs() {
+        return ResponseResultUtil.build(configService.loadAll());
     }
     
     /**
@@ -206,12 +215,12 @@ public final class CloudJobController {
      * @return all running tasks
      */
     @GetMapping("tasks/running")
-    public Collection<TaskContext> findAllRunningTasks() {
+    public ResponseResult<Collection<TaskContext>> findAllRunningTasks() {
         List<TaskContext> result = new LinkedList<>();
         for (Set<TaskContext> each : facadeService.getAllRunningTasks().values()) {
             result.addAll(each);
         }
-        return result;
+        return ResponseResultUtil.build(result);
     }
     
     /**
@@ -219,7 +228,7 @@ public final class CloudJobController {
      * @return collection of all ready tasks
      */
     @GetMapping("tasks/ready")
-    public Collection<Map<String, String>> findAllReadyTasks() {
+    public ResponseResult<Collection<Map<String, String>>> findAllReadyTasks() {
         Map<String, Integer> readyTasks = facadeService.getAllReadyTasks();
         List<Map<String, String>> result = new ArrayList<>(readyTasks.size());
         for (Entry<String, Integer> each : readyTasks.entrySet()) {
@@ -228,7 +237,7 @@ public final class CloudJobController {
             oneTask.put("times", String.valueOf(each.getValue()));
             result.add(oneTask);
         }
-        return result;
+        return ResponseResultUtil.build(result);
     }
     
     /**
@@ -236,12 +245,12 @@ public final class CloudJobController {
      * @return collection of all the failover tasks
      */
     @GetMapping("tasks/failover")
-    public Collection<FailoverTaskInfo> findAllFailoverTasks() {
+    public ResponseResult<Collection<FailoverTaskInfo>> findAllFailoverTasks() {
         List<FailoverTaskInfo> result = new LinkedList<>();
         for (Collection<FailoverTaskInfo> each : facadeService.getAllFailoverTasks().values()) {
             result.addAll(each);
         }
-        return result;
+        return ResponseResultUtil.build(result);
     }
     
     /**
