@@ -20,14 +20,14 @@ export default {
     home: 'Home',
     menuData: [
       {
-        title: 'Global settings',
+        title: 'APP',
         child: [
-          {
+          /*{
             title: 'Registry center',
             href: '/registry-center'
-          },
+          },*/
           {
-            title: 'App config',
+            title: 'Config',
             href: '/app-config'
           }
         ]
@@ -162,7 +162,7 @@ export default {
       operateModify: 'Update',
       operateDisable: 'Disable',
       operateEnable: 'Enable',
-      operateDel: 'Del',
+      operateDel: 'Del'
     },
     rules: {
       appName: 'Please input app name',
@@ -235,7 +235,7 @@ export default {
     tab: {
       running: 'Running tasks',
       ready: 'Ready jobs',
-      failover: 'Failover tasks',
+      failover: 'Failover tasks'
     },
     labelInfo: {
       id: 'Task ID',
@@ -247,6 +247,57 @@ export default {
       times: 'Remaining execution times',
       originalTaskId: 'Original task ID',
       operate: 'Operate'
+    }
+  },
+  historyTrace: {
+    column: {
+      jobName: 'Job name',
+      taskId: 'Task ID',
+      serverIp: 'Server IP',
+      executeSource: 'Execute source',
+      executeResult: 'Execute result',
+      failureCause: 'Failure reason',
+      startTime: 'Start time',
+      completeTime: 'Complete time'
+    },
+    searchForm: {
+      jobName: 'Job name',
+      taskId: 'Task ID',
+      serverIp: 'Server ip',
+      startTime: 'Start time',
+      CompleteTime: 'Complete time',
+      executeResult: 'Select execute result',
+      executeSuccess: 'Success',
+      executeFailed: 'Failure'
+    }
+  },
+  historyStatus: {
+    column: {
+      jobName: 'Job name',
+      taskId: 'Task ID',
+      serverIp: 'Server IP',
+      executeSource: 'Execute source',
+      shardingItem: 'Sharding item',
+      executeType: 'Execute type',
+      state: 'Status',
+      createTime: 'Creation time',
+      remark: 'Comments'
+    },
+    searchForm: {
+      jobName: 'Job name',
+      taskId: 'Task ID',
+      serverIp: 'Server IP',
+      executeSource: 'Execute source',
+      executeType: 'Execute type',
+      startTime: 'Creation start time',
+      CompleteTime: 'Creation end time',
+      state: 'Select state',
+      stateStaging: 'Staging',
+      stateFailed: 'Failed',
+      stateFinished: 'Finished',
+      stateRunning: 'Running',
+      stateError: 'Error',
+      stateKilled: 'Killed'
     }
   }
 }

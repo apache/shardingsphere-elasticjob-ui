@@ -20,14 +20,14 @@ export default {
     home: '主页',
     menuData: [
       {
-        title: '全局配置',
+        title: '应用',
         child: [
-          {
+          /*{
             title: '注册中心配置',
             href: '/registry-center'
-          },
+          },*/
           {
-            title: '应用配置',
+            title: '配置',
             href: '/app-config'
           }
         ]
@@ -235,7 +235,7 @@ export default {
     tab: {
       running: '运行任务',
       ready: '待运行任务',
-      failover: '待失效转移任务',
+      failover: '待失效转移任务'
     },
     labelInfo: {
       id: '任务主键',
@@ -247,6 +247,57 @@ export default {
       times: '剩余执行次数',
       originalTaskId: '原任务主键',
       operate: '操作'
+    }
+  },
+  historyTrace: {
+    column: {
+      jobName: '作业名称',
+      taskId: '作业ID',
+      serverIp: '服务器IP',
+      executeSource: '执行源',
+      executeResult: '执行结果',
+      failureCause: '失败原因',
+      startTime: '开始时间',
+      completeTime: '完成时间'
+    },
+    searchForm: {
+      jobName: '请输入作业名称',
+      taskId: '请输入作业ID',
+      serverIp: '请输入服务器IP',
+      startTime: '请输入开始时间',
+      CompleteTime: '请输入完成时间',
+      executeResult: '请选择执行结果',
+      executeSuccess: '成功',
+      executeFailed: '失败'
+    }
+  },
+  historyStatus: {
+    column: {
+      jobName: '作业名称',
+      taskId: '作业ID',
+      serverIp: '服务器IP',
+      executeSource: '执行源',
+      shardingItem: '分片项',
+      executeType: '执行类型',
+      state: '状态',
+      createTime: '创建时间',
+      remark: '备注'
+    },
+    searchForm: {
+      jobName: '请输入作业名称',
+      taskId: '请输入任务ID',
+      serverIp: '请输入服务器IP',
+      executeSource: '请选择执行源',
+      executeType: '请选择执行类型',
+      startTime: '请输入创建开始时间',
+      CompleteTime: '请输入创建结束时间',
+      state: '选择状态',
+      stateStaging: '等待运行',
+      stateFailed: '运行失败',
+      stateFinished: '已完成',
+      stateRunning: '运行中',
+      stateError: '启动失败',
+      stateKilled: '主动终止'
     }
   }
 }

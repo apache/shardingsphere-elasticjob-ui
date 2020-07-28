@@ -22,23 +22,28 @@ import org.apache.mesos.Protos.SlaveID;
 import org.apache.shardingsphere.elasticjob.cloud.config.pojo.CloudJobConfigurationPOJO;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.config.app.CloudAppConfigurationService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.config.app.pojo.CloudAppConfigurationPOJO;
+import org.apache.shardingsphere.elasticjob.cloud.scheduler.config.job.CloudJobConfigurationService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.exception.AppConfigurationException;
+import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService.ExecutorStateInfo;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.producer.ProducerManager;
-import org.apache.shardingsphere.elasticjob.cloud.ui.service.CloudServiceFactory;
+import org.apache.shardingsphere.elasticjob.cloud.scheduler.state.disable.app.DisableAppService;
+import org.apache.shardingsphere.elasticjob.cloud.ui.web.dto.CloudAppConfiguration;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResultUtil;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Cloud app controller.
@@ -47,29 +52,43 @@ import java.util.Optional;
 @RequestMapping("/api/app")
 public final class CloudAppController {
     
-    private static ProducerManager producerManager;
+    @Autowired
+    private ProducerManager producerManager;
+    
+    @Autowired
+    private CloudAppConfigurationService appConfigService;
+    
+    @Autowired
+    private DisableAppService disableAppService;
+    
+    @Autowired
+    private CloudJobConfigurationService jobConfigService;
+    
+    @Autowired
+    private MesosStateService mesosStateService;
     
     /**
      * Register app config.
      * @param appConfig cloud app config
      */
-    @PostMapping
-    public void register(@RequestBody final CloudAppConfigurationPOJO appConfig) {
-        CloudAppConfigurationService appConfigService = CloudServiceFactory.getAppConfigService();
+    @PostMapping("/register")
+    public ResponseResult register(@RequestBody final CloudAppConfigurationPOJO appConfig) {
         Optional<CloudAppConfigurationPOJO> appConfigFromZk = appConfigService.load(appConfig.getAppName());
         if (appConfigFromZk.isPresent()) {
             throw new AppConfigurationException("app '%s' already existed.", appConfig.getAppName());
         }
         appConfigService.add(appConfig);
+        return ResponseResultUtil.success();
     }
     
     /**
      * Update app config.
      * @param appConfig cloud app config
      */
-    @PutMapping
-    public void update(@RequestBody final CloudAppConfigurationPOJO appConfig) {
-        CloudServiceFactory.getAppConfigService().update(appConfig);
+    @PostMapping("/update")
+    public ResponseResult update(@RequestBody final CloudAppConfigurationPOJO appConfig) {
+        appConfigService.update(appConfig);
+        return ResponseResultUtil.success();
     }
     
     /**
@@ -79,7 +98,7 @@ public final class CloudAppController {
      */
     @GetMapping("/{appName}")
     public ResponseResult<CloudAppConfigurationPOJO> detail(@PathVariable("appName") final String appName) {
-        Optional<CloudAppConfigurationPOJO> appConfig = CloudServiceFactory.getAppConfigService().load(appName);
+        Optional<CloudAppConfigurationPOJO> appConfig = appConfigService.load(appName);
         return ResponseResultUtil.build(appConfig.orElse(null));
     }
     
@@ -88,8 +107,8 @@ public final class CloudAppController {
      * @return collection of registered app configs
      */
     @GetMapping("/list")
-    public ResponseResult<Collection<CloudAppConfigurationPOJO>> findAllApps() {
-        return ResponseResultUtil.build(CloudServiceFactory.getAppConfigService().loadAll());
+    public ResponseResult<Collection<CloudAppConfiguration>> findAllApps() {
+        return ResponseResultUtil.build(build(appConfigService.loadAll()));
     }
     
     /**
@@ -99,7 +118,7 @@ public final class CloudAppController {
      */
     @GetMapping("/{appName}/disable")
     public boolean isDisabled(@PathVariable("appName") final String appName) {
-        return CloudServiceFactory.getDisableAppService().isDisabled(appName);
+        return disableAppService.isDisabled(appName);
     }
     
     /**
@@ -107,15 +126,16 @@ public final class CloudAppController {
      * @param appName app name
      */
     @PostMapping("/{appName}/disable")
-    public void disable(@PathVariable("appName") final String appName) {
-        if (CloudServiceFactory.getAppConfigService().load(appName).isPresent()) {
-            CloudServiceFactory.getDisableAppService().add(appName);
-            for (CloudJobConfigurationPOJO each : CloudServiceFactory.getJobConfigService().loadAll()) {
+    public ResponseResult disable(@PathVariable("appName") final String appName) {
+        if (appConfigService.load(appName).isPresent()) {
+            disableAppService.add(appName);
+            for (CloudJobConfigurationPOJO each : jobConfigService.loadAll()) {
                 if (appName.equals(each.getAppName())) {
                     producerManager.unschedule(each.getJobName());
                 }
             }
         }
+        return ResponseResultUtil.success();
     }
     
     /**
@@ -123,15 +143,16 @@ public final class CloudAppController {
      * @param appName app name
      */
     @PostMapping("/{appName}/enable")
-    public void enable(@PathVariable("appName") final String appName) {
-        if (CloudServiceFactory.getAppConfigService().load(appName).isPresent()) {
-            CloudServiceFactory.getDisableAppService().remove(appName);
-            for (CloudJobConfigurationPOJO each : CloudServiceFactory.getJobConfigService().loadAll()) {
+    public ResponseResult enable(@PathVariable("appName") final String appName) {
+        if (appConfigService.load(appName).isPresent()) {
+            disableAppService.remove(appName);
+            for (CloudJobConfigurationPOJO each : jobConfigService.loadAll()) {
                 if (appName.equals(each.getAppName())) {
                     producerManager.reschedule(each.getJobName());
                 }
             }
         }
+        return ResponseResultUtil.success();
     }
     
     /**
@@ -139,28 +160,40 @@ public final class CloudAppController {
      * @param appName app name
      */
     @DeleteMapping("/{appName}")
-    public void deregister(@PathVariable("appName") final String appName) {
-        if (CloudServiceFactory.getAppConfigService().load(appName).isPresent()) {
+    public ResponseResult deregister(@PathVariable("appName") final String appName) {
+        if (appConfigService.load(appName).isPresent()) {
             removeAppAndJobConfigurations(appName);
             stopExecutors(appName);
         }
+        return ResponseResultUtil.success();
     }
     
     private void removeAppAndJobConfigurations(final String appName) {
-        for (CloudJobConfigurationPOJO each : CloudServiceFactory.getJobConfigService().loadAll()) {
+        for (CloudJobConfigurationPOJO each : jobConfigService.loadAll()) {
             if (appName.equals(each.getAppName())) {
                 producerManager.deregister(each.getJobName());
             }
         }
-        CloudServiceFactory.getDisableAppService().remove(appName);
-        CloudServiceFactory.getAppConfigService().remove(appName);
+        disableAppService.remove(appName);
+        appConfigService.remove(appName);
     }
     
     private void stopExecutors(final String appName) {
-        Collection<ExecutorStateInfo> executorBriefInfo = CloudServiceFactory.getMesosStateService().executors(appName);
+        Collection<ExecutorStateInfo> executorBriefInfo = mesosStateService.executors(appName);
         for (ExecutorStateInfo each : executorBriefInfo) {
             producerManager.sendFrameworkMessage(ExecutorID.newBuilder().setValue(each.getId()).build(),
                     SlaveID.newBuilder().setValue(each.getSlaveId()).build(), "STOP".getBytes());
         }
+    }
+    
+    private Collection<CloudAppConfiguration> build(final Collection<CloudAppConfigurationPOJO> cloudAppConfigurationPOJOS) {
+        return cloudAppConfigurationPOJOS.stream().map(each -> convert(each)).collect(Collectors.toList());
+    }
+    
+    private CloudAppConfiguration convert(final CloudAppConfigurationPOJO cloudAppConfigurationPOJO) {
+        CloudAppConfiguration cloudAppConfiguration = new CloudAppConfiguration();
+        BeanUtils.copyProperties(cloudAppConfigurationPOJO, cloudAppConfiguration);
+        cloudAppConfiguration.setDisabled(disableAppService.isDisabled(cloudAppConfigurationPOJO.getAppName()));
+        return cloudAppConfiguration;
     }
 }
