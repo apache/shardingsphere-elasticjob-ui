@@ -29,6 +29,7 @@ import org.apache.shardingsphere.elasticjob.cloud.scheduler.env.MesosConfigurati
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.ha.FrameworkIDService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.FacadeService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService;
+import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.ReconcileService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.SchedulerEngine;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.producer.ProducerManager;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.state.disable.app.DisableAppService;
@@ -135,5 +136,10 @@ public class BeanConfiguration {
     public JobEventRdbSearch jobEventRdbSearch() {
         Optional<TracingConfiguration> tracingConfiguration = BootstrapEnvironment.getINSTANCE().getTracingConfiguration();
         return tracingConfiguration.map(each -> new JobEventRdbSearch((DataSource) each.getStorage(), true)).orElse(new JobEventRdbSearch(null, false));
+    }
+    
+    @Bean
+    public ReconcileService reconcileService() {
+        return new ReconcileService(schedulerDriver(), facadeService());
     }
 }

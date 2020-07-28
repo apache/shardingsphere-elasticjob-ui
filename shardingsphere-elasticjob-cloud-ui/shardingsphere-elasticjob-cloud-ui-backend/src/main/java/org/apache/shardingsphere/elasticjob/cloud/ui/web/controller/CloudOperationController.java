@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.ReconcileService;
-import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,23 +40,15 @@ import java.util.Map;
 @RequestMapping("/api/operate")
 public final class CloudOperationController {
     
-    private static ReconcileService reconcileService;
-    
     private static final long RECONCILE_MILLIS_INTERVAL = 10 * 1000L;
-    
-    private static MesosStateService mesosStateService;
     
     private static long lastReconcileTime;
     
-    /**
-     * Init.
-     * @param regCenter        registry center
-     * @param reconcileService reconcile service
-     */
-    public static void init(final CoordinatorRegistryCenter regCenter, final ReconcileService reconcileService) {
-        CloudOperationController.reconcileService = reconcileService;
-        CloudOperationController.mesosStateService = new MesosStateService(regCenter);
-    }
+    @Autowired
+    private ReconcileService reconcileService;
+    
+    @Autowired
+    private MesosStateService mesosStateService;
     
     /**
      * Explicit reconcile service.
