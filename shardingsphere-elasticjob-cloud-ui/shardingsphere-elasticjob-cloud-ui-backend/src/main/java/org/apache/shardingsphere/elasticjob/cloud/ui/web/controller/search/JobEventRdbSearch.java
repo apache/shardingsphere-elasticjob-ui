@@ -56,6 +56,9 @@ public final class JobEventRdbSearch {
             Arrays.asList("id", "job_name", "original_task_id", "task_id", "slave_id", "source", "execution_type", "sharding_item", "state", "message", "creation_time");
     
     private final DataSource dataSource;
+    
+    @Getter
+    private final boolean enable;
 
     /**
      * Find job execution events.

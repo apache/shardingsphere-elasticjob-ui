@@ -17,14 +17,11 @@
 
 package org.apache.shardingsphere.elasticjob.cloud.ui.web.controller;
 
-import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.cloud.config.CloudJobExecutionType;
 import org.apache.shardingsphere.elasticjob.cloud.config.pojo.CloudJobConfigurationPOJO;
-import org.apache.shardingsphere.elasticjob.cloud.console.controller.search.JobEventRdbSearch;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.config.job.CloudJobConfigurationService;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.env.BootstrapEnvironment;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.FacadeService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.producer.ProducerManager;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.state.failover.FailoverTaskInfo;
@@ -35,14 +32,14 @@ import org.apache.shardingsphere.elasticjob.cloud.statistics.type.job.JobRegiste
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.job.JobRunningStatistics;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.task.TaskResultStatistics;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.task.TaskRunningStatistics;
+import org.apache.shardingsphere.elasticjob.cloud.ui.web.controller.search.JobEventRdbSearch;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResultUtil;
 import org.apache.shardingsphere.elasticjob.infra.context.TaskContext;
 import org.apache.shardingsphere.elasticjob.infra.exception.JobSystemException;
-import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
-import org.apache.shardingsphere.elasticjob.tracing.api.TracingConfiguration;
 import org.apache.shardingsphere.elasticjob.tracing.event.JobExecutionEvent;
 import org.apache.shardingsphere.elasticjob.tracing.event.JobStatusTraceEvent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -54,7 +51,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.sql.DataSource;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,36 +73,20 @@ import java.util.Set;
 @RequestMapping("/api/job")
 public final class CloudJobController {
     
-    private static CoordinatorRegistryCenter regCenter;
+    @Autowired
+    private JobEventRdbSearch jobEventRdbSearch;
     
-    private static JobEventRdbSearch jobEventRdbSearch;
+    @Autowired
+    private ProducerManager producerManager;
     
-    private static ProducerManager producerManager;
+    @Autowired
+    private CloudJobConfigurationService jobConfigService;
     
-    private final CloudJobConfigurationService configService;
+    @Autowired
+    private FacadeService facadeService;
     
-    private final FacadeService facadeService;
-    
-    private final StatisticManager statisticManager;
-    
-    public CloudJobController() {
-       // Preconditions.checkNotNull(regCenter);
-        configService = new CloudJobConfigurationService(regCenter);
-        facadeService = new FacadeService(regCenter);
-        statisticManager = StatisticManager.getInstance(regCenter, null);
-    }
-    
-    /**
-     * Init.
-     * @param regCenter       registry center
-     * @param producerManager producer manager
-     */
-    public static void init(final CoordinatorRegistryCenter regCenter, final ProducerManager producerManager) {
-        CloudJobController.regCenter = regCenter;
-        CloudJobController.producerManager = producerManager;
-        Optional<TracingConfiguration> tracingConfiguration = BootstrapEnvironment.getINSTANCE().getTracingConfiguration();
-        jobEventRdbSearch = tracingConfiguration.map(tracingConfiguration1 -> new JobEventRdbSearch((DataSource) tracingConfiguration1.getStorage())).orElse(null);
-    }
+    @Autowired
+    private StatisticManager statisticManager;
     
     /**
      * Register cloud job.
@@ -155,7 +135,7 @@ public final class CloudJobController {
      */
     @PostMapping("/{jobName}/enable")
     public ResponseResult<Boolean> enable(@PathVariable("jobName") final String jobName) {
-        Optional<CloudJobConfigurationPOJO> configOptional = configService.load(jobName);
+        Optional<CloudJobConfigurationPOJO> configOptional = jobConfigService.load(jobName);
         if (configOptional.isPresent()) {
             facadeService.enableJob(jobName);
             producerManager.reschedule(jobName);
@@ -169,7 +149,7 @@ public final class CloudJobController {
      */
     @PostMapping("/{jobName}/disable")
     public ResponseResult<Boolean> disable(@PathVariable("jobName") final String jobName) {
-        if (configService.load(jobName).isPresent()) {
+        if (jobConfigService.load(jobName).isPresent()) {
             facadeService.disableJob(jobName);
             producerManager.unschedule(jobName);
         }
@@ -182,7 +162,7 @@ public final class CloudJobController {
      */
     @PostMapping("/trigger")
     public ResponseResult<Boolean> trigger(@RequestBody final String jobName) {
-        Optional<CloudJobConfigurationPOJO> config = configService.load(jobName);
+        Optional<CloudJobConfigurationPOJO> config = jobConfigService.load(jobName);
         if (config.isPresent() && CloudJobExecutionType.DAEMON == config.get().getJobExecutionType()) {
             throw new JobSystemException("Daemon job '%s' cannot support trigger.", jobName);
         }
@@ -197,7 +177,7 @@ public final class CloudJobController {
      */
     @GetMapping("/jobs/{jobName}")
     public ResponseResult<CloudJobConfigurationPOJO> detail(@PathVariable("jobName") final String jobName) {
-        Optional<CloudJobConfigurationPOJO> cloudJobConfig = configService.load(jobName);
+        Optional<CloudJobConfigurationPOJO> cloudJobConfig = jobConfigService.load(jobName);
         return ResponseResultUtil.build(cloudJobConfig.orElse(null));
     }
     
@@ -207,7 +187,7 @@ public final class CloudJobController {
      */
     @GetMapping("/jobs")
     public ResponseResult<Collection<CloudJobConfigurationPOJO>> findAllJobs() {
-        return ResponseResultUtil.build(configService.loadAll());
+        return ResponseResultUtil.build(jobConfigService.loadAll());
     }
     
     /**
@@ -259,12 +239,12 @@ public final class CloudJobController {
      * @return job execution event
      * @throws ParseException parse exception
      */
-    @GetMapping("events/executions")
-    public JobEventRdbSearch.Result<JobExecutionEvent> findJobExecutionEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
+    @PostMapping("/events/executions")
+    public ResponseResult<JobEventRdbSearch.Result<JobExecutionEvent>> findJobExecutionEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
-            return new JobEventRdbSearch.Result<>(0, Collections.<JobExecutionEvent>emptyList());
+            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.<JobExecutionEvent>emptyList()));
         }
-        return jobEventRdbSearch.findJobExecutionEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "ip", "isSuccess"}));
+        return ResponseResultUtil.build(jobEventRdbSearch.findJobExecutionEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "ip", "isSuccess"})));
     }
     
     /**
@@ -273,16 +253,16 @@ public final class CloudJobController {
      * @return job status trace event
      * @throws ParseException parse exception
      */
-    @GetMapping("events/statusTraces")
-    public JobEventRdbSearch.Result<JobStatusTraceEvent> findJobStatusTraceEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
+    @PostMapping("/events/statusTraces")
+    public ResponseResult<JobEventRdbSearch.Result<JobStatusTraceEvent>> findJobStatusTraceEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
-            return new JobEventRdbSearch.Result<>(0, Collections.<JobStatusTraceEvent>emptyList());
+            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.<JobStatusTraceEvent>emptyList()));
         }
-        return jobEventRdbSearch.findJobStatusTraceEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "slaveId", "source", "executionType", "state"}));
+        return ResponseResultUtil.build(jobEventRdbSearch.findJobStatusTraceEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "slaveId", "source", "executionType", "state"})));
     }
     
     private boolean isRdbConfigured() {
-        return null != jobEventRdbSearch;
+        return jobEventRdbSearch.isEnable();
     }
     
     private JobEventRdbSearch.Condition buildCondition(final MultiValueMap<String, String> requestParams, final String[] params) throws ParseException {

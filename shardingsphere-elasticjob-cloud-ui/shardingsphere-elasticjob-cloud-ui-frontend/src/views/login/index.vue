@@ -90,7 +90,7 @@ export default {
   },
   created() {
     if (window.localStorage.getItem('Access-Token')) {
-      location.href = '#/registry-center'
+      location.href = '#/app-config'
     }
   },
   methods: {
@@ -105,7 +105,7 @@ export default {
         store.setItem('Access-Token', data.accessToken)
         store.setItem('username', data.username)
         store.setItem('isGuest', data.isGuest)
-        location.href = '#/registry-center'
+        location.href = '#/app-config'
       })
     }
   }

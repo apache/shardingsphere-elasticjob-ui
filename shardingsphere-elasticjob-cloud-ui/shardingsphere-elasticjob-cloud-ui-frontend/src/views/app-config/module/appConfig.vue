@@ -299,12 +299,6 @@ export default {
         this.cloneTableData = clone(res.model)
         this.tableData = data.splice(0, this.pageSize)
       })
-      this.getRegCenterActivated()
-    },
-    getRegCenterActivated() {
-      API.getRegCenterActivated().then(res => {
-        this.setRegCenterActivated(res.model.name)
-      })
     },
     handleConnect(row) {
       if (row.activated) {
