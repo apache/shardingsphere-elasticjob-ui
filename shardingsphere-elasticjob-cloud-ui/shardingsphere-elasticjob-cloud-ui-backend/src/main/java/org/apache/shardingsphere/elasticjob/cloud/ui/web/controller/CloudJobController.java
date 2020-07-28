@@ -259,8 +259,8 @@ public final class CloudJobController {
      * @return job execution event
      * @throws ParseException parse exception
      */
-    @GetMapping("events/executions")
-    public JobEventRdbSearch.Result<JobExecutionEvent> findJobExecutionEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
+    @PostMapping("events/executions")
+    public JobEventRdbSearch.Result<JobExecutionEvent> findJobExecutionEvents(@RequestBody final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
             return new JobEventRdbSearch.Result<>(0, Collections.<JobExecutionEvent>emptyList());
         }
@@ -273,8 +273,8 @@ public final class CloudJobController {
      * @return job status trace event
      * @throws ParseException parse exception
      */
-    @GetMapping("events/statusTraces")
-    public JobEventRdbSearch.Result<JobStatusTraceEvent> findJobStatusTraceEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
+    @PostMapping("events/statusTraces")
+    public JobEventRdbSearch.Result<JobStatusTraceEvent> findJobStatusTraceEvents(@RequestBody final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
             return new JobEventRdbSearch.Result<>(0, Collections.<JobStatusTraceEvent>emptyList());
         }
