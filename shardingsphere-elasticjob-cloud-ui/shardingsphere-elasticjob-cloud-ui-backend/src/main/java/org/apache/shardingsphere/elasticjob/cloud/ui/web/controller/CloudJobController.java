@@ -239,12 +239,12 @@ public final class CloudJobController {
      * @return job execution event
      * @throws ParseException parse exception
      */
-    @PostMapping("events/executions")
-    public JobEventRdbSearch.Result<JobExecutionEvent> findJobExecutionEvents(@RequestBody final MultiValueMap<String, String> requestParams) throws ParseException {
+    @PostMapping("/events/executions")
+    public ResponseResult<JobEventRdbSearch.Result<JobExecutionEvent>> findJobExecutionEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
-            return new JobEventRdbSearch.Result<>(0, Collections.<JobExecutionEvent>emptyList());
+            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.<JobExecutionEvent>emptyList()));
         }
-        return jobEventRdbSearch.findJobExecutionEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "ip", "isSuccess"}));
+        return ResponseResultUtil.build(jobEventRdbSearch.findJobExecutionEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "ip", "isSuccess"})));
     }
     
     /**
@@ -253,12 +253,12 @@ public final class CloudJobController {
      * @return job status trace event
      * @throws ParseException parse exception
      */
-    @PostMapping("events/statusTraces")
-    public JobEventRdbSearch.Result<JobStatusTraceEvent> findJobStatusTraceEvents(@RequestBody final MultiValueMap<String, String> requestParams) throws ParseException {
+    @PostMapping("/events/statusTraces")
+    public ResponseResult<JobEventRdbSearch.Result<JobStatusTraceEvent>> findJobStatusTraceEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
-            return new JobEventRdbSearch.Result<>(0, Collections.<JobStatusTraceEvent>emptyList());
+            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.<JobStatusTraceEvent>emptyList()));
         }
-        return jobEventRdbSearch.findJobStatusTraceEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "slaveId", "source", "executionType", "state"}));
+        return ResponseResultUtil.build(jobEventRdbSearch.findJobStatusTraceEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "slaveId", "source", "executionType", "state"})));
     }
     
     private boolean isRdbConfigured() {

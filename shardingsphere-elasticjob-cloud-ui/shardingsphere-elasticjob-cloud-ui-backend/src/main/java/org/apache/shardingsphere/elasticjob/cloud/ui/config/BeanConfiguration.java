@@ -19,6 +19,7 @@ package org.apache.shardingsphere.elasticjob.cloud.ui.config;
 
 import com.netflix.fenzo.TaskScheduler;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.mesos.MesosSchedulerDriver;
 import org.apache.mesos.Protos;
 import org.apache.mesos.SchedulerDriver;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.config.app.CloudAppConfigurationService;
@@ -28,6 +29,7 @@ import org.apache.shardingsphere.elasticjob.cloud.scheduler.env.MesosConfigurati
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.ha.FrameworkIDService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.FacadeService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService;
+import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.SchedulerEngine;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.producer.ProducerManager;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.state.disable.app.DisableAppService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.statistics.StatisticManager;
@@ -126,7 +128,7 @@ public class BeanConfiguration {
         Protos.FrameworkInfo frameworkInfo = builder.setUser(mesosConfig.getUser()).setName(frameworkName)
                 .setHostname(mesosConfig.getHostname()).setFailoverTimeout(MesosConfiguration.FRAMEWORK_FAILOVER_TIMEOUT_SECONDS)
                 .setWebuiUrl(WEB_UI_PROTOCOL + BootstrapEnvironment.getINSTANCE().getFrameworkHostPort()).setCheckpoint(true).build();
-        return null;//new MesosSchedulerDriver(new SchedulerEngine(taskScheduler(), facadeService(), jobEventBus(), frameworkIDService(), statisticManager()), frameworkInfo, mesosConfig.getUrl());
+        return new MesosSchedulerDriver(new SchedulerEngine(taskScheduler(), facadeService(), jobEventBus(), frameworkIDService(), statisticManager()), frameworkInfo, mesosConfig.getUrl());
     }
     
     @Bean
