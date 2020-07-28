@@ -319,8 +319,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: '成功'},
-                {value: model.failedCount, name: '失败'}
+                {value: model.successCount, name: 'successCount'},
+                {value: model.failedCount, name: 'failedCount'}
               ],
               emphasis: {
                 itemStyle: {
@@ -344,8 +344,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: '成功'},
-                {value: model.failedCount, name: '失败'}
+                {value: model.successCount, name: 'successCount'},
+                {value: model.failedCount, name: 'failedCount'}
               ],
               emphasis: {
                 itemStyle: {
