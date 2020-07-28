@@ -30,7 +30,7 @@
       </el-input>
       <el-input
         :placeholder="$t('historyStatus.searchForm.serverIp')"
-        v-model="searchForm.serverIp"
+        v-model="searchForm.slaveId"
         clearable>
       </el-input>
       <el-select
@@ -39,7 +39,7 @@
         clearable
       >
         <el-option
-          v-for="item in stateItems"
+          v-for="item in sourceItem"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -47,11 +47,11 @@
       </el-select>
       <el-select
         :placeholder="$t('historyStatus.searchForm.executeType')"
-        v-model="searchForm.executeType"
+        v-model="searchForm.executionType"
         clearable
       >
         <el-option
-          v-for="item in stateItems"
+          v-for="item in executeTypeItem"
           :key="item.value"
           :label="item.label"
           :value="item.value">
@@ -128,7 +128,7 @@ export default {
         },
         {
           label: this.$t('historyStatus').column.serverIp,
-          prop: 'ip'
+          prop: 'slaveId'
         },
         {
           label: this.$t('historyStatus').column.executeSource,
@@ -140,7 +140,7 @@ export default {
         },
         {
           label: this.$t('historyStatus').column.executeType,
-          prop: 'executeType'
+          prop: 'executionType'
         },
         {
           label: this.$t('historyStatus').column.state,
@@ -178,15 +178,35 @@ export default {
           label: this.$t('historyStatus').searchForm.stateKilled
         }
       ],
+      sourceItem: [
+        {
+          value: 'CLOUD_SCHEDULER',
+          label: 'CLOUD_SCHEDULER'
+        },
+        {
+          value: 'CLOUD_EXECUTOR',
+          label: 'CLOUD_EXECUTOR'
+        }
+      ],
+      executeTypeItem: [
+        {
+          value: 'FAILOVER',
+          label: 'FAILOVER'
+        },
+        {
+          value: 'READY',
+          label: 'READY'
+        }
+      ],
       searchForm: {
         jobName: '',
         taskId: '',
-        ip: '',
+        slaveId: '',
         source: '',
-        executeType: '',
+        executionType: '',
         state: '',
-        start: '',
-        end: ''
+        startTime: '',
+        endTime: ''
       },
       tableData: [],
       cloneTableData: [],
@@ -202,8 +222,8 @@ export default {
     ...mapActions(['setRegCenterActivated']),
     handleCurrentChange(val) {
       const page = {
-        pageSize: this.pageSize,
-        pageNumber: val
+        per_page: this.pageSize,
+        page: val
       }
       API.loadStatus(Object.assign(this.searchForm, page)).then(res => {
         const data = res.model.rows

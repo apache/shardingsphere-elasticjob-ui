@@ -128,7 +128,7 @@ public class BeanConfiguration {
         Protos.FrameworkInfo frameworkInfo = builder.setUser(mesosConfig.getUser()).setName(frameworkName)
                 .setHostname(mesosConfig.getHostname()).setFailoverTimeout(MesosConfiguration.FRAMEWORK_FAILOVER_TIMEOUT_SECONDS)
                 .setWebuiUrl(WEB_UI_PROTOCOL + BootstrapEnvironment.getINSTANCE().getFrameworkHostPort()).setCheckpoint(true).build();
-        return new MesosSchedulerDriver(new SchedulerEngine(taskScheduler(), facadeService(), jobEventBus(), frameworkIDService(), statisticManager()), frameworkInfo, mesosConfig.getUrl());
+        return null; //new MesosSchedulerDriver(new SchedulerEngine(taskScheduler(), facadeService(), jobEventBus(), frameworkIDService(), statisticManager()), frameworkInfo, mesosConfig.getUrl());
     }
     
     @Bean

@@ -323,23 +323,19 @@ export default {
       column: [
         {
           label: this.$t('jobConfig').labelInfo.jobName,
-          prop: 'jobName',
-          width: 280
+          prop: 'jobName'
         },
         {
           label: this.$t('jobConfig').labelInfo.appName,
-          prop: 'appName',
-          width: 160
+          prop: 'appName'
         },
         {
           label: this.$t('jobConfig').labelInfo.shardingTotalCount,
-          prop: 'shardingTotalCount',
-          width: 140
+          prop: 'shardingTotalCount'
         },
         {
           label: this.$t('jobConfig').labelInfo.cron,
-          prop: 'cron',
-          width: 120
+          prop: 'cron'
         }
       ],
       jobExecutionTypeOptions: [{

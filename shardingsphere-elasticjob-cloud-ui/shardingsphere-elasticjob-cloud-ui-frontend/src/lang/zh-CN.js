@@ -252,9 +252,9 @@ export default {
   historyTrace: {
     column: {
       jobName: '作业名称',
-      taskId: '作业ID',
+      taskId: '任务主键',
       serverIp: '服务器IP',
-      executeSource: '执行源',
+      executeSource: '执行来源',
       executeResult: '执行结果',
       failureCause: '失败原因',
       startTime: '开始时间',
@@ -262,7 +262,7 @@ export default {
     },
     searchForm: {
       jobName: '请输入作业名称',
-      taskId: '请输入作业ID',
+      taskId: '请输入任务主键',
       serverIp: '请输入服务器IP',
       startTime: '请输入开始时间',
       CompleteTime: '请输入完成时间',
@@ -274,9 +274,9 @@ export default {
   historyStatus: {
     column: {
       jobName: '作业名称',
-      taskId: '作业ID',
+      taskId: '任务主键',
       serverIp: '服务器IP',
-      executeSource: '执行源',
+      executeSource: '执行来源',
       shardingItem: '分片项',
       executeType: '执行类型',
       state: '状态',
@@ -285,9 +285,9 @@ export default {
     },
     searchForm: {
       jobName: '请输入作业名称',
-      taskId: '请输入任务ID',
+      taskId: '请输入任务主键',
       serverIp: '请输入服务器IP',
-      executeSource: '请选择执行源',
+      executeSource: '请选择执行来源',
       executeType: '请选择执行类型',
       startTime: '请输入创建开始时间',
       CompleteTime: '请输入创建结束时间',
