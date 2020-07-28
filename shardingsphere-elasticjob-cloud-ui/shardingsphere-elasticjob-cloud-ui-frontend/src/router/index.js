@@ -55,6 +55,12 @@ export const constantRouterMap = [
     component: () => import('@/views/job-status'),
     hidden: true,
     name: 'Job status'
+  },
+  {
+    path: '/job-dashboard',
+    component: () => import('@/views/job-dashboard'),
+    hidden: true,
+    name: 'Job dashboard'
   }
 ]
 
