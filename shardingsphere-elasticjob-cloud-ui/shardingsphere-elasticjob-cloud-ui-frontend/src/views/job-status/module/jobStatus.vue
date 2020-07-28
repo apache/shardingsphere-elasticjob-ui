@@ -188,57 +188,47 @@ export default {
       columnRunning: [
         {
           label: this.$t('jobStatus').labelInfo.id,
-          prop: 'id',
-          width: 380
+          prop: 'id'
         },
         {
           label: this.$t('jobStatus').labelInfo.taskName,
-          prop: 'jobName',
-          width: 200
+          prop: 'jobName'
         },
         {
           label: this.$t('jobStatus').labelInfo.severIp,
-          prop: 'slaveId',
-          width: 160
+          prop: 'slaveId'
         },
         {
           label: this.$t('jobStatus').labelInfo.type,
-          prop: 'type',
-          width: 150
+          prop: 'type'
         },
         {
           label: this.$t('jobStatus').labelInfo.shardingItems,
-          prop: 'shardingItemsTitle',
-          width: 180
+          prop: 'shardingItemsTitle'
         }
       ],
       columnReady: [
         {
           label: this.$t('jobStatus').labelInfo.jobName,
-          prop: 'jobName',
-          width: 800
+          prop: 'jobName'
         },
         {
           label: this.$t('jobStatus').labelInfo.times,
-          prop: 'times',
-          width: 300
+          prop: 'times'
         }
       ],
       columnFailover: [
         {
           label: this.$t('jobStatus').labelInfo.jobName,
-          prop: 'jobName',
-          width: 400
+          prop: 'jobName'
         },
         {
           label: this.$t('jobStatus').labelInfo.originalTaskId,
-          prop: 'originalTaskId',
-          width: 440
+          prop: 'originalTaskId'
         },
         {
           label: this.$t('jobStatus').labelInfo.shardingItems,
-          prop: 'shardingItemsTitle',
-          width: 300
+          prop: 'shardingItemsTitle'
         }
       ],
       searchFormRunning: {

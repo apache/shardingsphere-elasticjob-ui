@@ -35,13 +35,13 @@
       </el-input>
       <el-date-picker
         :placeholder="$t('historyTrace.searchForm.startTime')"
-        v-model="searchForm.start"
+        v-model="searchForm.startTime"
         type="datetime"
         clearable>
       </el-date-picker>
       <el-date-picker
         :placeholder="$t('historyTrace.searchForm.CompleteTime')"
-        v-model="searchForm.end"
+        v-model="searchForm.endTime"
         type="datetime"
         clearable>
       </el-date-picker>
@@ -101,7 +101,7 @@ export default {
         },
         {
           label: this.$t('historyTrace').column.taskId,
-          prop: 'ip'
+          prop: 'taskId'
         },
         {
           label: this.$t('historyTrace').column.serverIp,
@@ -109,7 +109,7 @@ export default {
         },
         {
           label: this.$t('historyTrace').column.executeSource,
-          prop: 'executeSource'
+          prop: 'source'
         },
         {
           label: this.$t('historyTrace').column.executeResult,
@@ -144,8 +144,8 @@ export default {
         jobName: '',
         taskId: '',
         ip: '',
-        start: '',
-        end: '',
+        startTime: '',
+        endTime: '',
         isSuccess: ''
       },
       tableData: [],
@@ -162,8 +162,8 @@ export default {
     ...mapActions(['setRegCenterActivated']),
     handleCurrentChange(val) {
       const page = {
-        pageSize: this.pageSize,
-        pageNumber: val
+        per_page: this.pageSize,
+        page: val
       }
       API.loadExecution(Object.assign(this.searchForm, page)).then(res => {
         const data = res.model.rows

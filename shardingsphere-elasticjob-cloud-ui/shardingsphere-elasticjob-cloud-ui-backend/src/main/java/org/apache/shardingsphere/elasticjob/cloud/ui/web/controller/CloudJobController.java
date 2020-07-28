@@ -305,11 +305,11 @@ public final class CloudJobController {
      * @return task result statistics
      */
     @GetMapping("/statistics/tasks/results")
-    public List<TaskResultStatistics> findTaskResultStatistics(@RequestParam(value = "since", required = false) final String since) {
+    public ResponseResult<List<TaskResultStatistics>> findTaskResultStatistics(@RequestParam(value = "since", required = false) final String since) {
         if ("last24hours".equals(since)) {
-            return statisticManager.findTaskResultStatisticsDaily();
+            return ResponseResultUtil.build(statisticManager.findTaskResultStatisticsDaily());
         } else {
-            return Collections.emptyList();
+            return ResponseResultUtil.build(Collections.emptyList());
         }
     }
     
@@ -319,19 +319,25 @@ public final class CloudJobController {
      * @return task result statistics
      */
     @GetMapping("/statistics/tasks/results/{period}")
-    public TaskResultStatistics getTaskResultStatistics(@PathVariable(value = "period", required = false) final String period) {
+    public ResponseResult<TaskResultStatistics> getTaskResultStatistics(@PathVariable(value = "period", required = false) final String period) {
+        TaskResultStatistics taskResultStatistics;
         switch (period) {
             case "online":
-                return statisticManager.getTaskResultStatisticsSinceOnline();
+                taskResultStatistics = statisticManager.getTaskResultStatisticsSinceOnline();
+                break;
             case "lastWeek":
-                return statisticManager.getTaskResultStatisticsWeekly();
+                taskResultStatistics = statisticManager.getTaskResultStatisticsWeekly();
+                break;
             case "lastHour":
-                return statisticManager.findLatestTaskResultStatistics(StatisticInterval.HOUR);
+                taskResultStatistics = statisticManager.findLatestTaskResultStatistics(StatisticInterval.HOUR);
+                break;
             case "lastMinute":
-                return statisticManager.findLatestTaskResultStatistics(StatisticInterval.MINUTE);
+                taskResultStatistics = statisticManager.findLatestTaskResultStatistics(StatisticInterval.MINUTE);
+                break;
             default:
-                return new TaskResultStatistics(0, 0, StatisticInterval.DAY, new Date());
+                taskResultStatistics = new TaskResultStatistics(0, 0, StatisticInterval.DAY, new Date());
         }
+        return ResponseResultUtil.build(taskResultStatistics);
     }
     
     /**
@@ -340,11 +346,11 @@ public final class CloudJobController {
      * @return task result statistics
      */
     @GetMapping("/statistics/tasks/running")
-    public List<TaskRunningStatistics> findTaskRunningStatistics(@RequestParam(value = "since", required = false) final String since) {
+    public ResponseResult<List<TaskRunningStatistics>> findTaskRunningStatistics(@RequestParam(value = "since", required = false) final String since) {
         if ("lastWeek".equals(since)) {
-            return statisticManager.findTaskRunningStatisticsWeekly();
+            return ResponseResultUtil.build(statisticManager.findTaskRunningStatisticsWeekly());
         } else {
-            return Collections.emptyList();
+            return ResponseResultUtil.build(Collections.emptyList());
         }
     }
     
@@ -353,8 +359,8 @@ public final class CloudJobController {
      * @return job execution statistics
      */
     @GetMapping("/statistics/jobs/executionType")
-    public JobExecutionTypeStatistics getJobExecutionTypeStatistics() {
-        return statisticManager.getJobExecutionTypeStatistics();
+    public ResponseResult<JobExecutionTypeStatistics> getJobExecutionTypeStatistics() {
+        return ResponseResultUtil.build(statisticManager.getJobExecutionTypeStatistics());
     }
     
     /**
@@ -363,11 +369,11 @@ public final class CloudJobController {
      * @return collection of job running statistics in the recent week
      */
     @GetMapping("/statistics/jobs/running")
-    public List<JobRunningStatistics> findJobRunningStatistics(@RequestParam(value = "since", required = false) final String since) {
+    public ResponseResult<List<JobRunningStatistics>> findJobRunningStatistics(@RequestParam(value = "since", required = false) final String since) {
         if ("lastWeek".equals(since)) {
-            return statisticManager.findJobRunningStatisticsWeekly();
+            return ResponseResultUtil.build(statisticManager.findJobRunningStatisticsWeekly());
         } else {
-            return Collections.emptyList();
+            return ResponseResultUtil.build(Collections.emptyList());
         }
     }
     
@@ -376,7 +382,7 @@ public final class CloudJobController {
      * @return collection of job register statistics since online
      */
     @GetMapping("/statistics/jobs/register")
-    public List<JobRegisterStatistics> findJobRegisterStatistics() {
-        return statisticManager.findJobRegisterStatisticsSinceOnline();
+    public ResponseResult<List<JobRegisterStatistics>> findJobRegisterStatistics() {
+        return ResponseResultUtil.build(statisticManager.findJobRegisterStatisticsSinceOnline());
     }
 }

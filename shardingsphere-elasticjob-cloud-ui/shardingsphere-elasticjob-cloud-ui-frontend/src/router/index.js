@@ -69,7 +69,7 @@ export const constantRouterMap = [
     name: 'History status'
   },
   {
-    path: '/job-dashboard',
+    path: '/history-dashboard',
     component: () => import('@/views/job-dashboard'),
     hidden: true,
     name: 'Job dashboard'
