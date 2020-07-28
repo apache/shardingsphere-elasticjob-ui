@@ -109,6 +109,7 @@ export default {
       register: {},
       running: {},
       result: {}
+    }  
   },
   created() {
     this.getTasksPeriod()
@@ -163,7 +164,7 @@ export default {
           }]
         }
       })
-    }
+    },
     getJobsRunning() {
       const params = {
         since: 'lastWeek'
@@ -203,7 +204,7 @@ export default {
           }]
         }
       })
-    }
+    },
     getJobsRegister() {
       API.getJobsRegister().then(res => {
         const xAxis = []
@@ -340,7 +341,7 @@ export default {
           ]
         }
       })
-    },
+    }
   }
 }
 </script>
