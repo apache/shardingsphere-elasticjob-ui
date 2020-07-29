@@ -38,6 +38,6 @@ public interface JobRegisterStatisticsRepository extends JpaRepository<JobRegist
      * @param fromTime from date to statistics
      * @return job register statistics
      */
-    @Query("FROM JobRegisterStatistics WHERE statisticsTime >= :fromTime")
+    @Query("SELECT t FROM JobRegisterStatistics t WHERE t.statisticsTime >= :fromTime")
     List<JobRegisterStatistics> findJobRegisterStatistics(@Param("fromTime") Date fromTime);
 }

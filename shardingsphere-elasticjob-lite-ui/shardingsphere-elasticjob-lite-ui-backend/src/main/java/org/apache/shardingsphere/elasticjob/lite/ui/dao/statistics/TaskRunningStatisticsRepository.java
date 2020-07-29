@@ -38,6 +38,6 @@ public interface TaskRunningStatisticsRepository extends JpaRepository<TaskRunni
      * @param fromTime from date to statistics
      * @return Task running statistics
      */
-    @Query("FROM TaskRunningStatistics where statisticsTime >= :fromTime")
+    @Query("SELECT t FROM TaskRunningStatistics t where t.statisticsTime >= :fromTime")
     List<TaskRunningStatistics> findTaskRunningStatistics(@Param("fromTime") Date fromTime);
 }

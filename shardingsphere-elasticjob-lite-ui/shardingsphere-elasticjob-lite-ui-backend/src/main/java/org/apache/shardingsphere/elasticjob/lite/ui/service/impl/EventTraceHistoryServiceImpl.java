@@ -69,7 +69,7 @@ public final class EventTraceHistoryServiceImpl implements EventTraceHistoryServ
             findJobExecutionEventsRequest.getEnd(), "startTime");
 
         Page<JobExecutionLog> page = jobExecutionLogRepository.findAll(specification, getPageable(findJobExecutionEventsRequest, JobExecutionLog.class));
-        return new PageImpl<>(page.get().map(JobExecutionLog::toJobExecutionEvent).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
+        return new PageImpl<>(page.getContent().stream().map(JobExecutionLog::toJobExecutionEvent).collect(Collectors.toList()), null, page.getTotalElements());
     }
     
     @Override
@@ -78,7 +78,7 @@ public final class EventTraceHistoryServiceImpl implements EventTraceHistoryServ
         Specification<JobStatusTraceLog> specification = getSpecWithExampleAndDate(jobStatusTraceLogExample, findJobStatusTraceEventsRequest.getStart(),
             findJobStatusTraceEventsRequest.getEnd(), "creationTime");
         Page<JobStatusTraceLog> page = jobStatusTraceLogRepository.findAll(specification, getPageable(findJobStatusTraceEventsRequest, JobStatusTraceLog.class));
-        return new PageImpl<>(page.get().map(JobStatusTraceLog::toJobStatusTraceEvent).collect(Collectors.toList()), page.getPageable(), page.getTotalElements());
+        return new PageImpl<>(page.getContent().stream().map(JobStatusTraceLog::toJobStatusTraceEvent).collect(Collectors.toList()), null, page.getTotalElements());
     }
     
     private <T> Pageable getPageable(final BasePageRequest pageRequest, final Class<T> clazz) {
@@ -88,11 +88,11 @@ public final class EventTraceHistoryServiceImpl implements EventTraceHistoryServ
             page = pageRequest.getPageNumber() - 1;
             perPage = pageRequest.getPageSize();
         }
-        return PageRequest.of(page, perPage, getSort(pageRequest, clazz));
+        return new PageRequest(page, perPage, getSort(pageRequest, clazz));
     }
     
     private <T> Sort getSort(final BasePageRequest pageRequest, final Class<T> clazz) {
-        Sort sort = Sort.unsorted();
+        Sort sort = null;
         boolean sortFieldIsPresent = Arrays.stream(clazz.getDeclaredFields())
             .map(Field::getName)
             .anyMatch(e -> e.equals(pageRequest.getSortBy()));
@@ -105,13 +105,13 @@ public final class EventTraceHistoryServiceImpl implements EventTraceHistoryServ
                 order = Sort.Direction.valueOf(pageRequest.getOrderType());
             } catch (IllegalArgumentException ignored) {
             }
-            sort = Sort.by(order, pageRequest.getSortBy());
+            sort = new Sort(order, pageRequest.getSortBy());
         }
         return sort;
     }
     
     private <T> Specification<T> getSpecWithExampleAndDate(final Example<T> example, final Date from, final Date to, final String field) {
-        return (Specification<T>) (root, query, builder) -> {
+        return (root, query, builder) -> {
             final List<Predicate> predicates = new ArrayList<>();
             if (from != null) {
                 predicates.add(builder.greaterThan(root.get(field), from));

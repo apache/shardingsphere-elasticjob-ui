@@ -39,7 +39,7 @@ public interface TaskResultStatisticsRepository extends JpaRepository<TaskResult
      * @param statisticInterval statistic interval
      * @return task result statistics
      */
-    @Query("FROM TaskResultStatistics WHERE statisticInterval = :statisticInterval AND statisticsTime >= :fromTime ORDER BY id ASC")
+    @Query("SELECT t FROM TaskResultStatistics t WHERE t.statisticInterval = :statisticInterval AND t.statisticsTime >= :fromTime ORDER BY t.id ASC")
     List<TaskResultStatistics> findTaskResultStatistics(@Param("fromTime") Date fromTime, @Param("statisticInterval") String statisticInterval);
     
     /**
@@ -49,7 +49,7 @@ public interface TaskResultStatisticsRepository extends JpaRepository<TaskResult
      * @param statisticInterval statistic interval
      * @return summed task result statistics
      */
-    @Query("SELECT new TaskResultStatistics(SUM(successCount), SUM(failedCount)) FROM TaskResultStatistics WHERE "
-        + "statisticInterval = :statisticInterval AND statisticsTime >= :fromTime")
+    @Query("SELECT new TaskResultStatistics(SUM(t.successCount), SUM(t.failedCount)) FROM TaskResultStatistics t WHERE "
+        + "t.statisticInterval = :statisticInterval AND t.statisticsTime >= :fromTime")
     TaskResultStatistics getSummedTaskResultStatistics(@Param("fromTime") Date fromTime, @Param("statisticInterval") String statisticInterval);
 }

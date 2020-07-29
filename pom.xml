@@ -43,6 +43,7 @@
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
         <os-maven-plugin.version>1.5.0.Final</os-maven-plugin.version>
         <takari-maven-plugin.version>0.6.1</takari-maven-plugin.version>
+        <openjpa.version>3.1.2</openjpa.version>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     
@@ -54,6 +55,11 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa</artifactId>
+                <version>${openjpa.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

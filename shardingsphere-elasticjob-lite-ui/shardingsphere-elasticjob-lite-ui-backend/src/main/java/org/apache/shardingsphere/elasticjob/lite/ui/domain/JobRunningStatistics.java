@@ -37,7 +37,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @Table(name = "JOB_RUNNING_STATISTICS")
-public final class JobRunningStatistics {
+public class JobRunningStatistics {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

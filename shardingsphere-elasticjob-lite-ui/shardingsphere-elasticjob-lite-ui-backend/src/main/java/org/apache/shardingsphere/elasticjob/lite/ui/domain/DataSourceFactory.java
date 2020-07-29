@@ -18,7 +18,7 @@
 package org.apache.shardingsphere.elasticjob.lite.ui.domain;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 
 import javax.sql.DataSource;
 
