@@ -130,9 +130,8 @@ export default {
         const series2 = []
         if (res.model && res.model.length) {
           res.model.forEach(item => {
-            xAxis.push(moment(item.statisticsTime).format('MM-DD'))
-            series1.push(item.successCount)
-            series2.push(item.failedCount)
+            series1.push([moment(item.statisticsTime).format('HH:00'), item.successCount])
+            series2.push([moment(item.statisticsTime).format('HH:00'), item.failedCount])
           })
         }
         this.result = {
@@ -152,8 +151,7 @@ export default {
           },
           xAxis: {
             type: 'category',
-            boundaryGap: false,
-            data: xAxis
+            boundaryGap: false
           },
           yAxis: {
             type: 'value'
@@ -182,13 +180,12 @@ export default {
             const taskSeries = []
             if (res.model && res.model.length) {
               res.model && res.model.forEach(item => {
-                xAxis.push(moment(item.statisticsTime).format('MM-DD'))
-                jobSeries.push(item.runningCount)
+                jobSeries.push([moment(item.statisticsTime).format('MM-DD'), item.runningCount])
               })
             }
             if (resp.model && resp.model.length) {
               resp.model && resp.model.forEach(item => {
-                taskSeries.push(item.runningCount)
+                taskSeries.push([moment(item.statisticsTime).format('MM-DD'), item.runningCount])
               })
             }
             this.running = {
@@ -208,8 +205,7 @@ export default {
               },
               xAxis: {
                 type: 'category',
-                boundaryGap: false,
-                data: xAxis
+                boundaryGap: false
               },
               yAxis: {
                 type: 'value'
@@ -234,8 +230,7 @@ export default {
         const series = []
         if (res.model && res.model.length) {
           res.model && res.model.forEach(item => {
-            xAxis.push(moment(item.statisticsTime).format('MM-DD'))
-            series.push(item.registeredCount)
+            series.push([moment(item.statisticsTime).format('HH:mm'), item.registeredCount])
           })
         }
         this.register = {
@@ -255,8 +250,7 @@ export default {
           },
           xAxis: {
             type: 'category',
-            boundaryGap: false,
-            data: xAxis
+            boundaryGap: false
           },
           yAxis: {
             type: 'value'
@@ -274,6 +268,10 @@ export default {
         const { model } = res
         this.executionType = {
           color: this.color,
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}<br/>{c}'
+          },
           series: [
             {
               name: 'jobtype',
@@ -281,8 +279,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.transientJobCount, name: 'TRANSI'},
-                {value: model.daemonJobCount, name: 'DAEMON'}
+                {value: model.transientJobCount, name: 'TRANSI', label:{formatter: '{b}:\n' + this.percentage(model.transientJobCount, model.transientJobCount + model.daemonJobCount)}},
+                {value: model.daemonJobCount, name: 'DAEMON', label:{formatter: '{b}:\n' + this.percentage(model.daemonJobCount, model.transientJobCount + model.daemonJobCount)}}
               ],
               emphasis: {
                 itemStyle: {
@@ -299,8 +297,14 @@ export default {
     getTasksPeriod() {
       API.getTasksPeriod('lastMinute').then(res => {
         const { model } = res
+        model.successCount=40
+        model.failedCount=60
         this.lastMinute = {
           color: this.color,
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}<br/>{c}'
+          },
           series: [
             {
               name: 'lastMinute',
@@ -308,8 +312,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: this.$t('historyDashboard').success},
-                {value: model.failedCount, name: this.$t('historyDashboard').failed}
+                {value: model.successCount, name: this.$t('historyDashboard').success, label:{formatter: '{b}:\n' + this.percentage(model.successCount, model.successCount + model.failedCount)}},
+                {value: model.failedCount, name: this.$t('historyDashboard').failed, label:{formatter: '{b}:\n' + this.percentage(model.failedCount, model.successCount + model.failedCount)}}
               ],
               emphasis: {
                 itemStyle: {
@@ -326,6 +330,10 @@ export default {
         const { model } = res
         this.lastHour = {
           color: this.color,
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}<br/>{c}'
+          },
           series: [
             {
               name: 'lastHour',
@@ -333,8 +341,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: this.$t('historyDashboard').success},
-                {value: model.failedCount, name: this.$t('historyDashboard').failed}
+                {value: model.successCount, name: this.$t('historyDashboard').success, label:{formatter: '{b}:\n' + this.percentage(model.successCount, model.successCount + model.failedCount)}},
+                {value: model.failedCount, name: this.$t('historyDashboard').failed, label:{formatter: '{b}:\n' + this.percentage(model.failedCount, model.successCount + model.failedCount)}}
               ],
               emphasis: {
                 itemStyle: {
@@ -351,6 +359,10 @@ export default {
         const { model } = res
         this.lastWeek = {
           color: this.color,
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}<br/>{c}'
+          },
           series: [
             {
               name: 'lastWeek',
@@ -358,8 +370,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: this.$t('historyDashboard').success},
-                {value: model.failedCount, name: this.$t('historyDashboard').failed}
+                {value: model.successCount, name: this.$t('historyDashboard').success, label:{formatter: '{b}:\n' + this.percentage(model.successCount, model.successCount + model.failedCount)}},
+                {value: model.failedCount, name: this.$t('historyDashboard').failed, label:{formatter: '{b}:\n' + this.percentage(model.failedCount, model.successCount + model.failedCount)}}
               ],
               emphasis: {
                 itemStyle: {
@@ -372,6 +384,12 @@ export default {
           ]
         }
       })
+    },
+    percentage(value, count) {
+      if (value === 0) {
+        return '0.0%'
+      }
+      return Number((value/count)*100).toFixed(1) + '%';
     }
   }
 }
