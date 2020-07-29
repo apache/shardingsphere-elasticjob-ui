@@ -19,12 +19,12 @@ package org.apache.shardingsphere.elasticjob.cloud.ui.web.controller;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.gson.JsonParseException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.ReconcileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.apache.shardingsphere.elasticjob.infra.exception.JobSystemException;
-import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
-import org.codehaus.jettison.json.JSONException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,23 +42,15 @@ import java.util.Map;
 @RequestMapping("/api/operate")
 public final class CloudOperationController {
     
-    private static ReconcileService reconcileService;
-    
     private static final long RECONCILE_MILLIS_INTERVAL = 10 * 1000L;
-    
-    private static MesosStateService mesosStateService;
     
     private static long lastReconcileTime;
     
-    /**
-     * Init.
-     * @param regCenter        registry center
-     * @param reconcileService reconcile service
-     */
-    public static void init(final CoordinatorRegistryCenter regCenter, final ReconcileService reconcileService) {
-        CloudOperationController.reconcileService = reconcileService;
-        CloudOperationController.mesosStateService = new MesosStateService(regCenter);
-    }
+    @Autowired
+    private ReconcileService reconcileService;
+    
+    @Autowired
+    private MesosStateService mesosStateService;
     
     /**
      * Explicit reconcile service.
@@ -95,7 +87,7 @@ public final class CloudOperationController {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(appName), "Lack param 'appName'");
         try {
             return mesosStateService.sandbox(appName);
-        } catch (final JSONException ex) {
+        } catch (final JsonParseException ex) {
             throw new JobSystemException(ex);
         }
     }

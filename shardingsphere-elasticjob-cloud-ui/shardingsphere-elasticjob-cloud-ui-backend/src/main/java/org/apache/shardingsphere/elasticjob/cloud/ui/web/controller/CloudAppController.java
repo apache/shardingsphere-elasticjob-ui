@@ -17,6 +17,7 @@
 
 package org.apache.shardingsphere.elasticjob.cloud.ui.web.controller;
 
+import com.google.gson.JsonParseException;
 import org.apache.mesos.Protos.ExecutorID;
 import org.apache.mesos.Protos.SlaveID;
 import org.apache.shardingsphere.elasticjob.cloud.config.pojo.CloudJobConfigurationPOJO;
@@ -32,7 +33,6 @@ import org.apache.shardingsphere.elasticjob.cloud.ui.web.dto.CloudAppConfigurati
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResultUtil;
 import org.apache.shardingsphere.elasticjob.infra.exception.JobSystemException;
-import org.codehaus.jettison.json.JSONException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -188,7 +188,7 @@ public final class CloudAppController {
                                                      SlaveID.newBuilder().setValue(each.getSlaveId()).build(),
                                                      "STOP".getBytes());
             }
-        } catch (final JSONException ex) {
+        } catch (final JsonParseException ex) {
             throw new JobSystemException(ex);
         }
     }

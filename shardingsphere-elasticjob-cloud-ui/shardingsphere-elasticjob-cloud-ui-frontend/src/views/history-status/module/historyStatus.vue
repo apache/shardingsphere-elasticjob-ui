@@ -57,15 +57,17 @@
           :value="item.value">
         </el-option>
       </el-select>
+    </div>
+    <div class="btn-group" style="">
       <el-date-picker
         :placeholder="$t('historyStatus.searchForm.startTime')"
-        v-model="searchForm.start"
+        v-model="searchForm.startTime"
         type="datetime"
         clearable>
       </el-date-picker>
       <el-date-picker
         :placeholder="$t('historyStatus.searchForm.CompleteTime')"
-        v-model="searchForm.end"
+        v-model="searchForm.endTime"
         type="datetime"
         clearable>
       </el-date-picker>
@@ -73,7 +75,7 @@
         :placeholder="$t('historyStatus.searchForm.state')"
         v-model="searchForm.state"
         clearable
-        >
+      >
         <el-option
           v-for="item in stateItems"
           :key="item.value"

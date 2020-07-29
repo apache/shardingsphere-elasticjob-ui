@@ -29,6 +29,7 @@ import org.apache.shardingsphere.elasticjob.cloud.scheduler.env.MesosConfigurati
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.ha.FrameworkIDService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.FacadeService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService;
+import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.ReconcileService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.SchedulerEngine;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.producer.ProducerManager;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.state.disable.app.DisableAppService;
@@ -52,7 +53,7 @@ public class BeanConfiguration {
     
     @Bean
     public CoordinatorRegistryCenter regCenter() {
-        CoordinatorRegistryCenter registryCenter = new ZookeeperRegistryCenter(BootstrapEnvironment.getInstance().getZookeeperConfiguration());
+        CoordinatorRegistryCenter registryCenter = new ZookeeperRegistryCenter(BootstrapEnvironment.getINSTANCE().getZookeeperConfiguration());
         registryCenter.init();
         return registryCenter;
     }
@@ -89,7 +90,7 @@ public class BeanConfiguration {
     
     @Bean
     public StatisticManager statisticManager() {
-        return StatisticManager.getInstance(regCenter(), BootstrapEnvironment.getInstance().getTracingConfiguration().orElse(null));
+        return StatisticManager.getInstance(regCenter(), BootstrapEnvironment.getINSTANCE().getTracingConfiguration().orElse(null));
     }
     
     @Bean
@@ -109,7 +110,7 @@ public class BeanConfiguration {
     
     @Bean
     public JobEventBus jobEventBus() {
-        Optional<TracingConfiguration> tracingConfiguration = BootstrapEnvironment.getInstance().getTracingConfiguration();
+        Optional<TracingConfiguration> tracingConfiguration = BootstrapEnvironment.getINSTANCE().getTracingConfiguration();
         return tracingConfiguration.map(JobEventBus::new).orElseGet(JobEventBus::new);
     }
     
@@ -117,23 +118,28 @@ public class BeanConfiguration {
     public SchedulerDriver schedulerDriver() {
         Protos.FrameworkInfo.Builder builder = Protos.FrameworkInfo.newBuilder();
         frameworkIDService().fetch().ifPresent(frameworkID -> builder.setId(Protos.FrameworkID.newBuilder().setValue(frameworkID).build()));
-        Optional<String> role = BootstrapEnvironment.getInstance().getMesosRole();
+        Optional<String> role = BootstrapEnvironment.getINSTANCE().getMesosRole();
         String frameworkName = MesosConfiguration.FRAMEWORK_NAME;
         if (role.isPresent()) {
             builder.setRole(role.get());
             frameworkName += "-" + role.get();
         }
         builder.addCapabilitiesBuilder().setType(Protos.FrameworkInfo.Capability.Type.PARTITION_AWARE);
-        MesosConfiguration mesosConfig = BootstrapEnvironment.getInstance().getMesosConfiguration();
+        MesosConfiguration mesosConfig = BootstrapEnvironment.getINSTANCE().getMesosConfiguration();
         Protos.FrameworkInfo frameworkInfo = builder.setUser(mesosConfig.getUser()).setName(frameworkName)
                 .setHostname(mesosConfig.getHostname()).setFailoverTimeout(MesosConfiguration.FRAMEWORK_FAILOVER_TIMEOUT_SECONDS)
-                .setWebuiUrl(WEB_UI_PROTOCOL + BootstrapEnvironment.getInstance().getFrameworkHostPort()).setCheckpoint(true).build();
+                .setWebuiUrl(WEB_UI_PROTOCOL + BootstrapEnvironment.getINSTANCE().getFrameworkHostPort()).setCheckpoint(true).build();
         return new MesosSchedulerDriver(new SchedulerEngine(taskScheduler(), facadeService(), jobEventBus(), frameworkIDService(), statisticManager()), frameworkInfo, mesosConfig.getUrl());
     }
     
     @Bean
     public JobEventRdbSearch jobEventRdbSearch() {
-        Optional<TracingConfiguration> tracingConfiguration = BootstrapEnvironment.getInstance().getTracingConfiguration();
+        Optional<TracingConfiguration> tracingConfiguration = BootstrapEnvironment.getINSTANCE().getTracingConfiguration();
         return tracingConfiguration.map(each -> new JobEventRdbSearch((DataSource) each.getStorage(), true)).orElse(new JobEventRdbSearch(null, false));
+    }
+    
+    @Bean
+    public ReconcileService reconcileService() {
+        return new ReconcileService(schedulerDriver(), facadeService());
     }
 }
