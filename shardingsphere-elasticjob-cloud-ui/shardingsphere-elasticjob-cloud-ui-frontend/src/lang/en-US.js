@@ -299,5 +299,21 @@ export default {
       stateError: 'Error',
       stateKilled: 'Killed'
     }
+  },
+  historyDashboard: {
+    successAndFailCount: 'Success and failure count',
+    jobType: 'Job type',
+    jobExecutionTypeJob: 'execution type',
+    jobTaskRunningCount: 'Job and task running count',
+    currentJobsCount: 'Registry jobs count',
+    jobInfoForOneMinute: 'Job info for one minute',
+    jobInfoForOneHour: 'Job info for one hour',
+    jobInfoForOneWeek: 'Job info for one week',
+    jobSuccessCount: 'Job success count',
+    jobFailureCount: 'Job failure count',
+    taskRunningCount: 'Task running count',
+    jobRunningCount: 'Job running count',
+    success: 'Success',
+    failed: 'Failed'
   }
 }

@@ -21,19 +21,19 @@
     <el-col :span="16">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span>Job success / failure</span>
+          <span>{{ $t("historyDashboard.successAndFailCount") }}</span>
         </div>
         <el-row>
           <el-col :span="8" class="col">
-            <h2>一分钟作业情况</h2>
+            <h2>{{ $t("historyDashboard.jobInfoForOneMinute") }}</h2>
             <v-chart :options="lastMinute"/>
           </el-col>
           <el-col :span="8" class="col">
-            <h2>一小时作业情况</h2>
+            <h2>{{ $t("historyDashboard.jobInfoForOneHour") }}</h2>
             <v-chart :options="lastHour"/>
           </el-col>
           <el-col :span="8" class="col">
-            <h2>一周作业情况</h2>
+            <h2>{{ $t("historyDashboard.jobInfoForOneWeek") }}</h2>
             <v-chart :options="lastWeek"/>
           </el-col>
         </el-row>
@@ -42,11 +42,11 @@
     <el-col :span="8">
      <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>作业分类</span>
+        <span>{{ $t("historyDashboard.jobType") }}</span>
       </div>
       <el-row>
         <el-col class="col">
-          <h2>执行分类</h2>
+          <h2>{{ $t("historyDashboard.jobExecutionTypeJob") }}</h2>
           <v-chart :options="executionType"/>
         </el-col>
       </el-row>
@@ -56,7 +56,7 @@
   <el-row class="row">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>作业成功/失败数</span>
+        <span>{{ $t("historyDashboard.successAndFailCount") }}</span>
       </div>
       <el-row>
         <v-chart :options="result"/>
@@ -66,7 +66,7 @@
   <el-row class="row">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>作业/任务运行数</span>
+        <span>{{ $t("historyDashboard.jobTaskRunningCount") }}</span>
       </div>
       <el-row>
         <v-chart :options="running"/>
@@ -76,7 +76,7 @@
   <el-row class="row">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>接入平台作业数</span>
+        <span>{{ $t("historyDashboard.currentJobsCount") }}</span>
       </div>
       <el-row>
         <v-chart :options="register"/>
@@ -110,7 +110,7 @@ export default {
       register: {},
       running: {},
       result: {}
-    }  
+    }
   },
   created() {
     this.getTasksPeriod()
@@ -141,7 +141,7 @@ export default {
             trigger: 'axis'
           },
           legend: {
-            data: ['successCount', 'failedCount'],
+            data: [this.$t('historyDashboard').jobSuccessCount, this.$t('historyDashboard').jobFailureCount],
             bottom: 0
           },
           grid: {
@@ -159,59 +159,73 @@ export default {
             type: 'value'
           },
           series: [{
-            name: 'successCount',
+            name: this.$t('historyDashboard').jobSuccessCount,
             type: 'line',
             data: series1
           },{
-            name: 'failedCount',
+            name: this.$t('historyDashboard').jobFailureCount,
             type: 'line',
             data: series2
           }]
         }
       })
-    },  
+    },
     getJobsRunning() {
       const params = {
         since: 'lastWeek'
       }
       API.getJobsRunning(params).then(res => {
-        const xAxis = []
-        const series = []
-        if (res.model && res.model.length) {
-          res.model && res.model.forEach(item => {
-            xAxis.push(moment(item.statisticsTime).format('MM-DD'))
-            series.push(item.runningCount)
-          })
-        }
-        this.running = {
-          color: this.color,
-          tooltip: {
-            trigger: 'axis'
-          },
-          legend: {
-            data: ['runningCount'],
-            bottom: 0
-          },
-          grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-          },
-          xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: xAxis
-          },
-          yAxis: {
-            type: 'value'
-          },
-          series: [{
-            name: 'runningCount',
-            type: 'line',
-            data: series
-          }]
-        }
+        API.getTasksRunning(params).then(resp => {
+          if (resp.model && res.model.length) {
+            const xAxis = []
+            const jobSeries = []
+            const taskSeries = []
+            if (res.model && res.model.length) {
+              res.model && res.model.forEach(item => {
+                xAxis.push(moment(item.statisticsTime).format('MM-DD'))
+                jobSeries.push(item.runningCount)
+              })
+            }
+            if (resp.model && resp.model.length) {
+              resp.model && resp.model.forEach(item => {
+                taskSeries.push(item.runningCount)
+              })
+            }
+            this.running = {
+              color: this.color,
+              tooltip: {
+                trigger: 'axis'
+              },
+              legend: {
+                data: [this.$t('historyDashboard').taskRunningCount, this.$t('historyDashboard').jobRunningCount],
+                bottom: 0
+              },
+              grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+              },
+              xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: xAxis
+              },
+              yAxis: {
+                type: 'value'
+              },
+              series: [{
+                name: this.$t('historyDashboard').taskRunningCount,
+                type: 'line',
+                data: taskSeries
+              },{
+                name: this.$t('historyDashboard').jobRunningCount,
+                type: 'line',
+                data: jobSeries
+              }]
+            }
+          }
+        })
       })
     },
     getJobsRegister() {
@@ -230,7 +244,7 @@ export default {
             trigger: 'axis'
           },
           legend: {
-            data: ['registeredCount'],
+            data: [this.$t('historyDashboard').currentJobsCount],
             bottom: 0
           },
           grid: {
@@ -248,7 +262,7 @@ export default {
             type: 'value'
           },
           series: [{
-            name: 'registeredCount',
+            name: this.$t('historyDashboard').currentJobsCount,
             type: 'line',
             data: series
           }]
@@ -294,8 +308,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: 'Success'},
-                {value: model.failedCount, name: 'Failed'}
+                {value: model.successCount, name: this.$t('historyDashboard').success},
+                {value: model.failedCount, name: this.$t('historyDashboard').failed}
               ],
               emphasis: {
                 itemStyle: {
@@ -319,8 +333,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: 'successCount'},
-                {value: model.failedCount, name: 'failedCount'}
+                {value: model.successCount, name: this.$t('historyDashboard').success},
+                {value: model.failedCount, name: this.$t('historyDashboard').failed}
               ],
               emphasis: {
                 itemStyle: {
@@ -344,8 +358,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: 'successCount'},
-                {value: model.failedCount, name: 'failedCount'}
+                {value: model.successCount, name: this.$t('historyDashboard').success},
+                {value: model.failedCount, name: this.$t('historyDashboard').failed}
               ],
               emphasis: {
                 itemStyle: {

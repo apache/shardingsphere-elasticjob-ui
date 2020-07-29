@@ -299,5 +299,21 @@ export default {
       stateError: '启动失败',
       stateKilled: '主动终止'
     }
+  },
+  historyDashboard: {
+    successAndFailCount: '作业成功/失败数',
+    jobType: '作业分类',
+    jobExecutionTypeJob: '作业执行类型',
+    jobTaskRunningCount: '作业/任务运行数',
+    currentJobsCount: '接入平台作业数',
+    jobInfoForOneMinute: '一分钟作业情况',
+    jobInfoForOneHour: '一小时作业情况',
+    jobInfoForOneWeek: '一周作业情况',
+    jobSuccessCount: '作业成功数',
+    jobFailureCount: '作业失败数',
+    taskRunningCount: '任务运行数',
+    jobRunningCount: '作业运行数',
+    success: '成功',
+    failed: '失败'
   }
 }
