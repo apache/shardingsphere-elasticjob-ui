@@ -19,10 +19,12 @@ package org.apache.shardingsphere.elasticjob.cloud.ui.web.controller;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.gson.JsonParseException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService;
 import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.ReconcileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.shardingsphere.elasticjob.infra.exception.JobSystemException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,6 +85,10 @@ public final class CloudOperationController {
     @GetMapping("/sandbox")
     public Collection<Map<String, String>> sandbox(@RequestParam("appName") final String appName) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(appName), "Lack param 'appName'");
-        return mesosStateService.sandbox(appName);
+        try {
+            return mesosStateService.sandbox(appName);
+        } catch (final JsonParseException ex) {
+            throw new JobSystemException(ex);
+        }
     }
 }

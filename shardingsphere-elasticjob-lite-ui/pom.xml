@@ -23,7 +23,6 @@
         <artifactId>shardingsphere-elasticjob-ui</artifactId>
         <version>3.0.0-alpha-SNAPSHOT</version>
     </parent>
-    <groupId>org.apache.shardingsphere</groupId>
     <artifactId>shardingsphere-elasticjob-lite-ui</artifactId>
     <version>3.0.0-alpha-SNAPSHOT</version>
     <packaging>pom</packaging>

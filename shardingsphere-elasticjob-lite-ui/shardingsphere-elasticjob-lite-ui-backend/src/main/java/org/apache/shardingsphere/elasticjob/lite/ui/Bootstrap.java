@@ -36,4 +36,5 @@ public class Bootstrap {
     //CHECKSTYLE:ON
         SpringApplication.run(Bootstrap.class, args);
     }
+    
 }

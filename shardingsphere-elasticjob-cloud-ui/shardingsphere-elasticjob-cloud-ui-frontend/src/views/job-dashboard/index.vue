@@ -59,7 +59,7 @@
         <span>作业成功/失败数</span>
       </div>
       <el-row>
-        <v-chart :options="line"/>
+        <v-chart :options="result"/>
       </el-row>
     </el-card>
   </el-row>
@@ -69,7 +69,7 @@
         <span>作业/任务运行数</span>
       </div>
       <el-row>
-        <v-chart :options="line"/>
+        <v-chart :options="running"/>
       </el-row>
     </el-card>
   </el-row>
@@ -102,6 +102,7 @@ export default {
   },
   data () {
     return {
+      color: ['rgb(105, 167, 225)', 'rgb(120, 230, 117)'],
       lastMinute: {},
       lastHour: {},
       lastWeek: {},
@@ -127,22 +128,26 @@ export default {
         const xAxis = []
         const series1 = []
         const series2 = []
-        res.model && res.model.forEach(item => {
-          xAxis.push(moment(item.statisticsTime).format('MM-DD'))
-          series1.push(item.successCount)
-          series2.push(item.failedCount)
-        })
+        if (res.model && res.model.length) {
+          res.model.forEach(item => {
+            xAxis.push(moment(item.statisticsTime).format('MM-DD'))
+            series1.push(item.successCount)
+            series2.push(item.failedCount)
+          })
+        }
         this.result = {
+          color: this.color,
           tooltip: {
             trigger: 'axis'
           },
           legend: {
-            data: ['successCount', 'failedCount']
+            data: ['successCount', 'failedCount'],
+            bottom: 0
           },
           grid: {
             left: '3%',
             right: '4%',
-            bottom: '3%',
+            bottom: '9%',
             containLabel: true
           },
           xAxis: {
@@ -164,7 +169,7 @@ export default {
           }]
         }
       })
-    },
+    },  
     getJobsRunning() {
       const params = {
         since: 'lastWeek'
@@ -172,16 +177,20 @@ export default {
       API.getJobsRunning(params).then(res => {
         const xAxis = []
         const series = []
-        res.model && res.model.forEach(item => {
-          xAxis.push(moment(item.statisticsTime).format('MM-DD'))
-          series.push(item.runningCount)
-        })
+        if (res.model && res.model.length) {
+          res.model && res.model.forEach(item => {
+            xAxis.push(moment(item.statisticsTime).format('MM-DD'))
+            series.push(item.runningCount)
+          })
+        }
         this.running = {
+          color: this.color,
           tooltip: {
             trigger: 'axis'
           },
           legend: {
-            data: ['runningCount']
+            data: ['runningCount'],
+            bottom: 0
           },
           grid: {
             left: '3%',
@@ -209,16 +218,20 @@ export default {
       API.getJobsRegister().then(res => {
         const xAxis = []
         const series = []
-        res.model && res.model.forEach(item => {
-          xAxis.push(moment(item.statisticsTime).format('MM-DD'))
-          series.push(item.registeredCount)
-        })
+        if (res.model && res.model.length) {
+          res.model && res.model.forEach(item => {
+            xAxis.push(moment(item.statisticsTime).format('MM-DD'))
+            series.push(item.registeredCount)
+          })
+        }
         this.register = {
+          color: this.color,
           tooltip: {
             trigger: 'axis'
           },
           legend: {
-            data: ['registeredCount']
+            data: ['registeredCount'],
+            bottom: 0
           },
           grid: {
             left: '3%',
@@ -246,6 +259,7 @@ export default {
       API.getJobsExecutionType().then(res => {
         const { model } = res
         this.executionType = {
+          color: this.color,
           series: [
             {
               name: 'jobtype',
@@ -272,6 +286,7 @@ export default {
       API.getTasksPeriod('lastMinute').then(res => {
         const { model } = res
         this.lastMinute = {
+          color: this.color,
           series: [
             {
               name: 'lastMinute',
@@ -296,6 +311,7 @@ export default {
       API.getTasksPeriod('lastHour').then(res => {
         const { model } = res
         this.lastHour = {
+          color: this.color,
           series: [
             {
               name: 'lastHour',
@@ -303,8 +319,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: '成功'},
-                {value: model.failedCount, name: '失败'}
+                {value: model.successCount, name: 'successCount'},
+                {value: model.failedCount, name: 'failedCount'}
               ],
               emphasis: {
                 itemStyle: {
@@ -320,6 +336,7 @@ export default {
       API.getTasksPeriod('lastWeek').then(res => {
         const { model } = res
         this.lastWeek = {
+          color: this.color,
           series: [
             {
               name: 'lastWeek',
@@ -327,8 +344,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: '成功'},
-                {value: model.failedCount, name: '失败'}
+                {value: model.successCount, name: 'successCount'},
+                {value: model.failedCount, name: 'failedCount'}
               ],
               emphasis: {
                 itemStyle: {
