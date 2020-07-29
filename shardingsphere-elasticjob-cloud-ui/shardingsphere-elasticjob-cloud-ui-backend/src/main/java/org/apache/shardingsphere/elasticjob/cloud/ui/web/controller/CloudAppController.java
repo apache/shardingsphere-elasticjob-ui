@@ -31,6 +31,8 @@ import org.apache.shardingsphere.elasticjob.cloud.scheduler.state.disable.app.Di
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.dto.CloudAppConfiguration;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResultUtil;
+import org.apache.shardingsphere.elasticjob.infra.exception.JobSystemException;
+import org.codehaus.jettison.json.JSONException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -179,10 +181,15 @@ public final class CloudAppController {
     }
     
     private void stopExecutors(final String appName) {
-        Collection<ExecutorStateInfo> executorBriefInfo = mesosStateService.executors(appName);
-        for (ExecutorStateInfo each : executorBriefInfo) {
-            producerManager.sendFrameworkMessage(ExecutorID.newBuilder().setValue(each.getId()).build(),
-                    SlaveID.newBuilder().setValue(each.getSlaveId()).build(), "STOP".getBytes());
+        try {
+            Collection<ExecutorStateInfo> executorBriefInfo = mesosStateService.executors(appName);
+            for (ExecutorStateInfo each : executorBriefInfo) {
+                producerManager.sendFrameworkMessage(ExecutorID.newBuilder().setValue(each.getId()).build(),
+                                                     SlaveID.newBuilder().setValue(each.getSlaveId()).build(),
+                                                     "STOP".getBytes());
+            }
+        } catch (final JSONException ex) {
+            throw new JobSystemException(ex);
         }
     }
     
