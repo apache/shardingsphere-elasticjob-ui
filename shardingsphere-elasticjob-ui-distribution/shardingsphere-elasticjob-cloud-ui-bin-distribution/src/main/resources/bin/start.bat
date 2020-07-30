@@ -25,7 +25,7 @@ set CLASS_PATH=".;..\conf;..\lib\*"
 
 set JAVA_OPTS=-server -Xmx1g -Xms1g -Xmn512m -Xss256k -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70
 
-set MAIN_CLASS=org.apache.shardingsphere.elasticjob.ui.Bootstrap
+set MAIN_CLASS=org.apache.shardingsphere.elasticjob.cloud.ui.Bootstrap
 
 echo Starting the %SERVER_NAME% ...
 

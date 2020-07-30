@@ -39,7 +39,7 @@ fi
 CLASS_PATH=.:${DEPLOY_DIR}/conf:${DEPLOY_DIR}/lib/*
 JAVA_OPTS=" -server -Xmx1g -Xms1g -Xmn512m -Xss256k -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 "
 
-MAIN_CLASS=org.apache.shardingsphere.elasticjob.ui.Bootstrap
+MAIN_CLASS=org.apache.shardingsphere.elasticjob.cloud.ui.Bootstrap
 echo "Starting the $SERVER_NAME ..."
 
 nohup java ${JAVA_OPTS} -classpath ${CLASS_PATH} ${MAIN_CLASS} > ${STDOUT_FILE} 2>&1 &
