@@ -38,8 +38,7 @@
       <el-select
         :placeholder="$t('historyStatus.searchForm.state')"
         v-model="searchForm.state"
-        clearable
-        >
+        clearable>
         <el-option
           v-for="item in stateItems"
           :key="item.value"
@@ -60,6 +59,7 @@
           :prop="item.prop"
           :label="item.label"
           :width="item.width"
+          :formatter = "item.formatter"
         />
       </el-table>
       <div class="pagination">
@@ -77,7 +77,6 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import clone from 'lodash/clone'
 import API from '../api'
 export default {
   name: 'HistoryStatus',
@@ -98,7 +97,14 @@ export default {
         },
         {
           label: this.$t('historyStatus').column.createTime,
-          prop: 'creationTime'
+          prop: 'creationTime',
+          formatter: function(row, cell, value) {
+            var t = new Date(value)
+            if (!t) {
+              return ''
+            }
+            return t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()
+          }
         },
         {
           label: this.$t('historyStatus').column.remark,

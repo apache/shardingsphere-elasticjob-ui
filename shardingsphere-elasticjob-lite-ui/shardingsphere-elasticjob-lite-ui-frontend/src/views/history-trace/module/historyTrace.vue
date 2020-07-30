@@ -43,8 +43,7 @@
       <el-select
         :placeholder="$t('historyTrace.searchForm.executeResult')"
         v-model="searchForm.isSuccess"
-        clearable
-        >
+        clearable>
         <el-option
           v-for="item in executeResultItems"
           :key="item.value"
@@ -105,8 +104,8 @@ export default {
         {
           label: this.$t('historyTrace').column.executeResult,
           prop: 'success',
-          formatter: function(row,cell,value) {
-            return value+''
+          formatter: function(row, cell, value) {
+            return value + ''
           }
         },
         {
@@ -115,11 +114,25 @@ export default {
         },
         {
           label: this.$t('historyTrace').column.startTime,
-          prop: 'startTime'
+          prop: 'startTime',
+          formatter: function(row, cell, value) {
+            var t = new Date(value)
+            if (!t) {
+              return ''
+            }
+            return t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()
+          }
         },
         {
           label: this.$t('historyTrace').column.completeTime,
-          prop: 'completeTime'
+          prop: 'completeTime',
+          formatter: function(row, cell, value) {
+            var t = new Date(value)
+            if (!t) {
+              return ''
+            }
+            return t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()
+          }
         }
       ],
       executeResultItems: [

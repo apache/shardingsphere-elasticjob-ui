@@ -115,23 +115,19 @@ export default {
       column: [
         {
           label: this.$t('operationServers').labelInfo.serverIp,
-          prop: 'serverIp',
-          width : 200
+          prop: 'serverIp'
         },
         {
           label: this.$t('operationServers').labelInfo.instancesNum,
-          prop: 'instancesNum',
-          width : 180
+          prop: 'instancesNum'
         },
         {
           label: this.$t('operationServers').labelInfo.jobsNum,
-          prop: 'jobsNum',
-          width : 160
+          prop: 'jobsNum'
         },
         {
           label: this.$t('operationServers').labelInfo.disabledJobsNum,
-          prop: 'disabledJobsNum',
-          width : 160
+          prop: 'disabledJobsNum'
         }
       ],
       searchForm: {
