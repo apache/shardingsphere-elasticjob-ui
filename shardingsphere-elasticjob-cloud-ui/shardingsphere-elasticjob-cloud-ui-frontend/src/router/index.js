@@ -22,6 +22,11 @@ Vue.use(Router)
 
 export const constantRouterMap = [
   {
+    path: '/',
+    component: () => import('@/views/login'),
+    hidden: true
+  },
+  {
     path: '/login',
     component: () => import('@/views/login'),
     hidden: true
