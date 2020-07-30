@@ -249,11 +249,19 @@ export default {
           name: row.name
         }
         API.connect(params).then(res => {
-          this.$notify({
-            title: this.$t('common').notify.title,
-            message: this.$t('common').notify.conSucMessage,
-            type: 'success'
-          })
+          if(res.model) {
+            this.$notify({
+              title: this.$t('common').notify.title,
+              message: this.$t('common').notify.conSucMessage,
+              type: 'success'
+            })
+          } else {
+            this.$notify({
+              title: this.$t('common').notify.title,
+              message: this.$t('common').notify.conFailMessage,
+              type: 'error'
+            })
+          }
           this.load()
         })
       }
@@ -293,11 +301,20 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           API.connectTest(this.form).then(res => {
-            this.$notify({
-              title: this.$t('common').notify.title,
-              message: this.$t('common').notify.addSucMessage,
-              type: 'success'
-            })
+            if(res.model) {
+              this.$notify({
+                title: this.$t('common').notify.title,
+                message: this.$t('common').notify.conSucMessage,
+                type: 'success'
+              })
+            } else {
+              this.$notify({
+                title: this.$t('common').notify.title,
+                message: this.$t('common').notify.conFailMessage,
+                type: 'error'
+              })
+            }
+
           })
         } else {
           return false

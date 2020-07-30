@@ -312,28 +312,23 @@ export default {
       column: [
         {
           label: this.$t('operationJobs').labelInfo.jobName,
-          prop: 'jobName',
-          width : 200
+          prop: 'jobName'
         },
         {
           label: this.$t('operationJobs').labelInfo.shardingTotalCount,
-          prop: 'shardingTotalCount',
-          width : 140
+          prop: 'shardingTotalCount'
         },
         {
           label: this.$t('operationJobs').labelInfo.cron,
-          prop: 'cron',
-          width : 120
+          prop: 'cron'
         },
         {
           label: this.$t('operationJobs').labelInfo.description,
-          prop: 'description',
-          width : 120
+          prop: 'description'
         },
         {
           label: this.$t('operationJobs').labelInfo.status,
-          prop: 'status',
-          width : 120
+          prop: 'status'
         }
       ],
       statusColor: {
