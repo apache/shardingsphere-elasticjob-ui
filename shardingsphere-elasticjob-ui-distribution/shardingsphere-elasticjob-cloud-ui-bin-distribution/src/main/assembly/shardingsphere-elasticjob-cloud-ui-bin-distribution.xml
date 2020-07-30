@@ -34,6 +34,7 @@
             <directory>src/main/resources</directory>
             <includes>
                 <include>application.properties</include>
+                <include>elasticjob-cloud-scheduler.properties</include>
                 <include>logback.xml</include>
             </includes>
             <outputDirectory>conf</outputDirectory>
