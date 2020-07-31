@@ -56,5 +56,4 @@ public class OpenJPAConfig extends JpaBaseConfiguration {
         result.put("openjpa.RuntimeUnenhancedClasses", "supported");
         return result;
     }
-    
 }

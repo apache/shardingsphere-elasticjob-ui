@@ -37,7 +37,6 @@ import java.util.Date;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -59,26 +58,26 @@ public class RDBStatisticRepositoryTest {
     public void assertAddTaskResultStatistics() {
         for (StatisticInterval each : StatisticInterval.values()) {
             TaskResultStatistics taskResultStatistics = new TaskResultStatistics(100L, 0L, each.name(), new Date());
-            assertTrue(taskResultStatistics.equals(taskResultStatisticsRepository.save(taskResultStatistics)));
+            assertThat(taskResultStatisticsRepository.save(taskResultStatistics), is(taskResultStatistics));
         }
     }
     
     @Test
     public void assertAddTaskRunningStatistics() {
         TaskRunningStatistics taskRunningStatistics = new TaskRunningStatistics(100, new Date());
-        assertTrue(taskRunningStatistics.equals(taskRunningStatisticsRepository.save(taskRunningStatistics)));
+        assertThat(taskRunningStatisticsRepository.save(taskRunningStatistics), is(taskRunningStatistics));
     }
     
     @Test
     public void assertAddJobRunningStatistics() {
         JobRunningStatistics jobRunningStatistics = new JobRunningStatistics(100, new Date());
-        assertTrue(jobRunningStatistics.equals(jobRunningStatisticsRepository.save(jobRunningStatistics)));
+        assertThat(jobRunningStatisticsRepository.save(jobRunningStatistics), is(jobRunningStatistics));
     }
     
     @Test
     public void assertAddJobRegisterStatistics() {
         JobRegisterStatistics jobRegisterStatistics = new JobRegisterStatistics(100, new Date());
-        assertTrue(jobRegisterStatistics.equals(jobRegisterStatisticsRepository.save(jobRegisterStatistics)));
+        assertThat(jobRegisterStatisticsRepository.save(jobRegisterStatistics), is(jobRegisterStatistics));
     }
     
     @Test

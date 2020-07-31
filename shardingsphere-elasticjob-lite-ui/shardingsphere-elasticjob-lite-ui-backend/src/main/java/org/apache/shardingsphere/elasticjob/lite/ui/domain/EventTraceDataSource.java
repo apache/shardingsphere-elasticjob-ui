@@ -19,6 +19,7 @@ package org.apache.shardingsphere.elasticjob.lite.ui.domain;
 
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.sql.DriverManager;
@@ -27,21 +28,18 @@ import java.sql.SQLException;
 /**
  * Event tracing data source.
  */
+@RequiredArgsConstructor
+@Getter(AccessLevel.PROTECTED)
 @Slf4j
 public final class EventTraceDataSource {
     
-    @Getter(AccessLevel.PROTECTED)
-    private EventTraceDataSourceConfiguration eventTraceDataSourceConfiguration;
-    
-    public EventTraceDataSource(final EventTraceDataSourceConfiguration eventTraceDataSourceConfiguration) {
-        this.eventTraceDataSourceConfiguration = eventTraceDataSourceConfiguration;
-    }
+    private final EventTraceDataSourceConfiguration eventTraceDataSourceConfiguration;
     
     /**
      * Initialize data source.
      */
     public void init() {
-        log.debug("Elastic job: data source init, connection url is: {}.", eventTraceDataSourceConfiguration.getUrl());
+        log.debug("ElasticJob: data source init, connection url is: {}.", eventTraceDataSourceConfiguration.getUrl());
         try {
             Class.forName(eventTraceDataSourceConfiguration.getDriver());
             DriverManager.getConnection(eventTraceDataSourceConfiguration.getUrl(), eventTraceDataSourceConfiguration.getUsername(), eventTraceDataSourceConfiguration.getPassword());

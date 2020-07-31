@@ -32,9 +32,9 @@ import java.util.Date;
 /**
  * Job running statistics.
  */
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Entity
 @Table(name = "JOB_RUNNING_STATISTICS")
 public class JobRunningStatistics {

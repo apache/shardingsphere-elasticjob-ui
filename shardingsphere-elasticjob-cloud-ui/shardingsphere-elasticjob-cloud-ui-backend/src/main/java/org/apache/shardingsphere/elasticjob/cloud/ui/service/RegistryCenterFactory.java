@@ -24,8 +24,6 @@ import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.shardingsphere.elasticjob.cloud.ui.domain.RegistryCenterConfiguration;
-import org.apache.shardingsphere.elasticjob.cloud.ui.util.SessionRegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
 import org.apache.shardingsphere.elasticjob.reg.zookeeper.ZookeeperConfiguration;
 import org.apache.shardingsphere.elasticjob.reg.zookeeper.ZookeeperRegistryCenter;
@@ -49,30 +47,6 @@ public final class RegistryCenterFactory {
      * @return registry center
      */
     public static CoordinatorRegistryCenter createCoordinatorRegistryCenter(final String connectString, final String namespace, final String digest) {
-        Hasher hasher = Hashing.sha256().newHasher().putString(connectString, Charsets.UTF_8).putString(namespace, Charsets.UTF_8);
-        if (!Strings.isNullOrEmpty(digest)) {
-            hasher.putString(digest, Charsets.UTF_8);
-        }
-        HashCode hashCode = hasher.hash();
-        CoordinatorRegistryCenter result = REG_CENTER_REGISTRY.get(hashCode);
-        if (null != result) {
-            return result;
-        }
-        ZookeeperConfiguration zkConfig = new ZookeeperConfiguration(connectString, namespace);
-        if (!Strings.isNullOrEmpty(digest)) {
-            zkConfig.setDigest(digest);
-        }
-        result = new ZookeeperRegistryCenter(zkConfig);
-        result.init();
-        REG_CENTER_REGISTRY.put(hashCode, result);
-        return result;
-    }
-    
-    public static CoordinatorRegistryCenter getRegistryCenter() {
-        RegistryCenterConfiguration registryCenterConfiguration = SessionRegistryCenterConfiguration.getRegistryCenterConfiguration();
-        String connectString = registryCenterConfiguration.getZkAddressList();
-        String namespace = registryCenterConfiguration.getNamespace();
-        String digest = registryCenterConfiguration.getDigest();
         Hasher hasher = Hashing.sha256().newHasher().putString(connectString, Charsets.UTF_8).putString(namespace, Charsets.UTF_8);
         if (!Strings.isNullOrEmpty(digest)) {
             hasher.putString(digest, Charsets.UTF_8);

@@ -69,5 +69,4 @@ public class FilterConfiguration {
         filterRegBean.setUrlPatterns(urlPatterns);
         return filterRegBean;
     }
-    
 }

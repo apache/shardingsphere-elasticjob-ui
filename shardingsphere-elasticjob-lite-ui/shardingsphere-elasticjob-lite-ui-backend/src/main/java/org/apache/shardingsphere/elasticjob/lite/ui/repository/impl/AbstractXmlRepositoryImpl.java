@@ -37,7 +37,7 @@ public abstract class AbstractXmlRepositoryImpl<E> implements XmlRepository<E> {
     
     private final Class<E> clazz;
     
-    private JAXBContext jaxbContext;
+    private final JAXBContext jaxbContext;
     
     protected AbstractXmlRepositoryImpl(final String fileName, final Class<E> clazz) {
         file = new File(HomeFolderUtils.getFilePathInHomeFolder(fileName));
