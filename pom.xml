@@ -48,7 +48,6 @@
         <junit.version>4.12</junit.version>
         <hamcrest.version>1.3</hamcrest.version>
         <mockito.version>2.7.21</mockito.version>
-        <commons-dbcp.version>1.4</commons-dbcp.version>
         <commons-dbcp2.version>2.2.0</commons-dbcp2.version>
         <h2.version>1.4.196</h2.version>
         <maven.deploy.skip>true</maven.deploy.skip>
@@ -167,11 +166,6 @@
                 <artifactId>h2</artifactId>
                 <version>${h2.version}</version>
                 <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>commons-dbcp</groupId>
-                <artifactId>commons-dbcp</artifactId>
-                <version>${commons-dbcp.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
