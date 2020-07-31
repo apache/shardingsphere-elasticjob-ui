@@ -1,24 +1,23 @@
-# ShardingSphere ElasticJob UI
+# ElasticJob-UI
 
 [![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ## 概述
 
-ShardingSphere ElasticJob UI是 [ShardingSphere ElasticJob](https://shardingsphere.apache.org/) 的管理后台，包含了动态配置、数据编排等功能。
+ElasticJob-UI 是 [ElasticJob](http://shardingsphere.apache.org/elasticjob/) 的管理控制台，包含了动态配置、作业管控等功能。
 本项目包括两部分：
-- shardingsphere-elasticjob-lite-ui：给shardingsphere-elasticjob-lite提供UI界面
-- shardingsphere-elasticjob-cloud-ui：给shardingsphere-elasticjob-cloud提供UI界面
 
-### ShardingSphere ElasticJob UI 前端
+- shardingsphere-elasticjob-lite-ui：ElasticJob-Lite 管控端
+- shardingsphere-elasticjob-cloud-ui：ElasticJob-Cloud 管控端
 
-shardingsphere-elasticjob-lite-ui-frontend/shardingsphere-elasticjob-cloud-ui-frontend 模块基于 [vue](https://github.com/vuejs/vue) ，并使用了UI工具包 [element](https://github.com/ElemeFE/element) 。
+### ElasticJob-UI 前端
 
-- [shardingsphere-elasticjob-lite-ui/shardingsphere-elasticjob-lite-ui-frontend/README.md](shardingsphere-elasticjob-lite-ui/shardingsphere-elasticjob-lite-ui-frontend/README.md)
-- [shardingsphere-elasticjob-cloud-ui/shardingsphere-elasticjob-cloud-ui-frontend/README.md](shardingsphere-elasticjob-cloud-ui/shardingsphere-elasticjob-cloud-ui-frontend/README.md)
+shardingsphere-elasticjob-lite-ui-frontend & shardingsphere-elasticjob-cloud-ui-frontend 模块基于 [vue](https://github.com/vuejs/vue)，
+并使用其相关 UI 工具包 [element](https://github.com/ElemeFE/element) 开发。
 
-### ShardingSphere ElasticJob UI 后端
+### ElasticJob-UI 后端
 
-shardingsphere-elasticjob-lite-ui-backend、shardingsphere-elasticjob-cloud-ui-backend 模块是标准的 spring boot 项目。
+shardingsphere-elasticjob-lite-ui-backend & shardingsphere-elasticjob-cloud-ui-backend 模块是标准的 Spring Boot 项目。
 
 ## 如何构建
 
