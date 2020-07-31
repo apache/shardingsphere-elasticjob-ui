@@ -25,12 +25,7 @@
     </parent>
     <artifactId>shardingsphere-elasticjob-lite-ui-backend</artifactId>
     <name>${project.artifactId}</name>
-    
-    <properties>
-        <springframework.version>4.3.24.RELEASE</springframework.version>
-        <commons-dbcp.version>1.4</commons-dbcp.version>
-    </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.apache.shardingsphere.elasticjob</groupId>
