@@ -1,4 +1,4 @@
-# ShardingSphere ElasticJob UI Frontend
+# ElasticJob UI Frontend
 
 ## How to Build
 
