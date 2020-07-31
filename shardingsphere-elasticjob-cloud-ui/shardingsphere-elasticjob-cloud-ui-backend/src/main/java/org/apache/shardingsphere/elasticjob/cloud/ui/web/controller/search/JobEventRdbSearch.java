@@ -89,7 +89,7 @@ public final class JobEventRdbSearch {
                 ) {
             while (resultSet.next()) {
                 JobExecutionEvent jobExecutionEvent = new JobExecutionEvent(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4),
-                        resultSet.getString(5), JobExecutionEvent.ExecutionSource.valueOf(resultSet.getString(6)), Integer.valueOf(resultSet.getString(7)),
+                        resultSet.getString(5), JobExecutionEvent.ExecutionSource.valueOf(resultSet.getString(6)), Integer.parseInt(resultSet.getString(7)),
                         new Date(resultSet.getTimestamp(8).getTime()), resultSet.getTimestamp(9) == null ? null : new Date(resultSet.getTimestamp(9).getTime()), 
                         resultSet.getBoolean(10), resultSet.getString(11));
                 result.add(jobExecutionEvent);
@@ -242,15 +242,10 @@ public final class JobEventRdbSearch {
         }
         StringBuilder sqlBuilder = new StringBuilder();
         sqlBuilder.append(" ORDER BY ").append(lowerUnderscore);
-        switch (sortOrder.toUpperCase()) {
-            case "ASC":
-                sqlBuilder.append(" ASC");
-                break;
-            case "DESC":
-                sqlBuilder.append(" DESC");
-                break;
-            default :
-                sqlBuilder.append(" ASC");
+        if ("DESC".equals(sortOrder.toUpperCase())) {
+            sqlBuilder.append(" DESC");
+        } else {
+            sqlBuilder.append(" ASC");
         }
         return sqlBuilder.toString();
     }

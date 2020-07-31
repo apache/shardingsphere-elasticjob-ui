@@ -194,13 +194,13 @@ public final class CloudAppController {
     }
     
     private Collection<CloudAppConfiguration> build(final Collection<CloudAppConfigurationPOJO> cloudAppConfigurationPOJOS) {
-        return cloudAppConfigurationPOJOS.stream().map(each -> convert(each)).collect(Collectors.toList());
+        return cloudAppConfigurationPOJOS.stream().map(this::convert).collect(Collectors.toList());
     }
     
     private CloudAppConfiguration convert(final CloudAppConfigurationPOJO cloudAppConfigurationPOJO) {
-        CloudAppConfiguration cloudAppConfiguration = new CloudAppConfiguration();
-        BeanUtils.copyProperties(cloudAppConfigurationPOJO, cloudAppConfiguration);
-        cloudAppConfiguration.setDisabled(disableAppService.isDisabled(cloudAppConfigurationPOJO.getAppName()));
-        return cloudAppConfiguration;
+        CloudAppConfiguration result = new CloudAppConfiguration();
+        BeanUtils.copyProperties(cloudAppConfigurationPOJO, result);
+        result.setDisabled(disableAppService.isDisabled(cloudAppConfigurationPOJO.getAppName()));
+        return result;
     }
 }

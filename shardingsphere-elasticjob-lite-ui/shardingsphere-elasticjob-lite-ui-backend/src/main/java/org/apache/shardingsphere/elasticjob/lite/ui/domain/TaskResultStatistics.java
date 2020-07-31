@@ -32,9 +32,9 @@ import java.util.Date;
 /**
  * Task result statistics.
  */
-@Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Getter
 @Entity
 @Table(name = "TASK_RESULT_STATISTICS")
 public class TaskResultStatistics {

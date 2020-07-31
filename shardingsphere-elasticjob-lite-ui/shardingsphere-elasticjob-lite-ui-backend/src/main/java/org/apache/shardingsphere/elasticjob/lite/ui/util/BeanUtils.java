@@ -17,11 +17,6 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.util;
 
-import org.springframework.cglib.beans.BeanMap;
-
-import java.util.Map;
-import java.util.Objects;
-
 public class BeanUtils extends org.springframework.beans.BeanUtils {
     
     /**
@@ -34,23 +29,4 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
     public static <T> T newInstance(final Class<T> clazz) {
         return instantiateClass(clazz);
     }
-    
-    /**
-     * map to java object.
-     *
-     * @param map  source map
-     * @param type class
-     * @param <T>  target java type
-     * @return java object
-     */
-    public static <T> T toBean(final Map<String, Object> map, final Class<T> type) {
-        if (Objects.isNull(map)) {
-            return null;
-        }
-        T bean = newInstance(type);
-        BeanMap beanMap = BeanMap.create(bean);
-        beanMap.putAll(map);
-        return bean;
-    }
-    
 }

@@ -19,7 +19,6 @@ package org.apache.shardingsphere.elasticjob.lite.ui.security;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 /**
  * Authentication result.

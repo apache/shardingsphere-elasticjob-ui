@@ -242,7 +242,7 @@ public final class CloudJobController {
     @PostMapping("/events/executions")
     public ResponseResult<JobEventRdbSearch.Result<JobExecutionEvent>> findJobExecutionEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
-            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.<JobExecutionEvent>emptyList()));
+            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.emptyList()));
         }
         return ResponseResultUtil.build(jobEventRdbSearch.findJobExecutionEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "ip", "isSuccess"})));
     }
@@ -256,7 +256,7 @@ public final class CloudJobController {
     @PostMapping("/events/statusTraces")
     public ResponseResult<JobEventRdbSearch.Result<JobStatusTraceEvent>> findJobStatusTraceEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
-            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.<JobStatusTraceEvent>emptyList()));
+            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.emptyList()));
         }
         return ResponseResultUtil.build(jobEventRdbSearch.findJobStatusTraceEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "slaveId", "source", "executionType", "state"})));
     }
