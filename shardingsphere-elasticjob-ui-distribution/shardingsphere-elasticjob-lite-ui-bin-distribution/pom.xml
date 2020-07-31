@@ -27,14 +27,14 @@
     </parent>
     <artifactId>shardingsphere-elasticjob-lite-ui-bin-distribution</artifactId>
     <name>${project.artifactId}</name>
-
+    
     <dependencies>
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
             <artifactId>shardingsphere-elasticjob-lite-ui-backend</artifactId>
             <version>${project.version}</version>
         </dependency>
-    
+        
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>

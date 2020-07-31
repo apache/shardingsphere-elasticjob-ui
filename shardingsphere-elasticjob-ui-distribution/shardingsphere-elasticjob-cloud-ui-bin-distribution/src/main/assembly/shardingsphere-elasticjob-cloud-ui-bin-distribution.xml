@@ -23,7 +23,7 @@
     </formats>
     <includeBaseDirectory>true</includeBaseDirectory>
     <baseDirectory>${project.build.finalName}-cloud-ui-bin</baseDirectory>
-
+    
     <fileSets>
         <fileSet>
             <directory>src/main/resources/bin</directory>
@@ -54,7 +54,7 @@
             <outputDirectory>/</outputDirectory>
         </fileSet>
     </fileSets>
-
+    
     <dependencySets>
         <dependencySet>
             <outputDirectory>lib</outputDirectory>
