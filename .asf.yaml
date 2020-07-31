@@ -21,14 +21,7 @@ notifications:
   pullrequests: notifications@shardingsphere.apache.org
 
 github:
-  description: Distributed scheduled job framework
+  description: Administrator console of ElasticJob
   labels:
     - elasticjob
-    - database
-    - scheduled-jobs
-    - cron
-    - job
-    - job-management
-    - shard
-    - quartz
-    - middleware
+    - ui
