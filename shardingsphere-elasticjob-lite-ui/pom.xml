@@ -32,18 +32,6 @@
         <module>shardingsphere-elasticjob-lite-ui-frontend</module>
         <module>shardingsphere-elasticjob-lite-ui-backend</module>
     </modules>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     
     <build>
         <finalName>apache-shardingsphere-elasticjob-${project.version}</finalName>
