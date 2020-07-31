@@ -25,3 +25,7 @@ github:
   labels:
     - elasticjob
     - ui
+  features:
+    wiki: true
+    issues: true
+    projects: true
