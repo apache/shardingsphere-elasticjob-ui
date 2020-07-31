@@ -216,9 +216,6 @@ The following components are provided under the Apache License. See project link
 The text of each license is the standard Apache 2.0 license.
 
     HikariCP-java7-2.4.13: https://github.com/brettwooldridge/HikariCP, Apache 2.0
-    accessors-smart-1.1: https://mvnrepository.com/artifact/net.minidev/accessors-smart/1.1, Apache 2.0
-    android-json-0.0.20131108.vaadin1: https://mvnrepository.com/artifact/com.vaadin.external.google/android-json/0.0.20131108.vaadin1, Apache 2.0
-    assertj-core-2.6.0: https://mvnrepository.com/artifact/org.assertj/assertj-core/2.6.0, Apache 2.0
     audience-annotations-0.5.0: https://github.com/apache/yetus, Apache 2.0
     commons-codec-1.10: https://github.com/apache/commons-codec, Apache 2.0
     commons-dbcp-1.4: https://github.com/apache/commons-dbcp, Apache 2.0
@@ -241,9 +238,6 @@ The text of each license is the standard Apache 2.0 license.
     jackson-databind-2.8.11.3: https://github.com/FasterXML/jackson-databind, Apache 2.0
     jandex-2.0.0.Final: https://mvnrepository.com/artifact/org.jboss/jandex/2.0.0.Final, Apache 2.0
     javassist-3.21.0-GA: http://www.javassist.org, Apache 2.0
-    json-path-2.2.0: https://mvnrepository.com/artifact/com.jayway.jsonpath/json-path/2.2.0, Apache 2.0
-    json-smart-2.2.1: http://www.minidev.net, Apache 2.0
-    jsonassert-1.4.0: https://github.com/skyscreamer/JSONassert, Apache 2.0
     jsr305-3.0.2: https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305, Apache 2.0
     listenablefuture-9999.0-empty-to-avoid-conflict-with-guava: https://mvnrepository.com/artifact/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava, Apache 2.0
     log4j-1.2.17: http://logging.apache.org/log4j/1.2/, Apache 2.0
@@ -256,7 +250,6 @@ The text of each license is the standard Apache 2.0 license.
     netty-transport-4.1.45.Final: https://github.com/netty, Apache 2.0
     netty-transport-native-epoll-4.1.45.Final: https://github.com/netty, Apache 2.0
     netty-transport-native-unix-common-4.1.45.Final: https://github.com/netty, Apache 2.0
-    objenesis-2.1: https://mvnrepository.com/artifact/org.objenesis/objenesis/2.1, Apache 2.0
     quartz-2.3.2: https://mvnrepository.com/artifact/org.quartz-scheduler/quartz/2.2.3, Apache 2.0
     snakeyaml-1.17: http://www.snakeyaml.org , Apache 2.0
     spring-aop-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-aop/5.1.5.RELEASE, Apache 2.0
@@ -269,11 +262,8 @@ The text of each license is the standard Apache 2.0 license.
     spring-boot-starter-data-jpa-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/1.5.21.RELEASE, Apache 2.0
     spring-boot-starter-jdbc-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc/2.1.3.RELEASE, Apache 2.0
     spring-boot-starter-logging-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-logging/2.1.3.RELEASE, Apache 2.0
-    spring-boot-starter-test-1.5.21.RELEASE: https://projects.spring.io/spring-boot, Apache 2.0
     spring-boot-starter-tomcat-1.5.21.RELEASE: https://projects.spring.io/spring-boot, Apache 2.0
     spring-boot-starter-web-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web/2.1.3.RELEASE, Apache 2.0
-    spring-boot-test-1.5.21.RELEASE: https://projects.spring.io/spring-boot, Apache 2.0
-    spring-boot-test-autoconfigure-1.5.21.RELEASE: https://projects.spring.io/spring-boot, Apache 2.0
     spring-context-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-context/5.1.5.RELEASE, Apache 2.0
     spring-core-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-core, Apache 2.0
     spring-data-commons-1.13.22.RELEASE: https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons/1.13.22.RELEASE, Apache 2.0
@@ -281,7 +271,6 @@ The text of each license is the standard Apache 2.0 license.
     spring-expression-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-expression, Apache 2.0
     spring-jdbc-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-jdbc/5.1.5.RELEASE, Apache 2.0
     spring-orm-4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
-    spring-test-4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
     spring-tx-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-tx/5.1.5.RELEASE, Apache 2.0
     spring-web-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-web/5.1.5.RELEASE, Apache 2.0
     spring-webmvc-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-webmvc/5.1.5.RELEASE, Apache 2.0
