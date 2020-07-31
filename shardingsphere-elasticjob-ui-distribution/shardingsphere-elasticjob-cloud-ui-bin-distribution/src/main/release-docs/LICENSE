@@ -345,7 +345,6 @@ The text of each license is also included at licenses/LICENSE-[project].txt.
     checker-qual-2.11.1: checker-qual-2.11.1: https://github.com/typetools/checker-framework, MIT
     jcl-over-slf4j-1.7.26: https://www.slf4j.org, MIT
     jul-to-slf4j-1.7.26: https://www.slf4j.org, MIT
-    lombok-1.16.22: https://mvnrepository.com/artifact/org.projectlombok/lombok/1.16.22, MIT
     slf4j-api-1.7.26: https://mvnrepository.com/artifact/org.slf4j/slf4j-api/1.7.26, MIT
     axios 0.18.0: https://github.com/axios/axios, MIT
     element-ui 2.4.9: https://github.com/ElemeFE/element, MIT
