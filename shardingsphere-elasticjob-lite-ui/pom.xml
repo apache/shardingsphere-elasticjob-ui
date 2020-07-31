@@ -65,7 +65,7 @@
                 <version>${os-maven-plugin.version}</version>
             </extension>
         </extensions>
-
+        
         <pluginManagement>
             <plugins>
                 <plugin>
