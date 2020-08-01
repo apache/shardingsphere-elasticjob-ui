@@ -256,7 +256,7 @@ The text of each license is the standard Apache 2.0 license.
     jsr305-3.0.2: https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305, Apache 2.0
     listenablefuture-9999.0-empty-to-avoid-conflict-with-guava: https://mvnrepository.com/artifact/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava, Apache 2.0
     log4j-1.2.17: http://logging.apache.org/log4j/1.2/, Apache 2.0
-    log4j-over-slf4j-1.7.26: log4j-over-slf4j-1.7.26: https://mvnrepository.com/artifact/org.slf4j/log4j-over-slf4j/1.7.7, Apache 2.0
+    log4j-over-slf4j-1.7.26: https://mvnrepository.com/artifact/org.slf4j/log4j-over-slf4j/1.7.7, Apache 2.0
     mesos-1.1.0: http://mesos.apache.org/, Apache 2.0
     netty-buffer-4.1.45.Final: https://github.com/netty, Apache 2.0
     netty-codec-4.1.45.Final: https://github.com/netty, Apache 2.0
