@@ -97,7 +97,7 @@
                             <repository>apache/shardingsphere-elasticjob-lite-ui</repository>
                             <tag>${project.version}</tag>
                             <buildArgs>
-                                <APP_NAME>${project.build.finalName}-shardingsphere-elasticjob-lite-ui-bin</APP_NAME>
+                                <APP_NAME>${project.build.finalName}-lite-ui-bin</APP_NAME>
                             </buildArgs>
                         </configuration>
                     </plugin>
