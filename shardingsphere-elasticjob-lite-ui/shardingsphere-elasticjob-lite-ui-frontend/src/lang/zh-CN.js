@@ -63,8 +63,9 @@ export default {
         href: '/job-help'
       }
     ],
-    connect: '已连接',
+    connected: '已连接',
     connection: '连接',
+    noRegistry: '无已连接注册中心',
     del: '删除',
     notify: {
       title: '提示',
@@ -180,8 +181,8 @@ export default {
       streamingProcess: '是否流式处理数据',
       shardingItemParameters: '分片序列号/参数对照表',
       jobShardingStrategyType: '作业分片策略类型',
-      jobExecutorServiceHandlerType: '定制线程池全路径',
-      jobErrorHandlerType: '定制异常处理类全路径',
+      jobExecutorServiceHandlerType: '作业线程池处理策略',
+      jobErrorHandlerType: '作业错误处理策略',
       item: '分片项',
       serverIp: '服务器IP',
       instanceId: '进程ID',

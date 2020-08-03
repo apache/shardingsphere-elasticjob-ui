@@ -20,6 +20,7 @@ package org.apache.shardingsphere.elasticjob.lite.ui.web.controller;
 import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.JobBriefInfo;
 import org.apache.shardingsphere.elasticjob.lite.lifecycle.domain.ServerBriefInfo;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.JobAPIService;
+import org.apache.shardingsphere.elasticjob.lite.ui.util.SessionRegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Objects;
 
 /**
  * Server operation RESTful API.
@@ -63,7 +66,8 @@ public final class ServerOperationController {
      */
     @GetMapping("/getAllServersBriefInfo")
     public ResponseResult<Collection<ServerBriefInfo>> getAllServersBriefInfo() {
-        Collection<ServerBriefInfo> data = jobAPIService.getServerStatisticsAPI().getAllServersBriefInfo();
+        Collection<ServerBriefInfo> data =  Objects.nonNull(SessionRegistryCenterConfiguration.getRegistryCenterConfiguration()) ?
+                jobAPIService.getServerStatisticsAPI().getAllServersBriefInfo() : Collections.emptyList();
         return ResponseResultUtil.build(data);
     }
     

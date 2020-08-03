@@ -65,6 +65,7 @@ export default {
     ],
     connected: 'Connected',
     connection: 'Connection',
+    noRegistry: 'No connected registry center',
     del: 'Delete',
     notify: {
       title: 'Prompt',
@@ -180,8 +181,8 @@ export default {
       streamingProcess: 'Streaming process',
       shardingItemParameters: 'Sharding item parameters',
       jobShardingStrategyType: 'Job sharding strategy type',
-      jobExecutorServiceHandlerType: 'Executor service handler',
-      jobErrorHandlerType: 'Job error handler',
+      jobExecutorServiceHandlerType: 'Job thread pool handler type',
+      jobErrorHandlerType: 'Job error handler type',
       item: 'Sharding item',
       serverIp: 'Server IP',
       instanceId: 'PID',

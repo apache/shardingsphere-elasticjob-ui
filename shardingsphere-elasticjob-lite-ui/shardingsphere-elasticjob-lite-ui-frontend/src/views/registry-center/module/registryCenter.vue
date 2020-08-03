@@ -110,7 +110,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="regustDialogVisible = false">{{ $t("registryCenter.registDialog.btnCancelTxt") }}</el-button>
+        <el-button @click="addDialogVisible = false">{{ $t("registryCenter.registDialog.btnCancelTxt") }}</el-button>
         <el-button
           type="primary"
           @click="onConfirm('form')"
