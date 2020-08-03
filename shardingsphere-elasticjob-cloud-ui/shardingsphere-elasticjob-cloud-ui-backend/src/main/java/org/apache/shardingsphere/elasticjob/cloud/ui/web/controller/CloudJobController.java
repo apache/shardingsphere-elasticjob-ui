@@ -21,17 +21,17 @@ import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.cloud.config.CloudJobExecutionType;
 import org.apache.shardingsphere.elasticjob.cloud.config.pojo.CloudJobConfigurationPOJO;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.config.job.CloudJobConfigurationService;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.FacadeService;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.producer.ProducerManager;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.state.failover.FailoverTaskInfo;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.statistics.StatisticManager;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.StatisticInterval;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.job.JobExecutionTypeStatistics;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.job.JobRegisterStatistics;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.job.JobRunningStatistics;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.task.TaskResultStatistics;
 import org.apache.shardingsphere.elasticjob.cloud.statistics.type.task.TaskRunningStatistics;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.FacadeService;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.job.CloudJobConfigurationService;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.producer.ProducerManager;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.state.failover.FailoverTaskInfo;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.statistics.StatisticManager;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.controller.search.JobEventRdbSearch;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResultUtil;
@@ -138,7 +138,6 @@ public final class CloudJobController {
         Optional<CloudJobConfigurationPOJO> configOptional = jobConfigService.load(jobName);
         if (configOptional.isPresent()) {
             facadeService.enableJob(jobName);
-            producerManager.reschedule(jobName);
         }
         return ResponseResultUtil.build(Boolean.TRUE);
     }
@@ -151,7 +150,6 @@ public final class CloudJobController {
     public ResponseResult<Boolean> disable(@PathVariable("jobName") final String jobName) {
         if (jobConfigService.load(jobName).isPresent()) {
             facadeService.disableJob(jobName);
-            producerManager.unschedule(jobName);
         }
         return ResponseResultUtil.build(Boolean.TRUE);
     }
@@ -242,7 +240,7 @@ public final class CloudJobController {
     @PostMapping("/events/executions")
     public ResponseResult<JobEventRdbSearch.Result<JobExecutionEvent>> findJobExecutionEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
-            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.emptyList()));
+            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.<JobExecutionEvent>emptyList()));
         }
         return ResponseResultUtil.build(jobEventRdbSearch.findJobExecutionEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "ip", "isSuccess"})));
     }
@@ -256,7 +254,7 @@ public final class CloudJobController {
     @PostMapping("/events/statusTraces")
     public ResponseResult<JobEventRdbSearch.Result<JobStatusTraceEvent>> findJobStatusTraceEvents(@RequestParam final MultiValueMap<String, String> requestParams) throws ParseException {
         if (!isRdbConfigured()) {
-            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.emptyList()));
+            return ResponseResultUtil.build(new JobEventRdbSearch.Result<>(0, Collections.<JobStatusTraceEvent>emptyList()));
         }
         return ResponseResultUtil.build(jobEventRdbSearch.findJobStatusTraceEvents(buildCondition(requestParams, new String[]{"jobName", "taskId", "slaveId", "source", "executionType", "state"})));
     }
