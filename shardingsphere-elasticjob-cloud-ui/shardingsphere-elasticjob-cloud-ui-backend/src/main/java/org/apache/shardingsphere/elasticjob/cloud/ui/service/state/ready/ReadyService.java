@@ -23,12 +23,10 @@ import org.apache.shardingsphere.elasticjob.cloud.config.CloudJobExecutionType;
 import org.apache.shardingsphere.elasticjob.cloud.config.pojo.CloudJobConfigurationPOJO;
 import org.apache.shardingsphere.elasticjob.cloud.ui.config.JobStateConfiguration;
 import org.apache.shardingsphere.elasticjob.cloud.ui.service.job.CloudJobConfigurationService;
-import org.apache.shardingsphere.elasticjob.cloud.ui.service.state.running.RunningService;
 import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -47,9 +45,6 @@ public final class ReadyService {
     
     @Autowired
     private CloudJobConfigurationService configService;
-    
-    @Autowired
-    private RunningService runningService;
     
     @Autowired
     private JobStateConfiguration jobStateConfiguration;
@@ -75,53 +70,6 @@ public final class ReadyService {
             regCenter.persist(readyJobNode, Integer.toString(null == times ? 1 : Integer.parseInt(times) + 1));
         } else {
             regCenter.persist(ReadyNode.getReadyJobNodePath(jobName), "1");
-        }
-    }
-    
-    /**
-     * Add daemon job to ready queue.
-     *
-     * @param jobName job name
-     */
-    public void addDaemon(final String jobName) {
-        if (regCenter.getNumChildren(ReadyNode.ROOT) > jobStateConfiguration.getQueueSize()) {
-            log.warn("Cannot add daemon job, caused by read state queue size is larger than {}.", jobStateConfiguration.getQueueSize());
-            return;
-        }
-        Optional<CloudJobConfigurationPOJO> cloudJobConfig = configService.load(jobName);
-        if (!cloudJobConfig.isPresent() || CloudJobExecutionType.DAEMON != cloudJobConfig.get().getJobExecutionType() || runningService.isJobRunning(jobName)) {
-            return;
-        }
-        regCenter.persist(ReadyNode.getReadyJobNodePath(jobName), "1");
-    }
-    
-    /**
-     * Set misfire disabled.
-     * 
-     * @param jobName job name
-     */
-    public void setMisfireDisabled(final String jobName) {
-        Optional<CloudJobConfigurationPOJO> cloudJobConfig = configService.load(jobName);
-        if (cloudJobConfig.isPresent() && null != regCenter.getDirectly(ReadyNode.getReadyJobNodePath(jobName))) {
-            regCenter.persist(ReadyNode.getReadyJobNodePath(jobName), "1");
-        }
-    }
-    
-    /**
-     * Remove jobs from ready queue.
-     *
-     * @param jobNames collection of jobs to be removed
-     */
-    public void remove(final Collection<String> jobNames) {
-        for (String each : jobNames) {
-            String readyJobNode = ReadyNode.getReadyJobNodePath(each);
-            String timesStr = regCenter.getDirectly(readyJobNode);
-            int times = null == timesStr ? 0 : Integer.parseInt(timesStr);
-            if (times <= 1) {
-                regCenter.remove(readyJobNode);
-            } else {
-                regCenter.persist(readyJobNode, Integer.toString(times - 1));
-            }
         }
     }
     
