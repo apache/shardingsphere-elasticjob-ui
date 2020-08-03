@@ -17,22 +17,16 @@
 
 package org.apache.shardingsphere.elasticjob.cloud.ui.web.controller;
 
-import com.google.gson.JsonParseException;
-import org.apache.mesos.Protos.ExecutorID;
-import org.apache.mesos.Protos.SlaveID;
 import org.apache.shardingsphere.elasticjob.cloud.config.pojo.CloudJobConfigurationPOJO;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.config.app.CloudAppConfigurationService;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.config.app.pojo.CloudAppConfigurationPOJO;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.config.job.CloudJobConfigurationService;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.exception.AppConfigurationException;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.mesos.MesosStateService.ExecutorStateInfo;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.producer.ProducerManager;
-import org.apache.shardingsphere.elasticjob.cloud.scheduler.state.disable.app.DisableAppService;
+import org.apache.shardingsphere.elasticjob.cloud.ui.exception.AppConfigurationException;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.app.CloudAppConfigurationService;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.app.pojo.CloudAppConfigurationPOJO;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.job.CloudJobConfigurationService;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.producer.ProducerManager;
+import org.apache.shardingsphere.elasticjob.cloud.ui.service.state.disable.app.DisableAppService;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.dto.CloudAppConfiguration;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.cloud.ui.web.response.ResponseResultUtil;
-import org.apache.shardingsphere.elasticjob.infra.exception.JobSystemException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,9 +59,6 @@ public final class CloudAppController {
     
     @Autowired
     private CloudJobConfigurationService jobConfigService;
-    
-    @Autowired
-    private MesosStateService mesosStateService;
     
     /**
      * Register app config.
@@ -131,11 +122,6 @@ public final class CloudAppController {
     public ResponseResult disable(@PathVariable("appName") final String appName) {
         if (appConfigService.load(appName).isPresent()) {
             disableAppService.add(appName);
-            for (CloudJobConfigurationPOJO each : jobConfigService.loadAll()) {
-                if (appName.equals(each.getAppName())) {
-                    producerManager.unschedule(each.getJobName());
-                }
-            }
         }
         return ResponseResultUtil.success();
     }
@@ -148,11 +134,6 @@ public final class CloudAppController {
     public ResponseResult enable(@PathVariable("appName") final String appName) {
         if (appConfigService.load(appName).isPresent()) {
             disableAppService.remove(appName);
-            for (CloudJobConfigurationPOJO each : jobConfigService.loadAll()) {
-                if (appName.equals(each.getAppName())) {
-                    producerManager.reschedule(each.getJobName());
-                }
-            }
         }
         return ResponseResultUtil.success();
     }
@@ -165,7 +146,6 @@ public final class CloudAppController {
     public ResponseResult deregister(@PathVariable("appName") final String appName) {
         if (appConfigService.load(appName).isPresent()) {
             removeAppAndJobConfigurations(appName);
-            stopExecutors(appName);
         }
         return ResponseResultUtil.success();
     }
@@ -180,27 +160,14 @@ public final class CloudAppController {
         appConfigService.remove(appName);
     }
     
-    private void stopExecutors(final String appName) {
-        try {
-            Collection<ExecutorStateInfo> executorBriefInfo = mesosStateService.executors(appName);
-            for (ExecutorStateInfo each : executorBriefInfo) {
-                producerManager.sendFrameworkMessage(ExecutorID.newBuilder().setValue(each.getId()).build(),
-                                                     SlaveID.newBuilder().setValue(each.getSlaveId()).build(),
-                                                     "STOP".getBytes());
-            }
-        } catch (final JsonParseException ex) {
-            throw new JobSystemException(ex);
-        }
-    }
-    
     private Collection<CloudAppConfiguration> build(final Collection<CloudAppConfigurationPOJO> cloudAppConfigurationPOJOS) {
-        return cloudAppConfigurationPOJOS.stream().map(this::convert).collect(Collectors.toList());
+        return cloudAppConfigurationPOJOS.stream().map(each -> convert(each)).collect(Collectors.toList());
     }
     
     private CloudAppConfiguration convert(final CloudAppConfigurationPOJO cloudAppConfigurationPOJO) {
-        CloudAppConfiguration result = new CloudAppConfiguration();
-        BeanUtils.copyProperties(cloudAppConfigurationPOJO, result);
-        result.setDisabled(disableAppService.isDisabled(cloudAppConfigurationPOJO.getAppName()));
-        return result;
+        CloudAppConfiguration cloudAppConfiguration = new CloudAppConfiguration();
+        BeanUtils.copyProperties(cloudAppConfigurationPOJO, cloudAppConfiguration);
+        cloudAppConfiguration.setDisabled(disableAppService.isDisabled(cloudAppConfigurationPOJO.getAppName()));
+        return cloudAppConfiguration;
     }
 }

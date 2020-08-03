@@ -24,6 +24,8 @@ import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.shardingsphere.elasticjob.cloud.ui.domain.RegistryCenterConfiguration;
+import org.apache.shardingsphere.elasticjob.cloud.ui.util.SessionRegistryCenterConfiguration;
 import org.apache.shardingsphere.elasticjob.reg.base.CoordinatorRegistryCenter;
 import org.apache.shardingsphere.elasticjob.reg.zookeeper.ZookeeperConfiguration;
 import org.apache.shardingsphere.elasticjob.reg.zookeeper.ZookeeperRegistryCenter;
