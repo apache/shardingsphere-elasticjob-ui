@@ -34,16 +34,6 @@ public final class StatisticTimeUtils {
      * Get the statistical time with the interval unit.
      *
      * @param interval interval
-     * @return Date
-     */
-    public static Date getCurrentStatisticTime(final StatisticInterval interval) {
-        return getStatisticTime(interval, 0);
-    }
-    
-    /**
-     * Get the statistical time with the interval unit.
-     *
-     * @param interval interval
      * @param offset offset
      * @return Date
      */
