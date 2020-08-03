@@ -59,7 +59,7 @@ public final class RegistryCenterController {
      */
     @GetMapping("/activated")
     public ResponseResult<RegistryCenterConfiguration> activated() {
-        return ResponseResultUtil.build(regCenterService.loadActivated().get());
+        return ResponseResultUtil.build(regCenterService.loadActivated().orElse(null));
     }
     
     /**
