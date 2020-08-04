@@ -25,6 +25,7 @@ import org.apache.shardingsphere.elasticjob.lite.ui.domain.GlobalConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.repository.ConfigurationsXmlRepository;
 import org.apache.shardingsphere.elasticjob.lite.ui.repository.impl.ConfigurationsXmlRepositoryImpl;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.EventTraceDataSourceConfigurationService;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ import java.util.Optional;
  * Event trace data source configuration service implementation.
  */
 @Service
-public final class EventTraceDataSourceConfigurationServiceImpl implements EventTraceDataSourceConfigurationService {
+public final class EventTraceDataSourceConfigurationServiceImpl implements EventTraceDataSourceConfigurationService, InitializingBean {
     
     private ConfigurationsXmlRepository configurationsXmlRepository = new ConfigurationsXmlRepositoryImpl();
     
@@ -120,5 +121,18 @@ public final class EventTraceDataSourceConfigurationServiceImpl implements Event
             result.setEventTraceDataSourceConfigurations(new EventTraceDataSourceConfigurations());
         }
         return result;
+    }
+    
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        loadGlobal().getEventTraceDataSourceConfigurations().getEventTraceDataSourceConfiguration().stream().forEach(each -> afterLoad(each));
+    }
+    
+    private void afterLoad(final EventTraceDataSourceConfiguration config) {
+        if (config.isActivated()) {
+            DataSource dataSource = DataSourceFactory.createDataSource(config);
+            dynamicDataSource.addDataSource(config.getName(), dataSource);
+            DynamicDataSourceConfig.DynamicDataSourceContextHolder.setDataSourceName(config.getName());
+        }
     }
 }

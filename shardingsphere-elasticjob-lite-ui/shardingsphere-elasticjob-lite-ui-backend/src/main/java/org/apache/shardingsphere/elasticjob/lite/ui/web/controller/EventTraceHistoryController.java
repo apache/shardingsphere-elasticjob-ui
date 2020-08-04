@@ -20,13 +20,17 @@ package org.apache.shardingsphere.elasticjob.lite.ui.web.controller;
 import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.FindJobExecutionEventsRequest;
 import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.FindJobStatusTraceEventsRequest;
 import org.apache.shardingsphere.elasticjob.lite.ui.dto.response.BasePageResponse;
+import org.apache.shardingsphere.elasticjob.lite.ui.service.EventTraceDataSourceConfigurationService;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.EventTraceHistoryService;
+import org.apache.shardingsphere.elasticjob.lite.ui.util.SessionEventTraceDataSourceConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
 import org.apache.shardingsphere.elasticjob.tracing.event.JobExecutionEvent;
 import org.apache.shardingsphere.elasticjob.tracing.event.JobStatusTraceEvent;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +45,9 @@ public final class EventTraceHistoryController {
     
     @Autowired
     private EventTraceHistoryService eventTraceHistoryService;
+    
+    @Autowired
+    private EventTraceDataSourceConfigurationService eventTraceDataSourceConfigurationService;
     
     /**
      * Find job execution events.
@@ -64,5 +71,10 @@ public final class EventTraceHistoryController {
     public ResponseResult<BasePageResponse<JobStatusTraceEvent>> findJobStatusTraceEvents(@RequestBody final FindJobStatusTraceEventsRequest requestParams) {
         Page<JobStatusTraceEvent> jobStatusTraceEvents = eventTraceHistoryService.findJobStatusTraceEvents(requestParams);
         return ResponseResultUtil.build(BasePageResponse.of(jobStatusTraceEvents));
+    }
+    
+    @ModelAttribute
+    private void initDataSource() {
+        eventTraceDataSourceConfigurationService.loadActivated().ifPresent(config -> SessionEventTraceDataSourceConfiguration.setDataSourceConfiguration(config));
     }
 }
