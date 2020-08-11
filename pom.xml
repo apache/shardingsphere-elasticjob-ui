@@ -25,7 +25,7 @@
     </parent>
     <groupId>org.apache.shardingsphere</groupId>
     <artifactId>shardingsphere-elasticjob-ui</artifactId>
-    <version>3.0.0-alpha-SNAPSHOT</version>
+    <version>3.0.0-alpha</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     
@@ -230,7 +230,7 @@
         <connection>scm:git:https://github.com/apache/shardingsphere-elasticjob-ui.git</connection>
         <developerConnection>scm:git:https://github.com/apache/shardingsphere-elasticjob-ui.git</developerConnection>
         <url>https://github.com/apache/shardingsphere-elasticjob-ui.git</url>
-        <tag>HEAD</tag>
+        <tag>shardingsphere-elasticjob-ui-3.0.0-alpha</tag>
     </scm>
     
     <mailingLists>
