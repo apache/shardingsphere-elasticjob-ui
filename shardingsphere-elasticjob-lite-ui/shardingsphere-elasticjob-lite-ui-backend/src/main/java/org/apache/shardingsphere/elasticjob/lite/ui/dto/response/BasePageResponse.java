@@ -31,7 +31,9 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BasePageResponse<T> implements Serializable {
-    
+
+    private static final long serialVersionUID = -6292077141274056093L;
+
     /**
      * Total count of rows.
      */
