@@ -21,10 +21,10 @@
     <parent>
         <groupId>org.apache.shardingsphere</groupId>
         <artifactId>shardingsphere-elasticjob-ui</artifactId>
-        <version>3.0.0-alpha</version>
+        <version>3.0.0-beta-snapshot</version>
     </parent>
     <artifactId>shardingsphere-elasticjob-cloud-ui</artifactId>
-    <version>3.0.0-alpha</version>
+    <version>3.0.0-beta-snapshot</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     
