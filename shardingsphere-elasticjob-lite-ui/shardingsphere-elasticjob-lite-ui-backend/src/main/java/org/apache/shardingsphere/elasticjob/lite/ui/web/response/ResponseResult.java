@@ -32,9 +32,9 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public final class ResponseResult<T> implements Serializable {
-    
-    private static final long serialVersionUID = 8144393142115317354L;
-    
+
+    private static final long serialVersionUID = -7090019282307269743L;
+
     private boolean success = true;
     
     private int errorCode;
