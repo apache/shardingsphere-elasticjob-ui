@@ -52,6 +52,13 @@
             </includes>
             <outputDirectory>/</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>.</directory>
+            <outputDirectory>ext-lib</outputDirectory>
+            <excludes>
+                <exclude>*/**</exclude>
+            </excludes>
+        </fileSet>
     </fileSets>
     
     <dependencySets>
