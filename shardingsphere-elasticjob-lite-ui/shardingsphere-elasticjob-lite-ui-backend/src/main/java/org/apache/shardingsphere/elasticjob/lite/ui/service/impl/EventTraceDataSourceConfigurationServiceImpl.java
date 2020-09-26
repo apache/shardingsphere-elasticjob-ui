@@ -17,11 +17,13 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.lite.ui.config.DynamicDataSourceConfig;
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.DataSourceFactory;
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.EventTraceDataSourceConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.EventTraceDataSourceConfigurations;
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.GlobalConfiguration;
+import org.apache.shardingsphere.elasticjob.lite.ui.exception.JdbcDriverNotFoundException;
 import org.apache.shardingsphere.elasticjob.lite.ui.repository.ConfigurationsXmlRepository;
 import org.apache.shardingsphere.elasticjob.lite.ui.repository.impl.ConfigurationsXmlRepositoryImpl;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.EventTraceDataSourceConfigurationService;
@@ -35,10 +37,11 @@ import java.util.Optional;
 /**
  * Event trace data source configuration service implementation.
  */
+@Slf4j
 @Service
 public final class EventTraceDataSourceConfigurationServiceImpl implements EventTraceDataSourceConfigurationService, InitializingBean {
     
-    private ConfigurationsXmlRepository configurationsXmlRepository = new ConfigurationsXmlRepositoryImpl();
+    private final ConfigurationsXmlRepository configurationsXmlRepository = new ConfigurationsXmlRepositoryImpl();
     
     @Autowired
     private DynamicDataSourceConfig.DynamicDataSource dynamicDataSource;
@@ -96,12 +99,12 @@ public final class EventTraceDataSourceConfigurationServiceImpl implements Event
     @Override
     public boolean add(final EventTraceDataSourceConfiguration config) {
         GlobalConfiguration configs = loadGlobal();
+        DataSource dataSource = DataSourceFactory.createDataSource(config);
+        dynamicDataSource.addDataSource(config.getName(), dataSource);
         boolean result = configs.getEventTraceDataSourceConfigurations().getEventTraceDataSourceConfiguration().add(config);
         if (result) {
             configurationsXmlRepository.save(configs);
         }
-        DataSource dataSource = DataSourceFactory.createDataSource(config);
-        dynamicDataSource.addDataSource(config.getName(), dataSource);
         return result;
     }
     
@@ -124,8 +127,14 @@ public final class EventTraceDataSourceConfigurationServiceImpl implements Event
     }
     
     @Override
-    public void afterPropertiesSet() throws Exception {
-        loadGlobal().getEventTraceDataSourceConfigurations().getEventTraceDataSourceConfiguration().stream().forEach(each -> afterLoad(each));
+    public void afterPropertiesSet() {
+        for (EventTraceDataSourceConfiguration each : loadGlobal().getEventTraceDataSourceConfigurations().getEventTraceDataSourceConfiguration()) {
+            try {
+                afterLoad(each);
+            } catch (final JdbcDriverNotFoundException ex) {
+                log.error("Consider manually adding JDBC Driver JAR to classpath.", ex);
+            }
+        }
     }
     
     private void afterLoad(final EventTraceDataSourceConfiguration config) {

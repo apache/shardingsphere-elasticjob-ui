@@ -21,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.elasticjob.lite.ui.exception.JdbcDriverNotFoundException;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -43,8 +44,10 @@ public final class EventTraceDataSource {
         try {
             Class.forName(eventTraceDataSourceConfiguration.getDriver());
             DriverManager.getConnection(eventTraceDataSourceConfiguration.getUrl(), eventTraceDataSourceConfiguration.getUsername(), eventTraceDataSourceConfiguration.getPassword());
-        } catch (final ClassNotFoundException | SQLException ex) {
+        } catch (final SQLException ex) {
             throw new RuntimeException(ex);
+        } catch (final ClassNotFoundException ex) {
+            throw new JdbcDriverNotFoundException(ex.getLocalizedMessage());
         }
     }
 }

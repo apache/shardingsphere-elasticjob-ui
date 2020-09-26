@@ -44,7 +44,7 @@ public final class EventTraceDataSourceController {
     
     public static final String DATA_SOURCE_CONFIG_KEY = "data_source_config_key";
     
-    private EventTraceDataSourceConfigurationService eventTraceDataSourceConfigurationService;
+    private final EventTraceDataSourceConfigurationService eventTraceDataSourceConfigurationService;
     
     @Autowired
     public EventTraceDataSourceController(final EventTraceDataSourceConfigurationService eventTraceDataSourceConfigurationService) {
@@ -105,7 +105,8 @@ public final class EventTraceDataSourceController {
      */
     @PostMapping(value = "/connectTest")
     public ResponseResult<Boolean> connectTest(@RequestBody final EventTraceDataSourceConfiguration config, final HttpServletRequest request) {
-        return ResponseResultUtil.build(setDataSourceNameToSession(config, request.getSession()));
+        setDataSourceNameToSession(config, request.getSession());
+        return ResponseResultUtil.build(true);
     }
     
     /**
@@ -117,23 +118,14 @@ public final class EventTraceDataSourceController {
      */
     @PostMapping(value = "/connect")
     public ResponseResult<Boolean> connect(@RequestBody final EventTraceDataSourceConfiguration config, final HttpServletRequest request) {
-        boolean isConnected = setDataSourceNameToSession(eventTraceDataSourceConfigurationService.find(config.getName(), eventTraceDataSourceConfigurationService.loadAll()), request.getSession());
-        if (isConnected) {
-            eventTraceDataSourceConfigurationService.load(config.getName());
-        }
-        return ResponseResultUtil.build(isConnected);
+        setDataSourceNameToSession(eventTraceDataSourceConfigurationService.find(config.getName(), eventTraceDataSourceConfigurationService.loadAll()), request.getSession());
+        eventTraceDataSourceConfigurationService.load(config.getName());
+        return ResponseResultUtil.build(true);
     }
     
-    private boolean setDataSourceNameToSession(final EventTraceDataSourceConfiguration dataSourceConfig, final HttpSession session) {
+    private void setDataSourceNameToSession(final EventTraceDataSourceConfiguration dataSourceConfig, final HttpSession session) {
         session.setAttribute(DATA_SOURCE_CONFIG_KEY, dataSourceConfig);
-        try {
-            EventTraceDataSourceFactory.createEventTraceDataSource(dataSourceConfig.getDriver(), dataSourceConfig.getUrl(), dataSourceConfig.getUsername(), dataSourceConfig.getPassword());
-            SessionEventTraceDataSourceConfiguration.setDataSourceConfiguration((EventTraceDataSourceConfiguration) session.getAttribute(DATA_SOURCE_CONFIG_KEY));
-        // CHECKSTYLE:OFF
-        } catch (final Exception ex) {
-        // CHECKSTYLE:ON
-            return false;
-        }
-        return true;
+        EventTraceDataSourceFactory.createEventTraceDataSource(dataSourceConfig.getDriver(), dataSourceConfig.getUrl(), dataSourceConfig.getUsername(), dataSourceConfig.getPassword());
+        SessionEventTraceDataSourceConfiguration.setDataSourceConfiguration((EventTraceDataSourceConfiguration) session.getAttribute(DATA_SOURCE_CONFIG_KEY));
     }
 }
