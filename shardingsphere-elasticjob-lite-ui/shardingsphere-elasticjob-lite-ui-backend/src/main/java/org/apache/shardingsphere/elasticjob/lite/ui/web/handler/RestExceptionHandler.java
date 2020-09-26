@@ -26,9 +26,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Optional;
 
+/**
+ * Define exception handlers.
+ */
 @Slf4j
 @RestControllerAdvice
-public class RestExceptionHandler {
+public final class RestExceptionHandler {
     
     @ExceptionHandler(JdbcDriverNotFoundException.class)
     public ResponseResult handleClassNotFoundException(final JdbcDriverNotFoundException ex) {
