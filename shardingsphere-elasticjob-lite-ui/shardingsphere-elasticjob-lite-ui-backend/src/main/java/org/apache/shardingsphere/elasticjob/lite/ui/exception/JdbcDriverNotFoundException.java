@@ -22,6 +22,8 @@ package org.apache.shardingsphere.elasticjob.lite.ui.exception;
  */
 public final class JdbcDriverNotFoundException extends RuntimeException {
     
+    private static final long serialVersionUID = 7783529705900415904L;
+    
     public JdbcDriverNotFoundException(final String message) {
         super(String.format("Class not found: [%s]. Consider manually adding JDBC driver JAR to library path if you are trying connecting database.", message));
     }

@@ -34,7 +34,7 @@ import java.util.Optional;
 public final class RestExceptionHandler {
     
     @ExceptionHandler(JdbcDriverNotFoundException.class)
-    public ResponseResult handleClassNotFoundException(final JdbcDriverNotFoundException ex) {
+    public ResponseResult handleJdbcDriverNotFoundException(final JdbcDriverNotFoundException ex) {
         log.error(ex.getLocalizedMessage(), ex);
         return ResponseResultUtil.handleUncaughtException(ex.getLocalizedMessage());
     }
