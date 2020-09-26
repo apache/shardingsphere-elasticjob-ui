@@ -17,6 +17,8 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.domain;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 
@@ -25,6 +27,7 @@ import javax.sql.DataSource;
 /**
  * Dynamic data source factory.
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DataSourceFactory {
     
     /**
