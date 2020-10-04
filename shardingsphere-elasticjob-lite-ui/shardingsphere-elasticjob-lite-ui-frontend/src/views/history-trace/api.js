@@ -18,5 +18,7 @@
 import API from '@/utils/api'
 
 export default {
-  loadExecution: (params = {}) => API.post(`/api/event-trace/execution`, params)
+  loadExecution: (params = {}) => API.post(`/api/event-trace/execution`, params),
+  getExecutionJobNameSuggestions: (jobNamePrefix = '') => API.get(`/api/event-trace/execution/jobNames/${jobNamePrefix}`),
+  getExecutionIpSuggestions: (ipPrefix = '') => API.get(`/api/event-trace/execution/ip/${ipPrefix}`)
 }

@@ -18,16 +18,18 @@
 <template>
   <el-row class="box-card">
     <div class="btn-group" style="">
-      <el-input
+      <el-autocomplete
         :placeholder="$t('historyTrace.searchForm.jobName')"
+        :fetch-suggestions="fetchJobNameSuggestions"
         v-model="searchForm.jobName"
         clearable>
-      </el-input>
-      <el-input
+      </el-autocomplete>
+      <el-autocomplete
         :placeholder="$t('historyTrace.searchForm.serverIp')"
+        :fetch-suggestions="fetchIpSuggestions"
         v-model="searchForm.ip"
         clearable>
-      </el-input>
+      </el-autocomplete>
       <el-date-picker
         :placeholder="$t('historyTrace.searchForm.startTime')"
         v-model="searchForm.start"
@@ -163,6 +165,20 @@ export default {
   },
   methods: {
     ...mapActions(['setRegCenterActivated']),
+    fetchJobNameSuggestions(jobNamePrefix, callback) {
+      API.getExecutionJobNameSuggestions(jobNamePrefix).then(res => {
+        const jobNames = res.model
+        const suggestions = jobNames.map(jobName => ({value: jobName}))
+        callback(suggestions)
+      })
+    },
+    fetchIpSuggestions(ipPrefix, callback) {
+      API.getExecutionIpSuggestions(ipPrefix).then(res => {
+        const ips = res.model
+        const suggestions = ips.map(ip => ({value: ip}))
+        callback(suggestions)
+      })
+    },
     handleCurrentChange(val) {
       const page = {
         pageSize: this.pageSize,
