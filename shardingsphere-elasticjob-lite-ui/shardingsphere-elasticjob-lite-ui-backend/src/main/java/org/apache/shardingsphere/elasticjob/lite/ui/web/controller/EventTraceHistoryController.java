@@ -27,14 +27,18 @@ import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
 import org.apache.shardingsphere.elasticjob.tracing.event.JobExecutionEvent;
 import org.apache.shardingsphere.elasticjob.tracing.event.JobStatusTraceEvent;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * Event trace history RESTful API.
@@ -62,6 +66,27 @@ public final class EventTraceHistoryController {
     }
     
     /**
+     * Find all job names with specific prefix.
+     *
+     * @param jobNamePrefix job name prefix
+     * @return matched job names
+     */
+    @GetMapping(value = {"/execution/jobNames", "/execution/jobNames/{jobNamePrefix}"})
+    public ResponseResult<List<String>> findJobNamesByPrefix(@PathVariable(required = false) final String jobNamePrefix) {
+        return ResponseResultUtil.build(eventTraceHistoryService.findJobNamesInExecutionLog(Optional.ofNullable(jobNamePrefix).orElse("")));
+    }
+    
+    /**
+     * Find all ip addresses with specific prefix.
+     * @param ipPrefix ip prefix
+     * @return matched ip addresses
+     */
+    @GetMapping(value = {"/execution/ip", "/execution/ip/{ipPrefix}"})
+    public ResponseResult<List<String>> findIpByPrefix(@PathVariable(required = false) final String ipPrefix) {
+        return ResponseResultUtil.build(eventTraceHistoryService.findIpInExecutionLog(Optional.ofNullable(ipPrefix).orElse("")));
+    }
+    
+    /**
      * Find job status trace events.
      *
      * @param requestParams query criteria
@@ -75,6 +100,6 @@ public final class EventTraceHistoryController {
     
     @ModelAttribute
     private void initDataSource() {
-        eventTraceDataSourceConfigurationService.loadActivated().ifPresent(config -> SessionEventTraceDataSourceConfiguration.setDataSourceConfiguration(config));
+        eventTraceDataSourceConfigurationService.loadActivated().ifPresent(SessionEventTraceDataSourceConfiguration::setDataSourceConfiguration);
     }
 }
