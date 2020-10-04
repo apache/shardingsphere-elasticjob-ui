@@ -101,7 +101,9 @@ export default {
     submit: 'Submit',
     reset: 'Reset',
     cancel: 'Cancel',
-    confirm: 'Confirm'
+    confirm: 'Confirm',
+    add: 'Add',
+    remove: 'Remove'
   },
   input: {
     pUserName: 'Please enter user name',
@@ -186,7 +188,12 @@ export default {
       item: 'Sharding item',
       serverIp: 'Server IP',
       instanceId: 'PID',
-      editTitle: 'Update job'
+      editTitle: 'Update job',
+      props: 'Job properties',
+      prop: {
+        name: 'Property name',
+        value: 'Property value'
+      }
     },
     table: {
       operate: 'Operation'

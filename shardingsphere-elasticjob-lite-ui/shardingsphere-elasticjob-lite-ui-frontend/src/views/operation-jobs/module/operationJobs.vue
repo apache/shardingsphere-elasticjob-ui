@@ -288,6 +288,31 @@
             </el-col>
         </el-form-item>
 
+        <el-form-item>
+          <el-col>
+            {{ $t('operationJobs.labelInfo.props') }}
+          </el-col>
+        </el-form-item>
+        <el-form-item
+          v-for="(prop, index) in editForm.propList"
+          :key="index"
+        >
+          <el-col :span="10">
+            <el-input v-model="prop.name" :placeholder="$t('operationJobs.labelInfo.prop.name')"></el-input>
+          </el-col>
+          <el-col :span="10">
+            <el-input v-model="prop.value" :placeholder="$t('operationJobs.labelInfo.prop.name')"></el-input>
+          </el-col>
+          <el-col :span="4">
+            <el-button @click="removeProperty(prop)">{{ $t('btn.remove') }}</el-button>
+          </el-col>
+        </el-form-item>
+        <el-form-item>
+          <el-col>
+            <el-button @click="addProperty">{{ $t('btn.add') }}</el-button>
+          </el-col>
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="modifyDialogVisible = false">{{ $t('btn.cancel') }}</el-button>
@@ -342,7 +367,7 @@ export default {
       },
       editForm: {
         jobName: '',
-        props : {},
+        propList : [],
         shardingTotalCount: 1,
         cron: '',
         description: '',
@@ -352,7 +377,6 @@ export default {
         monitorExecution: false,
         failover: false,
         misfire: false,
-        streamingProcess2: false,
         shardingItemParameters: '',
         jobShardingStrategyType: '',
         jobExecutorServiceHandlerType: '',
@@ -424,20 +448,25 @@ export default {
       }
       return model.jobName && model.jobName.toLowerCase().includes(this.searchForm.jobName.toLowerCase());
     },
+    addProperty() {
+      this.editForm.propList.push({name: '', value: ''})
+    },
+    removeProperty(prop) {
+      const index = this.editForm.propList.indexOf(prop)
+      if (-1 !== index) {
+        this.editForm.propList.splice(index, 1)
+      }
+    },
     handleModify(row) {
       const params = {
         jobName: row.jobName
       }
-      //
       API.getJobConfig(params).then(res => {
         const data = res.model;
         data.props = data.props || {};
-        if("true" === data.props['streaming.process']){
-          data.streamingProcess2 = true
-        } else if(!data.props['streaming.process'] || "false" === data.props['streaming.process']){
-          data.streamingProcess2 = false
-        } else {
-          data.streamingProcess2 = true
+        data.propList = data.propList || []
+        for (let key in data.props) {
+          data.propList.push({name: key, value: data.props[key]})
         }
         this.editForm = data
         this.modifyDialogVisible = true
@@ -518,15 +547,13 @@ export default {
     onEditConfirm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // fixData
           const data = clone(this.editForm);
-          data.props = data.props || {};
-          if(data.streamingProcess2){
-            data.props['streaming.process'] = "true";
-          } else {
-            data.props['streaming.process'] = "false";
+          data.props = {}
+          data.propList = data.propList || []
+          for (let prop of data.propList) {
+            data.props[prop.name] = prop.value
           }
-          //
+          delete data.propList
           API.updateJobConfig(data).then(res => {
             this.modifyDialogVisible = false
             this.$notify({
