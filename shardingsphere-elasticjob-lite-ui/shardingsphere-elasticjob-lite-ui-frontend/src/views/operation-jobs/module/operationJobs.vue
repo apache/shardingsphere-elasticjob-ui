@@ -216,16 +216,10 @@
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.streamingProcess') }}
-            </el-col>
-            <el-col :span="8">
-              <el-checkbox v-model="editForm.streamingProcess2">{{ $t('operationJobs.labelInfo.streamingProcess')}} </el-checkbox>
-            </el-col>
-            <el-col :span="4">
+            <el-col :span="6">
               {{ $t('operationJobs.labelInfo.shardingItemParameters') }}
             </el-col>
-            <el-col :span="8">
+            <el-col :span="18">
               <el-input
                   type="textarea"
                   :placeholder="$t('operationJobs.labelInfo.shardingItemParameters')"
