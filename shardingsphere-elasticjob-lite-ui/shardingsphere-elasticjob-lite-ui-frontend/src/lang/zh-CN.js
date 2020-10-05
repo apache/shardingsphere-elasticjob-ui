@@ -101,7 +101,9 @@ export default {
     submit: '提交',
     reset: '重置',
     cancel: '取消',
-    confirm: '确定'
+    confirm: '确定',
+    add: '添加',
+    remove: '移除'
   },
   input: {
     pUserName: '请输入用户名',
@@ -186,7 +188,12 @@ export default {
       item: '分片项',
       serverIp: '服务器IP',
       instanceId: '进程ID',
-      editTitle: '修改作业'
+      editTitle: '修改作业',
+      props: '作业属性',
+      prop: {
+        name: '作业属性名',
+        value: '作业属性值'
+      }
     },
     table: {
       operate: '操作'
