@@ -17,11 +17,13 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.service;
 
-import org.apache.shardingsphere.elasticjob.tracing.event.JobExecutionEvent;
-import org.apache.shardingsphere.elasticjob.tracing.event.JobStatusTraceEvent;
 import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.FindJobExecutionEventsRequest;
 import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.FindJobStatusTraceEventsRequest;
+import org.apache.shardingsphere.elasticjob.tracing.event.JobExecutionEvent;
+import org.apache.shardingsphere.elasticjob.tracing.event.JobStatusTraceEvent;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * Event trace history service.
@@ -35,6 +37,22 @@ public interface EventTraceHistoryService {
      * @return job execution events
      */
     Page<JobExecutionEvent> findJobExecutionEvents(FindJobExecutionEventsRequest findJobExecutionEventsRequest);
+    
+    /**
+     * Find job names with specific prefix.
+     *
+     * @param jobNamePrefix job name prefix
+     * @return matched job names
+     */
+    List<String> findJobNamesInExecutionLog(String jobNamePrefix);
+    
+    /**
+     * Find ip addresses with specific prefix.
+     *
+     * @param ipPrefix ip prefix
+     * @return matched ip addresses
+     */
+    List<String> findIpInExecutionLog(String ipPrefix);
     
     /**
      * Find job status trace events.

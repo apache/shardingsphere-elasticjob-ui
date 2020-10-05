@@ -23,10 +23,12 @@ import org.apache.shardingsphere.elasticjob.tracing.event.JobExecutionEvent;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Data
-@Entity(name = "JOB_EXECUTION_LOG")
+@Entity
+@Table(name = "JOB_EXECUTION_LOG")
 public class JobExecutionLog {
     
     @Id

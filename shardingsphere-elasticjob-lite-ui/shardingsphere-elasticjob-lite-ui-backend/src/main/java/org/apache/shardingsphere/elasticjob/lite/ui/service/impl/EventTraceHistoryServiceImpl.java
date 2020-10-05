@@ -73,6 +73,16 @@ public final class EventTraceHistoryServiceImpl implements EventTraceHistoryServ
     }
     
     @Override
+    public List<String> findJobNamesInExecutionLog(final String jobNamePrefix) {
+        return jobExecutionLogRepository.findJobNameByJobNameLike(jobNamePrefix);
+    }
+    
+    @Override
+    public List<String> findIpInExecutionLog(final String ipPrefix) {
+        return jobExecutionLogRepository.findIpByIpLike(ipPrefix);
+    }
+    
+    @Override
     public Page<JobStatusTraceEvent> findJobStatusTraceEvents(final FindJobStatusTraceEventsRequest findJobStatusTraceEventsRequest) {
         Example<JobStatusTraceLog> jobStatusTraceLogExample = getExample(findJobStatusTraceEventsRequest, JobStatusTraceLog.class);
         Specification<JobStatusTraceLog> specification = getSpecWithExampleAndDate(jobStatusTraceLogExample, findJobStatusTraceEventsRequest.getStart(),

@@ -20,6 +20,30 @@ package org.apache.shardingsphere.elasticjob.lite.ui.dao.search;
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.JobExecutionLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface JobExecutionLogRepository extends JpaRepository<JobExecutionLog, String>, JpaSpecificationExecutor<JobExecutionLog> {
+    
+    /**
+     * Find all job names with specific prefix.
+     *
+     * @param prefix job name prefix
+     * @return matched job names
+     */
+    @SuppressWarnings("SpringDataRepositoryMethodReturnTypeInspection")
+    @Query("select distinct l.jobName from JobExecutionLog l where l.jobName like :prefix%")
+    List<String> findJobNameByJobNameLike(@Param("prefix") String prefix);
+    
+    /**
+     * Find all IP addresses with specific prefix.
+     *
+     * @param prefix ip prefix
+     * @return matched ip
+     */
+    @SuppressWarnings("SpringDataRepositoryMethodReturnTypeInspection")
+    @Query("select distinct l.ip from JobExecutionLog l where l.ip like :prefix%")
+    List<String> findIpByIpLike(@Param("prefix") String prefix);
 }
