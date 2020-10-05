@@ -19,7 +19,7 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 import C from './conf'
 
-axios.defaults.headers.post['Content-Type'] = 'application/jsoncharset=UTF-8'
+axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8'
 axios.defaults.withCredentials = true
 
 function ajax(url, type, options, config) {
