@@ -18,11 +18,12 @@
 <template>
   <el-row class="box-card">
     <div class="btn-group" style="">
-      <el-input
+      <el-autocomplete
         :placeholder="$t('historyStatus.searchForm.jobName')"
+        :fetch-suggestions="fetchJobNameSuggestions"
         v-model="searchForm.jobName"
         clearable>
-      </el-input>
+      </el-autocomplete>
       <el-date-picker
         :placeholder="$t('historyStatus.searchForm.startTime')"
         v-model="searchForm.start"
@@ -152,6 +153,13 @@ export default {
   },
   methods: {
     ...mapActions(['setRegCenterActivated']),
+    fetchJobNameSuggestions(jobNamePrefix, callback) {
+      API.getStatusJobNameSuggestions(jobNamePrefix).then(res => {
+        const jobNames = res.model
+        const suggestions = jobNames.map(jobName => ({value: jobName}))
+        callback(suggestions)
+      })
+    },
     handleCurrentChange(val) {
       const page = {
         pageSize: this.pageSize,

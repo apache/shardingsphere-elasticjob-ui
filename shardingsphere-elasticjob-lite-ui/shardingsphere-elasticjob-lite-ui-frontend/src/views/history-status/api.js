@@ -18,5 +18,6 @@
 import API from '@/utils/api'
 
 export default {
-  loadStatus: (params = {}) => API.post(`/api/event-trace/status`, params)
+  loadStatus: (params = {}) => API.post(`/api/event-trace/status`, params),
+  getStatusJobNameSuggestions: (jobNamePrefix = '') => API.get(`/api/event-trace/status/jobNames/${jobNamePrefix}`)
 }
