@@ -20,6 +20,20 @@ package org.apache.shardingsphere.elasticjob.lite.ui.dao.search;
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.JobStatusTraceLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface JobStatusTraceLogRepository extends JpaRepository<JobStatusTraceLog, String>, JpaSpecificationExecutor<JobStatusTraceLog> {
+    
+    /**
+     * Find all job names in job status trace log with specific prefix.
+     *
+     * @param prefix job name prefix
+     * @return matched job names
+     */
+    @SuppressWarnings("SpringDataRepositoryMethodReturnTypeInspection")
+    @Query("select distinct l.jobName from JobStatusTraceLog l where l.jobName like :prefix%")
+    List<String> findJobNameByJobNameLike(@Param("prefix") String prefix);
 }

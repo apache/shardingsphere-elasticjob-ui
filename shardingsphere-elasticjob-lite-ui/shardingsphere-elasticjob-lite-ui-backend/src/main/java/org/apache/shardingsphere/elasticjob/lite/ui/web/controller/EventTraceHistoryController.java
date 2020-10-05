@@ -98,6 +98,17 @@ public final class EventTraceHistoryController {
         return ResponseResultUtil.build(BasePageResponse.of(jobStatusTraceEvents));
     }
     
+    /**
+     * Find all job names with specific prefix in status trace log.
+     *
+     * @param jobNamePrefix job name prefix
+     * @return matched job names
+     */
+    @GetMapping(value = {"/status/jobNames", "/status/jobNames/{jobNamePrefix}"})
+    public ResponseResult<List<String>> findJobNamesByPrefixInStatusTraceLog(@PathVariable(required = false) final String jobNamePrefix) {
+        return ResponseResultUtil.build(eventTraceHistoryService.findJobNamesInStatusTraceLog(Optional.ofNullable(jobNamePrefix).orElse("")));
+    }
+    
     @ModelAttribute
     private void initDataSource() {
         eventTraceDataSourceConfigurationService.loadActivated().ifPresent(SessionEventTraceDataSourceConfiguration::setDataSourceConfiguration);
