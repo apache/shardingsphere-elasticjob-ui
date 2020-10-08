@@ -61,4 +61,12 @@ public interface EventTraceHistoryService {
      * @return job status trace events
      */
     Page<JobStatusTraceEvent> findJobStatusTraceEvents(FindJobStatusTraceEventsRequest findJobStatusTraceEventsRequest);
+    
+    /**
+     * Find job names with specific prefix in status trace log.
+     *
+     * @param jobNamePrefix job name prefix
+     * @return matched job names
+     */
+    List<String> findJobNamesInStatusTraceLog(String jobNamePrefix);
 }

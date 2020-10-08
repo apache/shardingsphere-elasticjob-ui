@@ -91,6 +91,11 @@ public final class EventTraceHistoryServiceImpl implements EventTraceHistoryServ
         return new PageImpl<>(page.getContent().stream().map(JobStatusTraceLog::toJobStatusTraceEvent).collect(Collectors.toList()), null, page.getTotalElements());
     }
     
+    @Override
+    public List<String> findJobNamesInStatusTraceLog(final String jobNamePrefix) {
+        return jobStatusTraceLogRepository.findJobNameByJobNameLike(jobNamePrefix);
+    }
+    
     private <T> Pageable getPageable(final BasePageRequest pageRequest, final Class<T> clazz) {
         int page = 0;
         int perPage = BasePageRequest.DEFAULT_PAGE_SIZE;

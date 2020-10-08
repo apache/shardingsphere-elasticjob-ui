@@ -23,10 +23,12 @@ import org.apache.shardingsphere.elasticjob.tracing.event.JobStatusTraceEvent;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Data
-@Entity(name = "JOB_STATUS_TRACE_LOG")
+@Table(name = "JOB_STATUS_TRACE_LOG")
+@Entity
 public class JobStatusTraceLog {
     
     @Id
