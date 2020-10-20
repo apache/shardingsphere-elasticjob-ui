@@ -56,7 +56,7 @@
         </el-table-column>
         <el-table-column
           :label="$t('operationJobs.table.operate')"
-          fixed="right" width="300">
+          fixed="right" width="380">
           <template slot-scope="scope">
             <el-button-group>
               <el-button

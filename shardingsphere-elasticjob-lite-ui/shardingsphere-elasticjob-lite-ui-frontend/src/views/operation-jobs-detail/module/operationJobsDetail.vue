@@ -71,7 +71,7 @@
         </el-table-column>
         <el-table-column
           :label="$t('operationJobs.table.operate')"
-          fixed="right" width="300">
+          fixed="right" width="100">
           <template slot-scope="scope">
             <el-button-group>
               <el-button
@@ -108,28 +108,23 @@ export default {
       column: [
         {
           label: this.$t('operationJobs').labelInfo.item,
-          prop: 'item',
-          width : 200
+          prop: 'item'
         },
         {
           label: this.$t('operationJobs').labelInfo.serverIp,
-          prop: 'serverIp',
-          width : 140
+          prop: 'serverIp'
         },
         {
           label: this.$t('operationJobs').labelInfo.instanceId,
-          prop: 'instanceId',
-          width : 100
+          prop: 'instanceId'
         },
         {
           label: this.$t('operationJobs').labelInfo.status,
-          prop: 'status',
-          width : 120
+          prop: 'status'
         },
         {
           label: this.$t('operationJobs').labelInfo.failover,
-          prop: 'failover',
-          width : 140
+          prop: 'failover'
         }
       ],
       statusColor: {
