@@ -169,18 +169,15 @@ export default {
       serverIp: "",
       columnJobName: {
           label: this.$t('operationServers').labelInfo.jobName,
-          prop: 'jobName',
-          width : 250
+          prop: 'jobName'
       },
       columnInstanceCount: {
           label: this.$t('operationServers').labelInfo.instanceCount,
-          prop: 'instanceCount',
-          width : 250
+          prop: 'instanceCount'
       },
       columnStatus: {
           label: this.$t('operationServers').labelInfo.status,
-          prop: 'status',
-          width : 200
+          prop: 'status'
       },
       statusColor: {
         OK: 'success',

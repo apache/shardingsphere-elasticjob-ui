@@ -226,6 +226,7 @@ export default {
     labelInfo: {
       serverIp: 'Server IP',
       instancesNum: 'Instance count',
+      instanceCount: 'Instance count',
       jobsNum: 'Job num',
       disabledJobsNum: 'Disabled jobs num',
       jobName: 'Job name',
