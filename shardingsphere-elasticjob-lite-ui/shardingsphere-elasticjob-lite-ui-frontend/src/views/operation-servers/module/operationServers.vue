@@ -22,11 +22,13 @@
         v-model="searchForm.serverIp"
         placeholder="Search"
         clearable
+        autocomplete="off"
         @clear="search"
-        @change="search"
-        autocomplete="off" >
+        @change="search" >
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
-        <el-button slot="append" icon="el-icon-search"
+        <el-button
+          slot="append"
+          icon="el-icon-search"
           @click="search"></el-button>
       </el-input>
     </div>
@@ -43,50 +45,51 @@
           :label="item.label"
           :width="item.width"
         >
-        <template slot-scope="scope">
-          <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
-        </template>
+          <template slot-scope="scope">
+            <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           :label="$t('operationServers.labelInfo.operate')"
-          fixed="right" width="300">
+          fixed="right"
+          width="300">
           <template slot-scope="scope">
             <el-button-group>
               <el-button
+                v-if="scope.row.instancesNum"
                 size="mini"
                 type="info"
-                v-if="scope.row.instancesNum"
-                @click="handleDetail(scope.row)"
-                plain>{{ $t("operationServers.actionText.detail") }}</el-button>
+                plain
+                @click="handleDetail(scope.row)">{{ $t("operationServers.actionText.detail") }}</el-button>
               <el-button
+                v-if="scope.row.instancesNum && scope.row.disabledJobsNum"
+                :disabled="isGuest"
                 size="mini"
                 type="success"
-                :disabled="isGuest"
-                v-if="scope.row.instancesNum && scope.row.disabledJobsNum"
-                @click="handleEnable(scope.row)"
-                plain>{{ $t("operationServers.actionText.enable") }}</el-button>
+                plain
+                @click="handleEnable(scope.row)">{{ $t("operationServers.actionText.enable") }}</el-button>
               <el-button
+                v-if="0===scope.row.disabledJobsNum && scope.row.instancesNum"
+                :disabled="isGuest"
                 size="mini"
                 type="warning"
-                :disabled="isGuest"
-                v-if="0===scope.row.disabledJobsNum && scope.row.instancesNum"
-                @click="handleDisable(scope.row)"
-                plain>{{ $t("operationServers.actionText.disable") }}</el-button>
+                plain
+                @click="handleDisable(scope.row)">{{ $t("operationServers.actionText.disable") }}</el-button>
               <el-button
+                v-if="scope.row.instancesNum"
+                :disabled="isGuest"
                 size="mini"
                 type="danger"
-                :disabled="isGuest"
-                v-if="scope.row.instancesNum"
-                @click="handleShutdown(scope.row)"
-                plain>{{ $t("operationServers.actionText.shutdown") }}</el-button>
+                plain
+                @click="handleShutdown(scope.row)">{{ $t("operationServers.actionText.shutdown") }}</el-button>
               <el-button
+                v-if="0===scope.row.instancesNum"
+                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 icon="el-icon-delete"
-                :disabled="isGuest"
-                v-if="0===scope.row.instancesNum"
-                @click="handlerRemove(scope.row)"
-                plain>{{ $t("operationServers.actionText.remove") }}</el-button>
+                plain
+                @click="handlerRemove(scope.row)">{{ $t("operationServers.actionText.remove") }}</el-button>
             </el-button-group>
           </template>
         </el-table-column>
@@ -111,7 +114,7 @@ export default {
   name: 'OperationServers',
   data() {
     return {
-      isGuest: window.localStorage.getItem('isGuest') == 'true',
+      isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
           label: this.$t('operationServers').labelInfo.serverIp,
@@ -148,7 +151,7 @@ export default {
     handleCurrentChange(val) {
       const data = clone(this.cloneTableData)
       this.currentPage = val
-      this.tableData = data.splice(this.pageSize*(val - 1), this.pageSize)
+      this.tableData = data.splice(this.pageSize * (val - 1), this.pageSize)
     },
     getAllServersBriefInfo() {
       var params = {
@@ -157,24 +160,24 @@ export default {
         const data = Array.prototype.filter.call(res.model, this.filterSearchData)
         this.total = data.length
         this.cloneTableData = clone(data)
-        this.tableData = data.splice(this.pageSize*(this.currentPage - 1), this.pageSize)
+        this.tableData = data.splice(this.pageSize * (this.currentPage - 1), this.pageSize)
       })
     },
     filterSearchData(model) {
-      if(!this.searchForm.serverIp){
-        return true;
+      if (!this.searchForm.serverIp) {
+        return true
       }
-      if(!model){
-        return true;
+      if (!model) {
+        return true
       }
-      return model.serverIp && model.serverIp.toLowerCase().includes(this.searchForm.serverIp.toLowerCase());
+      return model.serverIp && model.serverIp.toLowerCase().includes(this.searchForm.serverIp.toLowerCase())
     },
     handleDetail(row) {
       const params = {
         serverIp: row.serverIp
       }
-      localStorage.setItem("/operation-servers/status-detail/serverIp", params.serverIp);
-      this.$router.push({path: '/operation-servers/status-detail', params: params })
+      localStorage.setItem('/operation-servers/status-detail/serverIp', params.serverIp)
+      this.$router.push({ path: '/operation-servers/status-detail', params: params })
     },
     handleEnable(row) {
       const params = {
@@ -229,7 +232,7 @@ export default {
       })
     },
     search() {
-        this.getAllServersBriefInfo()
+      this.getAllServersBriefInfo()
     }
   }
 }

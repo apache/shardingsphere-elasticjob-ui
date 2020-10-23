@@ -84,7 +84,7 @@ export const constantRouterMap = [
     component: () => import('@/views/history-status'),
     hidden: true,
     name: 'History status'
-  },
+  }
 ]
 
 export default new Router({

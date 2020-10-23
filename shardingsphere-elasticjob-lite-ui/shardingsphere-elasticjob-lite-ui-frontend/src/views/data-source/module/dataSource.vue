@@ -230,7 +230,7 @@ export default {
         this.cloneTableData = clone(res.model)
         this.tableData = data.splice(0, this.pageSize)
       })
-      //this.getRegCenterActivated()
+      // this.getRegCenterActivated()
     },
     getRegCenterActivated() {
       API.getRegCenterActivated().then(res => {
@@ -249,7 +249,7 @@ export default {
           name: row.name
         }
         API.connect(params).then(res => {
-          if(res.model) {
+          if (res.model) {
             this.$notify({
               title: this.$t('common').notify.title,
               message: this.$t('common').notify.conSucMessage,
@@ -301,7 +301,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           API.connectTest(this.form).then(res => {
-            if(res.model) {
+            if (res.model) {
               this.$notify({
                 title: this.$t('common').notify.title,
                 message: this.$t('common').notify.conSucMessage,
@@ -314,7 +314,6 @@ export default {
                 type: 'error'
               })
             }
-
           })
         } else {
           return false

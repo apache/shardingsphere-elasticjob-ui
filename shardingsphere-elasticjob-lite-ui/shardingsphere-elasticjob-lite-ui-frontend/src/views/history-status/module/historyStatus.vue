@@ -156,7 +156,7 @@ export default {
     fetchJobNameSuggestions(jobNamePrefix, callback) {
       API.getStatusJobNameSuggestions(jobNamePrefix).then(res => {
         const jobNames = res.model
-        const suggestions = jobNames.map(jobName => ({value: jobName}))
+        const suggestions = jobNames.map(jobName => ({ value: jobName }))
         callback(suggestions)
       })
     },

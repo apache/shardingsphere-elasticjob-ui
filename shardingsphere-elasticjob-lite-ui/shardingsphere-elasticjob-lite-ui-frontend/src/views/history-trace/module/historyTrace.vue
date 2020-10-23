@@ -84,7 +84,6 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import clone from 'lodash/clone'
 import API from '../api'
 export default {
   name: 'HistoryTrace',
@@ -168,14 +167,14 @@ export default {
     fetchJobNameSuggestions(jobNamePrefix, callback) {
       API.getExecutionJobNameSuggestions(jobNamePrefix).then(res => {
         const jobNames = res.model
-        const suggestions = jobNames.map(jobName => ({value: jobName}))
+        const suggestions = jobNames.map(jobName => ({ value: jobName }))
         callback(suggestions)
       })
     },
     fetchIpSuggestions(ipPrefix, callback) {
       API.getExecutionIpSuggestions(ipPrefix).then(res => {
         const ips = res.model
-        const suggestions = ips.map(ip => ({value: ip}))
+        const suggestions = ips.map(ip => ({ value: ip }))
         callback(suggestions)
       })
     },

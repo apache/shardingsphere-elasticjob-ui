@@ -19,27 +19,29 @@
   <el-row class="box-card">
     <el-form :model="searchForm" class="demo-form-inline">
       <el-form-item>
-          <el-col :span="4">
-            <el-button @click="goBack" type="info" icon="el-icon-arrow-left">Back</el-button>
-          </el-col>
-          <el-col :span="14">
-              <el-link type="info" disabled> {{$t('operationJobs.labelInfo.jobName') }}:</el-link>
-              <el-link type="info" disabled>{{jobName || "-" }}</el-link>
-          </el-col>
-          <el-col :span="6">
-            <el-input
-              v-model="searchForm.jobName"
-              placeholder="Search"
-              clearable
-              @clear="search"
-              @change="search"
-              autocomplete="off" >
-              <i slot="prefix" class="el-input__icon el-icon-search"></i>
-              <el-button slot="append" icon="el-icon-search"
-                @click="search"></el-button>
-            </el-input>
-          </el-col>
-        </el-form-item>
+        <el-col :span="4">
+          <el-button type="info" icon="el-icon-arrow-left" @click="goBack">Back</el-button>
+        </el-col>
+        <el-col :span="14">
+          <el-link type="info" disabled> {{ $t('operationJobs.labelInfo.jobName') }}:</el-link>
+          <el-link type="info" disabled>{{ jobName || "-" }}</el-link>
+        </el-col>
+        <el-col :span="6">
+          <el-input
+            v-model="searchForm.jobName"
+            placeholder="Search"
+            clearable
+            autocomplete="off"
+            @clear="search"
+            @change="search" >
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="search"></el-button>
+          </el-input>
+        </el-col>
+      </el-form-item>
     </el-form>
     <div class="btn-group pull-right" style="float: right;">
 
@@ -57,37 +59,38 @@
           :label="item.label"
           :width="item.width"
         >
-        <template slot-scope="scope">
-          <span v-if="'item'===item.prop || 'serverIp'===item.prop || 'instanceId'===item.prop">{{ scope.row[item.prop] }}</span>
-          <span v-if="'failover'===item.prop">{{ scope.row.failover? scope.row.failover : "-" }}</span>
-          <el-button
-            v-if="'status'===item.prop"
-            size="mini"
-            :type="statusColor[scope.row.status]"
-            plain>
-            {{ $t("operationJobs.statusText."+scope.row[item.prop]) }}
+          <template slot-scope="scope">
+            <span v-if="'item'===item.prop || 'serverIp'===item.prop || 'instanceId'===item.prop">{{ scope.row[item.prop] }}</span>
+            <span v-if="'failover'===item.prop">{{ scope.row.failover? scope.row.failover : "-" }}</span>
+            <el-button
+              v-if="'status'===item.prop"
+              :type="statusColor[scope.row.status]"
+              size="mini"
+              plain>
+              {{ $t("operationJobs.statusText."+scope.row[item.prop]) }}
             </el-button>
-        </template>
+          </template>
         </el-table-column>
         <el-table-column
           :label="$t('operationJobs.table.operate')"
-          fixed="right" width="100">
+          fixed="right"
+          width="100">
           <template slot-scope="scope">
             <el-button-group>
               <el-button
+                v-if="'DISABLED'===scope.row.status"
+                :disabled="isGuest"
                 size="mini"
                 type="success"
-                :disabled="isGuest"
-                v-if="'DISABLED'===scope.row.status"
-                @click="handleEnable(scope.row)"
-                plain>{{ $t("operationJobs.actionText.enable") }}</el-button>
+                plain
+                @click="handleEnable(scope.row)">{{ $t("operationJobs.actionText.enable") }}</el-button>
               <el-button
+                v-if="'PENDING'===scope.row.status"
+                :disabled="isGuest"
                 size="mini"
                 type="warning"
-                :disabled="isGuest"
-                v-if="'PENDING'===scope.row.status"
-                @click="handleDisable(scope.row)"
-                plain>{{ $t("operationJobs.actionText.disable") }}</el-button>
+                plain
+                @click="handleDisable(scope.row)">{{ $t("operationJobs.actionText.disable") }}</el-button>
             </el-button-group>
           </template>
         </el-table-column>
@@ -103,8 +106,8 @@ export default {
   name: 'OperationJobs',
   data() {
     return {
-      isGuest: window.localStorage.getItem('isGuest') == 'true',
-      jobName: "",
+      isGuest: window.localStorage.getItem('isGuest') === 'true',
+      jobName: '',
       column: [
         {
           label: this.$t('operationJobs').labelInfo.item,
@@ -146,8 +149,8 @@ export default {
   },
   created() {
     this.jobName = this.$route.params.jobName ||
-      localStorage.getItem("/operation-jobs/status-detail/jobName")
-    if(!this.jobName){
+      localStorage.getItem('/operation-jobs/status-detail/jobName')
+    if (!this.jobName) {
       this.goBack()
       return
     }
@@ -157,10 +160,10 @@ export default {
     ...mapActions(['setRegCenterActivated']),
     handleCurrentChange(val) {
       const data = clone(this.cloneTableData)
-      this.tableData = data.splice(this.pageSize*(val - 1), this.pageSize)
+      this.tableData = data.splice(this.pageSize * (val - 1), this.pageSize)
     },
     goBack() {
-      this.$router.push({path: '/operation-jobs'})
+      this.$router.push({ path: '/operation-jobs' })
     },
     getShardingInfo() {
       var params = {
@@ -174,13 +177,13 @@ export default {
       })
     },
     filterSearchData(model) {
-      if(!this.searchForm.jobName){
-        return true;
+      if (!this.searchForm.jobName) {
+        return true
       }
-      if(!model){
-        return true;
+      if (!model) {
+        return true
       }
-      return model.jobName && model.jobName.toLowerCase().includes(this.searchForm.jobName.toLowerCase());
+      return model.jobName && model.jobName.toLowerCase().includes(this.searchForm.jobName.toLowerCase())
     },
     handleEnable(row) {
       const params = {
@@ -211,7 +214,7 @@ export default {
       })
     },
     search() {
-        this.getShardingInfo()
+      this.getShardingInfo()
     }
   }
 }

@@ -300,6 +300,6 @@ export default {
     major_features_info_4: '跨注册中心查看作业',
     major_features_info_5: '查看作业运行轨迹和运行状态',
     unsupported_title: '不支持项',
-    unsupported_info: '添加作业。因为作业都是在首次运行时自动添加，使用控制台添加作业并无必要。直接在作业服务器启动包含Elastic Job的作业进程即可。',
+    unsupported_info: '添加作业。因为作业都是在首次运行时自动添加，使用控制台添加作业并无必要。直接在作业服务器启动包含Elastic Job的作业进程即可。'
   }
 }

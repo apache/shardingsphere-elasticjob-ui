@@ -19,27 +19,29 @@
   <el-row class="box-card">
     <el-form :model="searchForm" class="demo-form-inline">
       <el-form-item>
-          <el-col :span="4">
-            <el-button @click="goBack" type="info" icon="el-icon-arrow-left">Back</el-button>
-          </el-col>
-          <el-col :span="14">
-              <el-link type="info" disabled> {{$t('operationServers.labelInfo.serverIp') }}:</el-link>
-              <el-link type="info" disabled>{{serverIp || "-" }}</el-link>
-          </el-col>
-          <el-col :span="6">
-            <el-input
-              v-model="searchForm.jobName"
-              placeholder="Search"
-              clearable
-              @clear="search"
-              @change="search"
-              autocomplete="off" >
-              <i slot="prefix" class="el-input__icon el-icon-search"></i>
-              <el-button slot="append" icon="el-icon-search"
-                @click="search"></el-button>
-            </el-input>
-          </el-col>
-        </el-form-item>
+        <el-col :span="4">
+          <el-button type="info" icon="el-icon-arrow-left" @click="goBack">Back</el-button>
+        </el-col>
+        <el-col :span="14">
+          <el-link type="info" disabled> {{ $t('operationServers.labelInfo.serverIp') }}:</el-link>
+          <el-link type="info" disabled>{{ serverIp || "-" }}</el-link>
+        </el-col>
+        <el-col :span="6">
+          <el-input
+            v-model="searchForm.jobName"
+            placeholder="Search"
+            clearable
+            autocomplete="off"
+            @clear="search"
+            @change="search" >
+            <i slot="prefix" class="el-input__icon el-icon-search"></i>
+            <el-button
+              slot="append"
+              icon="el-icon-search"
+              @click="search"></el-button>
+          </el-input>
+        </el-col>
+      </el-form-item>
     </el-form>
     <div class="btn-group pull-right" style="float: right;">
 
@@ -54,93 +56,94 @@
           :prop="columnJobName.prop"
           :label="columnJobName.label"
           :width="columnJobName.width">
-            <template slot-scope="scope">
-              <span>{{ scope.row.jobName }}</span>
-            </template>
+          <template slot-scope="scope">
+            <span>{{ scope.row.jobName }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           :prop="columnInstanceCount.prop"
           :label="columnInstanceCount.label"
           :width="columnInstanceCount.width">
-            <template slot-scope="scope">
-              <span>{{ scope.row.instanceCount }}</span>
-            </template>
+          <template slot-scope="scope">
+            <span>{{ scope.row.instanceCount }}</span>
+          </template>
         </el-table-column>
         <el-table-column
           :prop="columnStatus.prop"
           :label="columnStatus.label"
           :width="columnStatus.width">
-            <template slot-scope="scope">
-              <el-button
-                v-if="'OK'===scope.row.status && scope.row.instanceCount"
-                size="mini"
-                :type="statusColor.OK"
-                plain>
-                {{ $t("operationServers.statusText.OK") }}
-              </el-button>
-              <el-button
-                v-if="'DISABLED'===scope.row.status && scope.row.instanceCount"
-                size="mini"
-                :type="statusColor.DISABLED"
-                plain>
-                {{ $t("operationServers.statusText.DISABLED") }}
-              </el-button>
-              <el-button
-                v-if="'SHARDING_FLAG'===scope.row.status && scope.row.instanceCount"
-                size="mini"
-                :type="statusColor.SHARDING_FLAG"
-                plain>
-                {{ $t("operationServers.statusText.SHARDING_FLAG") }}
-              </el-button>
-              <el-button
-                v-if="'PENDING'===scope.row.status && scope.row.instanceCount"
-                size="mini"
-                :type="statusColor.PENDING"
-                plain>
-                {{ $t("operationServers.statusText.PENDING") }}
-              </el-button>
-              <el-button
-                v-if="!scope.row.instanceCount || 'CRASHED'===scope.row.status"
-                size="mini"
-                :type="statusColor.CRASHED"
-                plain>
-                {{ $t("operationServers.statusText.CRASHED") }}
-              </el-button>
-            </template>
+          <template slot-scope="scope">
+            <el-button
+              v-if="'OK'===scope.row.status && scope.row.instanceCount"
+              :type="statusColor.OK"
+              size="mini"
+              plain>
+              {{ $t("operationServers.statusText.OK") }}
+            </el-button>
+            <el-button
+              v-if="'DISABLED'===scope.row.status && scope.row.instanceCount"
+              :type="statusColor.DISABLED"
+              size="mini"
+              plain>
+              {{ $t("operationServers.statusText.DISABLED") }}
+            </el-button>
+            <el-button
+              v-if="'SHARDING_FLAG'===scope.row.status && scope.row.instanceCount"
+              :type="statusColor.SHARDING_FLAG"
+              size="mini"
+              plain>
+              {{ $t("operationServers.statusText.SHARDING_FLAG") }}
+            </el-button>
+            <el-button
+              v-if="'PENDING'===scope.row.status && scope.row.instanceCount"
+              :type="statusColor.PENDING"
+              size="mini"
+              plain>
+              {{ $t("operationServers.statusText.PENDING") }}
+            </el-button>
+            <el-button
+              v-if="!scope.row.instanceCount || 'CRASHED'===scope.row.status"
+              :type="statusColor.CRASHED"
+              size="mini"
+              plain>
+              {{ $t("operationServers.statusText.CRASHED") }}
+            </el-button>
+          </template>
         </el-table-column>
         <el-table-column
           :label="$t('operationServers.labelInfo.operate')"
-          fixed="right" width="300">
+          fixed="right"
+          width="300">
           <template slot-scope="scope">
             <el-button-group>
               <el-button
+                v-if="scope.row.instanceCount && 'DISABLED'===scope.row.status"
+                :disabled="isGuest"
                 size="mini"
                 type="success"
-                :disabled="isGuest"
-                v-if="scope.row.instanceCount && 'DISABLED'===scope.row.status"
-                @click="handleEnable(scope.row)"
-                plain>{{ $t("operationServers.actionText.enable") }}</el-button>
+                plain
+                @click="handleEnable(scope.row)">{{ $t("operationServers.actionText.enable") }}</el-button>
               <el-button
+                v-if="scope.row.instanceCount && 'OK'===scope.row.status"
+                :disabled="isGuest"
                 size="mini"
                 type="warning"
-                :disabled="isGuest"
-                v-if="scope.row.instanceCount && 'OK'===scope.row.status"
-                @click="handleDisable(scope.row)"
-                plain>{{ $t("operationServers.actionText.disable") }}</el-button>
+                plain
+                @click="handleDisable(scope.row)">{{ $t("operationServers.actionText.disable") }}</el-button>
               <el-button
-                size="mini"
-                type="danger"
-                :disabled="isGuest"
                 v-if="scope.row.instanceCount"
-                @click="handleShutdown(scope.row)"
-                plain>{{ $t("operationServers.actionText.shutdown") }}</el-button>
-              <el-button
+                :disabled="isGuest"
                 size="mini"
                 type="danger"
-                :disabled="isGuest"
+                plain
+                @click="handleShutdown(scope.row)">{{ $t("operationServers.actionText.shutdown") }}</el-button>
+              <el-button
                 v-if="!scope.row.instanceCount"
-                @click="handleRemove(scope.row)"
-                plain>{{ $t("operationServers.actionText.remove") }}</el-button>
+                :disabled="isGuest"
+                size="mini"
+                type="danger"
+                plain
+                @click="handleRemove(scope.row)">{{ $t("operationServers.actionText.remove") }}</el-button>
             </el-button-group>
           </template>
         </el-table-column>
@@ -161,23 +164,24 @@
 import { mapActions } from 'vuex'
 import clone from 'lodash/clone'
 import API from '../../operation-servers/api'
+
 export default {
   name: 'OperationServers',
   data() {
     return {
-      isGuest: window.localStorage.getItem('isGuest') == 'true',
-      serverIp: "",
+      isGuest: window.localStorage.getItem('isGuest') === 'true',
+      serverIp: '',
       columnJobName: {
-          label: this.$t('operationServers').labelInfo.jobName,
-          prop: 'jobName'
+        label: this.$t('operationServers').labelInfo.jobName,
+        prop: 'jobName'
       },
       columnInstanceCount: {
-          label: this.$t('operationServers').labelInfo.instanceCount,
-          prop: 'instanceCount'
+        label: this.$t('operationServers').labelInfo.instanceCount,
+        prop: 'instanceCount'
       },
       columnStatus: {
-          label: this.$t('operationServers').labelInfo.status,
-          prop: 'status'
+        label: this.$t('operationServers').labelInfo.status,
+        prop: 'status'
       },
       statusColor: {
         OK: 'success',
@@ -198,8 +202,8 @@ export default {
   },
   created() {
     this.serverIp = this.$route.params.serverIp ||
-      localStorage.getItem("/operation-servers/status-detail/serverIp")
-    if(!this.serverIp){
+      localStorage.getItem('/operation-servers/status-detail/serverIp')
+    if (!this.serverIp) {
       this.goBack()
       return
     }
@@ -209,10 +213,10 @@ export default {
     ...mapActions(['setRegCenterActivated']),
     handleCurrentChange(val) {
       const data = clone(this.cloneTableData)
-      this.tableData = data.splice(this.pageSize*(val - 1), this.pageSize)
+      this.tableData = data.splice(this.pageSize * (val - 1), this.pageSize)
     },
     goBack() {
-      this.$router.push({path: '/operation-servers'})
+      this.$router.push({ path: '/operation-servers' })
     },
     getJobs() {
       var params = {
@@ -226,13 +230,13 @@ export default {
       })
     },
     filterSearchData(model) {
-      if(!this.searchForm.jobName){
-        return true;
+      if (!this.searchForm.jobName) {
+        return true
       }
-      if(!model){
-        return true;
+      if (!model) {
+        return true
       }
-      return model.jobName && model.jobName.toLowerCase().includes(this.searchForm.jobName.toLowerCase());
+      return model.jobName && model.jobName.toLowerCase().includes(this.searchForm.jobName.toLowerCase())
     },
     handleEnable(row) {
       const params = {
@@ -291,7 +295,7 @@ export default {
       })
     },
     search() {
-        this.getJobs()
+      this.getJobs()
     }
   }
 }
