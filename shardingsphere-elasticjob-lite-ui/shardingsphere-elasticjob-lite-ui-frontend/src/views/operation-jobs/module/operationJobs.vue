@@ -22,11 +22,13 @@
         v-model="searchForm.jobName"
         placeholder="Search"
         clearable
+        autocomplete="off"
         @clear="search"
-        @change="search"
-        autocomplete="off" >
+        @change="search" >
         <i slot="prefix" class="el-input__icon el-icon-search"></i>
-        <el-button slot="append" icon="el-icon-search"
+        <el-button
+          slot="append"
+          icon="el-icon-search"
           @click="search"></el-button>
       </el-input>
     </div>
@@ -43,70 +45,71 @@
           :label="item.label"
           :width="item.width"
         >
-        <template slot-scope="scope">
-          <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
-          <el-button
-            v-if="'status'===item.prop"
-            size="mini"
-            :type="statusColor[scope.row[item.prop]]"
-            plain>
-            {{ $t("operationJobs.statusText."+scope.row[item.prop]) }}
+          <template slot-scope="scope">
+            <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
+            <el-button
+              v-if="'status'===item.prop"
+              :type="statusColor[scope.row[item.prop]]"
+              size="mini"
+              plain>
+              {{ $t("operationJobs.statusText."+scope.row[item.prop]) }}
             </el-button>
-        </template>
+          </template>
         </el-table-column>
         <el-table-column
           :label="$t('operationJobs.table.operate')"
-          fixed="right" width="380">
+          fixed="right"
+          width="380">
           <template slot-scope="scope">
             <el-button-group>
               <el-button
+                :disabled="isGuest"
                 size="mini"
                 type="primary"
-                :disabled="isGuest"
-                @click="handleModify(scope.row)"
-                plain>{{ $t("operationJobs.actionText.modify") }}</el-button>
+                plain
+                @click="handleModify(scope.row)">{{ $t("operationJobs.actionText.modify") }}</el-button>
               <el-button
+                v-if="'CRASHED'!==scope.row.status"
                 size="mini"
                 type="info"
-                v-if="'CRASHED'!==scope.row.status"
-                @click="handleDetail(scope.row)"
-                plain>{{ $t("operationJobs.actionText.detail") }}</el-button>
+                plain
+                @click="handleDetail(scope.row)">{{ $t("operationJobs.actionText.detail") }}</el-button>
               <el-button
-                size="mini"
-                type="success"
-                :disabled="isGuest"
                 v-if="'OK'===scope.row.status"
-                @click="handleTrigger(scope.row)"
-                plain>{{ $t("operationJobs.actionText.trigger") }}</el-button>
-              <el-button
+                :disabled="isGuest"
                 size="mini"
                 type="success"
-                :disabled="isGuest"
-                v-if="'DISABLED'===scope.row.status"
-                @click="handleEnable(scope.row)"
-                plain>{{ $t("operationJobs.actionText.enable") }}</el-button>
+                plain
+                @click="handleTrigger(scope.row)">{{ $t("operationJobs.actionText.trigger") }}</el-button>
               <el-button
+                v-if="'DISABLED'===scope.row.status"
+                :disabled="isGuest"
+                size="mini"
+                type="success"
+                plain
+                @click="handleEnable(scope.row)">{{ $t("operationJobs.actionText.enable") }}</el-button>
+              <el-button
+                v-if="'OK'===scope.row.status"
+                :disabled="isGuest"
                 size="mini"
                 type="warning"
-                :disabled="isGuest"
-                v-if="'OK'===scope.row.status"
-                @click="handleDisable(scope.row)"
-                plain>{{ $t("operationJobs.actionText.disable") }}</el-button>
+                plain
+                @click="handleDisable(scope.row)">{{ $t("operationJobs.actionText.disable") }}</el-button>
               <el-button
+                v-if="'CRASHED'!==scope.row.status"
+                :disabled="isGuest"
                 size="mini"
                 type="danger"
-                :disabled="isGuest"
-                v-if="'CRASHED'!==scope.row.status"
-                @click="handleShutdown(scope.row)"
-                plain>{{ $t("operationJobs.actionText.shutdown") }}</el-button>
+                plain
+                @click="handleShutdown(scope.row)">{{ $t("operationJobs.actionText.shutdown") }}</el-button>
               <el-button
+                v-if="'CRASHED'===scope.row.status"
+                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 icon="el-icon-delete"
-                :disabled="isGuest"
-                v-if="'CRASHED'===scope.row.status"
-                @click="handlerRemove(scope.row)"
-                plain>{{ $t("operationJobs.actionText.remove") }}</el-button>
+                plain
+                @click="handlerRemove(scope.row)">{{ $t("operationJobs.actionText.remove") }}</el-button>
             </el-button-group>
           </template>
         </el-table-column>
@@ -129,157 +132,157 @@
       <el-form ref="editForm" :model="editForm" :rules="rules" label-width="40px">
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.jobName') }}
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                  disabled
-                  :placeholder="$t('operationJobs.rules.jobName')"
-                  v-model="editForm.jobName"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="1">
-              &nbsp;
-            </el-col>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.cron') }}
-            </el-col>
-            <el-col :span="1">
-              &nbsp;
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                  :placeholder="$t('operationJobs.rules.cron')"
-                  v-model="editForm.cron"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.jobName') }}
+          </el-col>
+          <el-col :span="7">
+            <el-input
+              :placeholder="$t('operationJobs.rules.jobName')"
+              v-model="editForm.jobName"
+              disabled
+              autocomplete="off"
+            />
+          </el-col>
+          <el-col :span="1">
+            &nbsp;
+          </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.cron') }}
+          </el-col>
+          <el-col :span="1">
+            &nbsp;
+          </el-col>
+          <el-col :span="7">
+            <el-input
+              :placeholder="$t('operationJobs.rules.cron')"
+              v-model="editForm.cron"
+              autocomplete="off"
+            />
+          </el-col>
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.shardingTotalCount') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input-number
-                  :placeholder="$t('operationJobs.labelInfo.shardingTotalCount')"
-                  v-model="editForm.shardingTotalCount"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.jobParameter') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input
-                  :placeholder="$t('operationJobs.labelInfo.jobParameter')"
-                  v-model="editForm.jobParameter"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.shardingTotalCount') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input-number
+              :placeholder="$t('operationJobs.labelInfo.shardingTotalCount')"
+              v-model="editForm.shardingTotalCount"
+              autocomplete="off"
+            />
+          </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.jobParameter') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input
+              :placeholder="$t('operationJobs.labelInfo.jobParameter')"
+              v-model="editForm.jobParameter"
+              autocomplete="off"
+            />
+          </el-col>
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.maxTimeDiffSeconds') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input-number
-                  :placeholder="$t('operationJobs.labelInfo.maxTimeDiffSeconds')"
-                  v-model="editForm.maxTimeDiffSeconds"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.monitorExecution') }}
-            </el-col>
-            <el-col :span="8">
-              <el-checkbox v-model="editForm.monitorExecution">{{ $t('operationJobs.labelInfo.monitorExecution')}} </el-checkbox>
-            </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.maxTimeDiffSeconds') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input-number
+              :placeholder="$t('operationJobs.labelInfo.maxTimeDiffSeconds')"
+              v-model="editForm.maxTimeDiffSeconds"
+              autocomplete="off"
+            />
+          </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.monitorExecution') }}
+          </el-col>
+          <el-col :span="8">
+            <el-checkbox v-model="editForm.monitorExecution">{{ $t('operationJobs.labelInfo.monitorExecution') }} </el-checkbox>
+          </el-col>
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.failover') }}
-            </el-col>
-            <el-col :span="8">
-              <el-checkbox v-model="editForm.failover">{{ $t('operationJobs.labelInfo.failover')}} </el-checkbox>
-            </el-col>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.misfire') }}
-            </el-col>
-            <el-col :span="8">
-              <el-checkbox v-model="editForm.misfire">{{ $t('operationJobs.labelInfo.misfire')}} </el-checkbox>
-            </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.failover') }}
+          </el-col>
+          <el-col :span="8">
+            <el-checkbox v-model="editForm.failover">{{ $t('operationJobs.labelInfo.failover') }} </el-checkbox>
+          </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.misfire') }}
+          </el-col>
+          <el-col :span="8">
+            <el-checkbox v-model="editForm.misfire">{{ $t('operationJobs.labelInfo.misfire') }} </el-checkbox>
+          </el-col>
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="6">
-              {{ $t('operationJobs.labelInfo.shardingItemParameters') }}
-            </el-col>
-            <el-col :span="18">
-              <el-input
-                  type="textarea"
-                  :placeholder="$t('operationJobs.labelInfo.shardingItemParameters')"
-                  v-model="editForm.shardingItemParameters"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="6">
+            {{ $t('operationJobs.labelInfo.shardingItemParameters') }}
+          </el-col>
+          <el-col :span="18">
+            <el-input
+              :placeholder="$t('operationJobs.labelInfo.shardingItemParameters')"
+              v-model="editForm.shardingItemParameters"
+              type="textarea"
+              autocomplete="off"
+            />
+          </el-col>
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.jobShardingStrategyType') }}
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                  :placeholder="$t('operationJobs.labelInfo.jobShardingStrategyType')"
-                  v-model="editForm.jobShardingStrategyType"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="1">
-              &nbsp;
-            </el-col>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.jobExecutorServiceHandlerType') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input
-                  :placeholder="$t('operationJobs.labelInfo.jobExecutorServiceHandlerType')"
-                  v-model="editForm.jobExecutorServiceHandlerType"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.jobShardingStrategyType') }}
+          </el-col>
+          <el-col :span="7">
+            <el-input
+              :placeholder="$t('operationJobs.labelInfo.jobShardingStrategyType')"
+              v-model="editForm.jobShardingStrategyType"
+              autocomplete="off"
+            />
+          </el-col>
+          <el-col :span="1">
+            &nbsp;
+          </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.jobExecutorServiceHandlerType') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input
+              :placeholder="$t('operationJobs.labelInfo.jobExecutorServiceHandlerType')"
+              v-model="editForm.jobExecutorServiceHandlerType"
+              autocomplete="off"
+            />
+          </el-col>
         </el-form-item>
 
         <el-form-item>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.jobErrorHandlerType') }}
-            </el-col>
-            <el-col :span="7">
-              <el-input
-                  :placeholder="$t('operationJobs.labelInfo.jobErrorHandlerType')"
-                  v-model="editForm.jobErrorHandlerType"
-                  autocomplete="off"
-                />
-            </el-col>
-            <el-col :span="1">
-              &nbsp;
-            </el-col>
-            <el-col :span="4">
-              {{ $t('operationJobs.labelInfo.description') }}
-            </el-col>
-            <el-col :span="8">
-              <el-input
-                  type="textarea"
-                  :placeholder="$t('operationJobs.rules.description')"
-                  v-model="editForm.description"
-                  autocomplete="off"
-                />
-            </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.jobErrorHandlerType') }}
+          </el-col>
+          <el-col :span="7">
+            <el-input
+              :placeholder="$t('operationJobs.labelInfo.jobErrorHandlerType')"
+              v-model="editForm.jobErrorHandlerType"
+              autocomplete="off"
+            />
+          </el-col>
+          <el-col :span="1">
+            &nbsp;
+          </el-col>
+          <el-col :span="4">
+            {{ $t('operationJobs.labelInfo.description') }}
+          </el-col>
+          <el-col :span="8">
+            <el-input
+              :placeholder="$t('operationJobs.rules.description')"
+              v-model="editForm.description"
+              type="textarea"
+              autocomplete="off"
+            />
+          </el-col>
         </el-form-item>
 
         <el-form-item>
@@ -322,12 +325,13 @@
 import { mapActions } from 'vuex'
 import clone from 'lodash/clone'
 import API from '../api'
+
 export default {
   name: 'OperationJobs',
   data() {
     return {
       modifyDialogVisible: false,
-      isGuest: window.localStorage.getItem('isGuest') == 'true',
+      isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
           label: this.$t('operationJobs').labelInfo.jobName,
@@ -361,7 +365,7 @@ export default {
       },
       editForm: {
         jobName: '',
-        propList : [],
+        propList: [],
         shardingTotalCount: 1,
         cron: '',
         description: '',
@@ -421,7 +425,7 @@ export default {
     handleCurrentChange(val) {
       const data = clone(this.cloneTableData)
       this.currentPage = val
-      this.tableData = data.splice(this.pageSize*(val - 1), this.pageSize)
+      this.tableData = data.splice(this.pageSize * (val - 1), this.pageSize)
     },
     getAllJobsBriefInfo() {
       var params = {
@@ -430,24 +434,24 @@ export default {
         const data = Array.prototype.filter.call(res.model, this.filterSearchData)
         this.total = data.length
         this.cloneTableData = clone(data)
-        this.tableData = data.splice(this.pageSize*(this.currentPage - 1), this.pageSize)
+        this.tableData = data.splice(this.pageSize * (this.currentPage - 1), this.pageSize)
       })
     },
     filterSearchData(model) {
-      if(!this.searchForm.jobName){
-        return true;
+      if (!this.searchForm.jobName) {
+        return true
       }
-      if(!model){
-        return true;
+      if (!model) {
+        return true
       }
-      return model.jobName && model.jobName.toLowerCase().includes(this.searchForm.jobName.toLowerCase());
+      return model.jobName && model.jobName.toLowerCase().includes(this.searchForm.jobName.toLowerCase())
     },
     addProperty() {
-      this.editForm.propList.push({name: '', value: ''})
+      this.editForm.propList.push({ name: '', value: '' })
     },
     removeProperty(prop) {
       const index = this.editForm.propList.indexOf(prop)
-      if (-1 !== index) {
+      if (index !== -1) {
         this.editForm.propList.splice(index, 1)
       }
     },
@@ -456,11 +460,11 @@ export default {
         jobName: row.jobName
       }
       API.getJobConfig(params).then(res => {
-        const data = res.model;
-        data.props = data.props || {};
+        const data = res.model
+        data.props = data.props || {}
         data.propList = data.propList || []
-        for (let key in data.props) {
-          data.propList.push({name: key, value: data.props[key]})
+        for (const key in data.props) {
+          data.propList.push({ name: key, value: data.props[key] })
         }
         this.editForm = data
         this.modifyDialogVisible = true
@@ -470,8 +474,8 @@ export default {
       const params = {
         jobName: row.jobName
       }
-      localStorage.setItem("/operation-jobs/status-detail/jobName", params.jobName);
-      this.$router.push({path: '/operation-jobs/status-detail', params: params })
+      localStorage.setItem('/operation-jobs/status-detail/jobName', params.jobName)
+      this.$router.push({ path: '/operation-jobs/status-detail', params: params })
     },
     handleTrigger(row) {
       const params = {
@@ -541,10 +545,10 @@ export default {
     onEditConfirm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          const data = clone(this.editForm);
+          const data = clone(this.editForm)
           data.props = {}
           data.propList = data.propList || []
-          for (let prop of data.propList) {
+          for (const prop of data.propList) {
             data.props[prop.name] = prop.value
           }
           delete data.propList
@@ -564,7 +568,7 @@ export default {
       })
     },
     search() {
-        this.getAllJobsBriefInfo()
+      this.getAllJobsBriefInfo()
     }
   }
 }

@@ -24,7 +24,7 @@ export default {
   disableServer: (params = {}) => API.post('/api/servers/' + params.serverIp + '/disable'),
   enableServer: (params = {}) => API.post('/api/servers/' + params.serverIp + '/enable'),
   shutdownServer: (params = {}) => API.post('/api/servers/' + params.serverIp + '/shutdown'),
-  removeServer: (params = {}) => API.delete('/api/servers/' + params.serverIp + ""),
+  removeServer: (params = {}) => API.delete('/api/servers/' + params.serverIp + ''),
 
   getJobs: (params = {}) => API.get('/api/servers/' + params.serverIp + '/jobs'),
   disableServerJob: (params) => API.post('/api/servers/' + params.serverIp + '/jobs/' + params.jobName + '/disable'),
