@@ -113,7 +113,6 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import clone from 'lodash/clone'
 import API from '../api'
 export default {
   name: 'HistoryStatus',

@@ -49,7 +49,7 @@
         :placeholder="$t('historyTrace.searchForm.executeResult')"
         v-model="searchForm.isSuccess"
         clearable
-        >
+      >
         <el-option
           v-for="item in executeResultItems"
           :key="item.value"
@@ -88,7 +88,6 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import clone from 'lodash/clone'
 import API from '../api'
 export default {
   name: 'HistoryTrace',
@@ -114,8 +113,8 @@ export default {
         {
           label: this.$t('historyTrace').column.executeResult,
           prop: 'success',
-          formatter: function(row,cell,value) {
-            return value+''
+          formatter: function(row, cell, value) {
+            return value + ''
           }
         },
         {
