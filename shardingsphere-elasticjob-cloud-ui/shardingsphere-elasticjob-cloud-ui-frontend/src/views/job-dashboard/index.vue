@@ -16,74 +16,74 @@
   -->
 
 <template>
-<el-row class="job-dashboard">
-  <el-row :gutter="16" class="row">
-    <el-col :span="16">
+  <el-row class="job-dashboard">
+    <el-row :gutter="16" class="row">
+      <el-col :span="16">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>{{ $t("historyDashboard.successAndFailCount") }}</span>
+          </div>
+          <el-row>
+            <el-col :span="8" class="col">
+              <h2>{{ $t("historyDashboard.jobInfoForOneMinute") }}</h2>
+              <v-chart :options="lastMinute"/>
+            </el-col>
+            <el-col :span="8" class="col">
+              <h2>{{ $t("historyDashboard.jobInfoForOneHour") }}</h2>
+              <v-chart :options="lastHour"/>
+            </el-col>
+            <el-col :span="8" class="col">
+              <h2>{{ $t("historyDashboard.jobInfoForOneWeek") }}</h2>
+              <v-chart :options="lastWeek"/>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>{{ $t("historyDashboard.jobType") }}</span>
+          </div>
+          <el-row>
+            <el-col class="col">
+              <h2>{{ $t("historyDashboard.jobExecutionTypeJob") }}</h2>
+              <v-chart :options="executionType"/>
+            </el-col>
+          </el-row>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-row class="row">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>{{ $t("historyDashboard.successAndFailCount") }}</span>
         </div>
         <el-row>
-          <el-col :span="8" class="col">
-            <h2>{{ $t("historyDashboard.jobInfoForOneMinute") }}</h2>
-            <v-chart :options="lastMinute"/>
-          </el-col>
-          <el-col :span="8" class="col">
-            <h2>{{ $t("historyDashboard.jobInfoForOneHour") }}</h2>
-            <v-chart :options="lastHour"/>
-          </el-col>
-          <el-col :span="8" class="col">
-            <h2>{{ $t("historyDashboard.jobInfoForOneWeek") }}</h2>
-            <v-chart :options="lastWeek"/>
-          </el-col>
+          <v-chart :options="result"/>
         </el-row>
       </el-card>
-    </el-col>
-    <el-col :span="8">
-     <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>{{ $t("historyDashboard.jobType") }}</span>
-      </div>
-      <el-row>
-        <el-col class="col">
-          <h2>{{ $t("historyDashboard.jobExecutionTypeJob") }}</h2>
-          <v-chart :options="executionType"/>
-        </el-col>
-      </el-row>
-     </el-card>
-    </el-col>
+    </el-row>
+    <el-row class="row">
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>{{ $t("historyDashboard.jobTaskRunningCount") }}</span>
+        </div>
+        <el-row>
+          <v-chart :options="running"/>
+        </el-row>
+      </el-card>
+    </el-row>
+    <el-row class="row">
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>{{ $t("historyDashboard.currentJobsCount") }}</span>
+        </div>
+        <el-row>
+          <v-chart :options="register"/>
+        </el-row>
+      </el-card>
+    </el-row>
   </el-row>
-  <el-row class="row">
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>{{ $t("historyDashboard.successAndFailCount") }}</span>
-      </div>
-      <el-row>
-        <v-chart :options="result"/>
-      </el-row>
-    </el-card>
-  </el-row>
-  <el-row class="row">
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>{{ $t("historyDashboard.jobTaskRunningCount") }}</span>
-      </div>
-      <el-row>
-        <v-chart :options="running"/>
-      </el-row>
-    </el-card>
-  </el-row>
-  <el-row class="row">
-    <el-card class="box-card">
-      <div slot="header" class="clearfix">
-        <span>{{ $t("historyDashboard.currentJobsCount") }}</span>
-      </div>
-      <el-row>
-        <v-chart :options="register"/>
-      </el-row>
-    </el-card>
-  </el-row>
-</el-row>
 </template>
 
 <script>
@@ -100,7 +100,7 @@ export default {
   components: {
     'v-chart': ECharts
   },
-  data () {
+  data() {
     return {
       color: ['rgb(105, 167, 225)', 'rgb(120, 230, 117)'],
       lastMinute: {},
@@ -125,7 +125,6 @@ export default {
         since: 'last24hours'
       }
       API.getTasksResults(params).then(res => {
-        const xAxis = []
         const series1 = []
         const series2 = []
         if (res.model && res.model.length) {
@@ -160,7 +159,7 @@ export default {
             name: this.$t('historyDashboard').jobSuccessCount,
             type: 'line',
             data: series1
-          },{
+          }, {
             name: this.$t('historyDashboard').jobFailureCount,
             type: 'line',
             data: series2
@@ -175,7 +174,6 @@ export default {
       API.getJobsRunning(params).then(res => {
         API.getTasksRunning(params).then(resp => {
           if (resp.model && res.model.length) {
-            const xAxis = []
             const jobSeries = []
             const taskSeries = []
             if (res.model && res.model.length) {
@@ -214,7 +212,7 @@ export default {
                 name: this.$t('historyDashboard').taskRunningCount,
                 type: 'line',
                 data: taskSeries
-              },{
+              }, {
                 name: this.$t('historyDashboard').jobRunningCount,
                 type: 'line',
                 data: jobSeries
@@ -226,7 +224,6 @@ export default {
     },
     getJobsRegister() {
       API.getJobsRegister().then(res => {
-        const xAxis = []
         const series = []
         if (res.model && res.model.length) {
           res.model && res.model.forEach(item => {
@@ -279,8 +276,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.transientJobCount, name: 'TRANSI', label:{formatter: '{b}:\n' + this.percentage(model.transientJobCount, model.transientJobCount + model.daemonJobCount)}},
-                {value: model.daemonJobCount, name: 'DAEMON', label:{formatter: '{b}:\n' + this.percentage(model.daemonJobCount, model.transientJobCount + model.daemonJobCount)}}
+                { value: model.transientJobCount, name: 'TRANSI', label: { formatter: '{b}:\n' + this.percentage(model.transientJobCount, model.transientJobCount + model.daemonJobCount) }},
+                { value: model.daemonJobCount, name: 'DAEMON', label: { formatter: '{b}:\n' + this.percentage(model.daemonJobCount, model.transientJobCount + model.daemonJobCount) }}
               ],
               emphasis: {
                 itemStyle: {
@@ -297,8 +294,8 @@ export default {
     getTasksPeriod() {
       API.getTasksPeriod('lastMinute').then(res => {
         const { model } = res
-        model.successCount=40
-        model.failedCount=60
+        model.successCount = 40
+        model.failedCount = 60
         this.lastMinute = {
           color: this.color,
           tooltip: {
@@ -312,8 +309,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: this.$t('historyDashboard').success, label:{formatter: '{b}:\n' + this.percentage(model.successCount, model.successCount + model.failedCount)}},
-                {value: model.failedCount, name: this.$t('historyDashboard').failed, label:{formatter: '{b}:\n' + this.percentage(model.failedCount, model.successCount + model.failedCount)}}
+                { value: model.successCount, name: this.$t('historyDashboard').success, label: { formatter: '{b}:\n' + this.percentage(model.successCount, model.successCount + model.failedCount) }},
+                { value: model.failedCount, name: this.$t('historyDashboard').failed, label: { formatter: '{b}:\n' + this.percentage(model.failedCount, model.successCount + model.failedCount) }}
               ],
               emphasis: {
                 itemStyle: {
@@ -341,8 +338,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: this.$t('historyDashboard').success, label:{formatter: '{b}:\n' + this.percentage(model.successCount, model.successCount + model.failedCount)}},
-                {value: model.failedCount, name: this.$t('historyDashboard').failed, label:{formatter: '{b}:\n' + this.percentage(model.failedCount, model.successCount + model.failedCount)}}
+                { value: model.successCount, name: this.$t('historyDashboard').success, label: { formatter: '{b}:\n' + this.percentage(model.successCount, model.successCount + model.failedCount) }},
+                { value: model.failedCount, name: this.$t('historyDashboard').failed, label: { formatter: '{b}:\n' + this.percentage(model.failedCount, model.successCount + model.failedCount) }}
               ],
               emphasis: {
                 itemStyle: {
@@ -370,8 +367,8 @@ export default {
               radius: '35%',
               center: ['50%', '50%'],
               data: [
-                {value: model.successCount, name: this.$t('historyDashboard').success, label:{formatter: '{b}:\n' + this.percentage(model.successCount, model.successCount + model.failedCount)}},
-                {value: model.failedCount, name: this.$t('historyDashboard').failed, label:{formatter: '{b}:\n' + this.percentage(model.failedCount, model.successCount + model.failedCount)}}
+                { value: model.successCount, name: this.$t('historyDashboard').success, label: { formatter: '{b}:\n' + this.percentage(model.successCount, model.successCount + model.failedCount) }},
+                { value: model.failedCount, name: this.$t('historyDashboard').failed, label: { formatter: '{b}:\n' + this.percentage(model.failedCount, model.successCount + model.failedCount) }}
               ],
               emphasis: {
                 itemStyle: {
@@ -389,7 +386,7 @@ export default {
       if (value === 0) {
         return '0.0%'
       }
-      return Number((value/count)*100).toFixed(1) + '%';
+      return Number((value / count) * 100).toFixed(1) + '%'
     }
   }
 }

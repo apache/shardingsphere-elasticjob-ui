@@ -22,7 +22,7 @@ export default {
       {
         title: 'APP',
         child: [
-          /*{
+          /* {
             title: 'Registry center',
             href: '/registry-center'
           },*/

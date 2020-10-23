@@ -22,7 +22,7 @@ export default {
       {
         title: '应用',
         child: [
-          /*{
+          /* {
             title: '注册中心配置',
             href: '/registry-center'
           },*/
