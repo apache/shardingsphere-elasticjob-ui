@@ -1,3 +1,17 @@
+## 3.0.0-beta
+
+### Enhancement
+
+1. Provide more clear error messages when missing JDBC drivers.
+1. Support create, read, update and delete properties of the jobs. 
+1. Support auto complete for job name in page History Status.
+1. Support auto complete for job name and server IP in page Job History.
+1. Upgrade parent image in Dockerfile to support resources limiting.
+
+###  Change Logs
+
+1. [MILESTONE](https://github.com/apache/shardingsphere-elasticjob-ui/milestone/2)
+
 ## 3.0.0-alpha
 
 ### Enhancement
