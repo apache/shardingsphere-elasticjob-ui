@@ -50,6 +50,7 @@
                 <exclude>**/pom.xml.releaseBackup</exclude>
                 <exclude>**/cobertura.ser</exclude>
                 <exclude>*.gpg</exclude>
+                <exclude>**/.flattened-pom.xml</exclude>
                 
                 <!-- node ignore -->
                 <exclude>**/shardingsphere-elasticjob-lite-ui-frontend/test/coverage/**</exclude>
