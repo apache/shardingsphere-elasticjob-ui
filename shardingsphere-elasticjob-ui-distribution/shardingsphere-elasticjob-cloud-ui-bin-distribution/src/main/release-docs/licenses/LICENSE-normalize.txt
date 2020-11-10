@@ -1,3 +1,6 @@
+normalize License
+---------------
+
 # The MIT License (MIT)
 
 Copyright © Nicolas Gallagher and Jonathan Neal

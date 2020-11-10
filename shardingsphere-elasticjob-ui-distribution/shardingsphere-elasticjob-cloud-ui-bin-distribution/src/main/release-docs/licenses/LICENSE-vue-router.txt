@@ -1,3 +1,6 @@
+Vue-router License
+---------------
+
 MIT License
 
 Copyright (c) 2013-2016 Evan You
