@@ -1,3 +1,6 @@
+Vue-i18n License
+---------------
+
 The MIT License (MIT)
 
 Copyright (c) 2016 kazuya kawaguchi

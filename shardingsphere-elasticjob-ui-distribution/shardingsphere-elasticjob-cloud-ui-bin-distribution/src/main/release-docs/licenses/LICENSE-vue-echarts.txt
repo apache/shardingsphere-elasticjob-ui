@@ -1,3 +1,6 @@
+Vue-echarts License
+---------------
+
 The MIT License (MIT)
 
 Copyright (c) 2016-present GU Yiling & ECOMFE

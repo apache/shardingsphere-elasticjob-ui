@@ -224,78 +224,74 @@ Apache 2.0 licenses
 The following components are provided under the Apache License. See project link for details.
 The text of each license is the standard Apache 2.0 license.
 
-    HikariCP-java7-2.4.13: https://github.com/brettwooldridge/HikariCP, Apache 2.0
-    audience-annotations-0.5.0: https://github.com/apache/yetus, Apache 2.0
-    commons-codec-1.10: https://github.com/apache/commons-codec, Apache 2.0
-    commons-collections4-4.4: http://commons.apache.org/proper/commons-collections, Apache 2.0
-    commons-dbcp-1.4: https://github.com/apache/commons-dbcp, Apache 2.0
-    commons-dbcp2-2.1.1: https://github.com/apache/commons-dbcp, Apache 2.0
-    commons-exec-1.3: http://commons.apache.org/proper/commons-exec, Apache 2.0
-    commons-lang-2.6: https://github.com/apache/commons-lang, Apache 2.0
-    commons-lang3-3.4: https://github.com/apache/commons-lang, Apache 2.0
-    commons-logging-1.2: http://commons.apache.org/proper/commons-logging, Apache 2.0
-    commons-pool-1.6: https://github.com/apache/commons-pool, Apache 2.0
-    commons-pool2-2.4.3: https://github.com/apache/commons-pool, Apache 2.0
-    curator-client-5.1.0: https://github.com/apache/curator,  Apache 2.0
-    curator-framework-5.1.0: https://github.com/apache/curator,  Apache 2.0
-    curator-recipes-5.1.0: https://github.com/apache/curator,  Apache 2.0
-    error_prone_annotations-2.3.4: https://mvnrepository.com/artifact/com.google.errorprone/error_prone_annotations/2.3.4,  Apache 2.0
-    failureaccess-1.0.1: https://mvnrepository.com/artifact/com.google.guava/failureaccess/1.0.1,  Apache 2.0
-    geronimo-jms_1.1_spec-1.1.1: https://mvnrepository.com/artifact/org.apache.geronimo.specs/geronimo-jms_1.1_spec, Apache 2.0
-    geronimo-jpa_2.2_spec-1.1: https://mvnrepository.com/artifact/org.apache.geronimo.specs/geronimo-jpa_2.2_spec, Apache 2.0
-    geronimo-jta_1.1_spec-1.1.1: https://mvnrepository.com/artifact/org.apache.geronimo.specs.wso2/geronimo-jta_1.1_spec, Apache 2.0
-    gson-2.8.5: https://github.com/google/gson, Apache 2.0
-    guava-29.0-jre: https://github.com/google/guava, Apache 2.0
-    j2objc-annotations-1.3: https://github.com/google/j2objc, Apache 2.0
-    jackson-annotations-2.8.0: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations/2.9.8, Apache 2.0
-    jackson-core-2.8.11: https://github.com/FasterXML/jackson-core, Apache 2.0
-    jackson-databind-2.8.11.3: https://github.com/FasterXML/jackson-databind, Apache 2.0
-    jsr305-3.0.2: https://mvnrepository.com/artifact/com.google.code.findbugs/jsr305, Apache 2.0
-    listenablefuture-9999.0-empty-to-avoid-conflict-with-guava: https://mvnrepository.com/artifact/com.google.guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava, Apache 2.0
-    log4j-1.2.17: http://logging.apache.org/log4j/1.2/, Apache 2.0
-    log4j-over-slf4j-1.7.26: https://mvnrepository.com/artifact/org.slf4j/log4j-over-slf4j/1.7.7, Apache 2.0
-    netty-buffer-4.1.45.Final: https://github.com/netty, Apache 2.0
-    netty-codec-4.1.45.Final: https://github.com/netty, Apache 2.0
-    netty-common-4.1.45.Final: https://github.com/netty, Apache 2.0
-    netty-handler-4.1.45.Final: https://github.com/netty, Apache 2.0
-    netty-resolver-4.1.45.Final: https://github.com/netty, Apache 2.0
-    netty-transport-4.1.45.Final: https://github.com/netty, Apache 2.0
-    netty-transport-native-epoll-4.1.45.Final: https://github.com/netty, Apache 2.0
-    netty-transport-native-unix-common-4.1.45.Final: https://github.com/netty, Apache 2.0
-    openjpa-3.1.2: http://openjpa.apache.org, Apache 2.0
-    quartz-2.3.2: https://mvnrepository.com/artifact/org.quartz-scheduler/quartz/2.2.3, Apache 2.0
-    snakeyaml-1.17: http://www.snakeyaml.org, Apache 2.0
-    spring-aop-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-aop/5.1.5.RELEASE, Apache 2.0
-    spring-aspects-4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
-    spring-beans-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-beans/5.1.5.RELEASE, Apache 2.0
-    spring-boot-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot/2.1.3.RELEASE, Apache 2.0
-    spring-boot-autoconfigure-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure/2.1.3.RELEASE, Apache 2.0
-    spring-boot-starter-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter/2.1.3.RELEASE, Apache 2.0
-    spring-boot-starter-aop-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop/2.1.3.RELEASE, Apache 2.0
-    spring-boot-starter-data-jpa-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa/1.5.21.RELEASE, Apache 2.0
-    spring-boot-starter-jdbc-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc/2.1.3.RELEASE, Apache 2.0
-    spring-boot-starter-logging-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-logging/2.1.3.RELEASE, Apache 2.0
-    spring-boot-starter-tomcat-1.5.21.RELEASE: https://projects.spring.io/spring-boot, Apache 2.0
-    spring-boot-starter-web-1.5.21.RELEASE: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web/2.1.3.RELEASE, Apache 2.0
-    spring-context-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-context/5.1.5.RELEASE, Apache 2.0
-    spring-core-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-core, Apache 2.0
-    spring-data-commons-1.13.22.RELEASE: https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons/1.13.22.RELEASE, Apache 2.0
-    spring-data-jpa-1.11.22.RELEASE: https://projects.spring.io/spring-data-jpa, Apache 2.0
-    spring-expression-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-expression, Apache 2.0
-    spring-jdbc-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-jdbc/5.1.5.RELEASE, Apache 2.0
-    spring-orm-4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
-    spring-tx-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-tx/5.1.5.RELEASE, Apache 2.0
-    spring-web-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-web/5.1.5.RELEASE, Apache 2.0
-    spring-webmvc-4.3.24.RELEASE: https://mvnrepository.com/artifact/org.springframework/spring-webmvc/5.1.5.RELEASE, Apache 2.0
-    tomcat-annotations-api-8.5.40: https://tomcat.apache.org, Apache 2.0
-    tomcat-embed-core-8.5.40: https://tomcat.apache.org, Apache 2.0
-    tomcat-embed-el-8.5.40: https://tomcat.apache.org, Apache 2.0
-    tomcat-embed-websocket-8.5.40: https://tomcat.apache.org, Apache 2.0
-    tomcat-jdbc-8.5.40: https://tomcat.apache.org, Apache 2.0
-    tomcat-juli-8.5.40: https://tomcat.apache.org, Apache 2.0
-    xbean-asm8-shaded-4.17: https://mvnrepository.com/artifact/org.apache.xbean/xbean-asm8-shaded, Apache 2.0
-    zookeeper-3.6.0: https://github.com/apache/zookeeper, Apache 2.0
-    zookeeper-jute-3.6.0: https://mvnrepository.com/artifact/org.apache.zookeeper/zookeeper-jute/3.6.0, Apache 2.0
+    HikariCP-java7 2.4.13: https://github.com/brettwooldridge/HikariCP, Apache 2.0
+    audience-annotations 0.5.0: https://github.com/apache/yetus, Apache 2.0
+    commons-codec 1.10: https://github.com/apache/commons-codec, Apache 2.0
+    commons-collections4 4.4: http://commons.apache.org/proper/commons-collections, Apache 2.0
+    commons-dbcp 1.4: https://github.com/apache/commons-dbcp, Apache 2.0
+    commons-dbcp2 2.1.1: https://github.com/apache/commons-dbcp, Apache 2.0
+    commons-exec 1.3: http://commons.apache.org/proper/commons-exec, Apache 2.0
+    commons-lang 2.6: https://github.com/apache/commons-lang, Apache 2.0
+    commons-lang3 3.4: https://github.com/apache/commons-lang, Apache 2.0
+    commons-logging 1.2: http://commons.apache.org/proper/commons-logging, Apache 2.0
+    commons-pool 1.6: https://github.com/apache/commons-pool, Apache 2.0
+    commons-pool2 2.4.3: https://github.com/apache/commons-pool, Apache 2.0
+    curator-client 5.1.0: https://github.com/apache/curator, Apache 2.0
+    curator-framework 5.1.0: https://github.com/apache/curator, Apache 2.0
+    curator-recipes 5.1.0: https://github.com/apache/curator, Apache 2.0
+    error_prone_annotations 2.3.4: https://github.com/google/error-prone, Apache 2.0
+    failureaccess 1.0.1:https://github.com/google/guava, Apache 2.0 
+    gson 2.8.5: https://github.com/google/gson, Apache 2.0
+    guava 29.0-jre: https://github.com/google/guava, Apache 2.0
+    ==j2objc-annotations-1.3: https://github.com/google/j2objc, Apache 2.0
+    jackson-annotations 2.8.0: https://github.com/FasterXML/jackson-annotations, Apache 2.0
+    jackson-core 2.8.11: https://github.com/FasterXML/jackson-core, Apache 2.0
+    jackson-databind 2.8.11.3: https://github.com/FasterXML/jackson-databind, Apache 2.0
+    listenablefuture 9999.0-empty-to-avoid-conflict-with-guava:https://github.com/google/guava, Apache 2.0
+    log4j 1.2.17: http://logging.apache.org/log4j/1.2/, Apache 2.0
+    log4j-over-slf4j 1.7.26: https://github.com/qos-ch/slf4j, Apache 2.0
+    netty-buffer 4.1.45.Final: https://github.com/netty, Apache 2.0
+    netty-codec 4.1.45.Final: https://github.com/netty, Apache 2.0
+    netty-common 4.1.45.Final: https://github.com/netty, Apache 2.0
+    netty-handler 4.1.45.Final: https://github.com/netty, Apache 2.0
+    netty-resolver 4.1.45.Final: https://github.com/netty, Apache 2.0
+    netty-transport 4.1.45.Final: https://github.com/netty, Apache 2.0
+    netty-transport-native-epoll 4.1.45.Final: https://github.com/netty, Apache 2.0
+    netty-transport-native-unix-common 4.1.45.Final: https://github.com/netty, Apache 2.0
+    openjpa 3.1.2: http://openjpa.apache.org, Apache 2.0
+    quartz 2.3.2: https://github.com/quartz-scheduler/quartz, Apache 2.0
+    snakeyaml 1.17: http://www.snakeyaml.org, Apache 2.0
+    spring-aop 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-aspects 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-beans 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-boot 1.5.21.RELEASE: https://github.com/spring-projects/spring-boot, Apache 2.0
+    spring-boot-autoconfigure 1.5.21.RELEASE: https://github.com/spring-projects/spring-boot, Apache 2.0
+    spring-boot-starter 1.5.21.RELEASE: https://github.com/spring-projects/spring-boot, Apache 2.0
+    spring-boot-starter-aop 1.5.21.RELEASE: https://github.com/spring-projects/spring-boot, Apache 2.0
+    spring-boot-starter-data-jpa 1.5.21.RELEASE: https://github.com/spring-projects/spring-boot, Apache 2.0
+    spring-boot-starter-jdbc 1.5.21.RELEASE: https://github.com/spring-projects/spring-boot, Apache 2.0
+    spring-boot-starter-logging 1.5.21.RELEASE: https://github.com/spring-projects/spring-boot, Apache 2.0
+    spring-boot-starter-tomcat 1.5.21.RELEASE: https://github.com/spring-projects/spring-boot, Apache 2.0
+    spring-boot-starter-web 1.5.21.RELEASE: https://github.com/spring-projects/spring-boot, Apache 2.0
+    spring-context 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-core 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-data-commons 1.13.22.RELEASE: https://github.com/spring-projects/spring-data-commons, Apache 2.0
+    spring-data-jpa 1.11.22.RELEASE: https://github.com/spring-projects/spring-data-jpa, Apache 2.0
+    spring-expression 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-jdbc 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-orm 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-tx 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-web 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    spring-webmvc 4.3.24.RELEASE: https://github.com/spring-projects/spring-framework, Apache 2.0
+    tomcat-annotations-api 8.5.40: https://tomcat.apache.org, Apache 2.0
+    tomcat-embed-core 8.5.40: https://tomcat.apache.org, Apache 2.0
+    tomcat-embed-el 8.5.40: https://tomcat.apache.org, Apache 2.0
+    tomcat-embed-websocket 8.5.40: https://tomcat.apache.org, Apache 2.0
+    tomcat-jdbc 8.5.40: https://tomcat.apache.org, Apache 2.0
+    tomcat-juli 8.5.40: https://tomcat.apache.org, Apache 2.0
+    xbean-asm8-shaded 4.17: https://github.com/apache/geronimo-xbean, Apache 2.0
+    zookeeper 3.6.0: https://github.com/apache/zookeeper, Apache 2.0
+    zookeeper-jute 3.6.0: https://github.com/apache/zookeeper, Apache 2.0
 
 ========================================================================
 BSD licenses
@@ -304,7 +300,7 @@ BSD licenses
 The following components are provided under a BSD license. See project link for details.
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
-    serp-1.15.1: https://mvnrepository.com/artifact/net.sourceforge.serp/serp, BSD
+    serp-1.15.1: http://serp.sourceforge.net/, BSD
 
 ========================================================================
 EPL licenses
@@ -313,11 +309,11 @@ EPL licenses
 The following components are provided under the EPL License. See project link for details.
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
-    aspectjweaver-1.8.14: https://mvnrepository.com/artifact/org.aspectj/aspectjweaver/1.9.2, EPL 1.0
-    h2-1.4.199: https://github.com/h2database/h2database/blob/master/LICENSE.txt, MPL 2.0 or EPL 1.0
-    logback-classic-1.1.11: https://github.com/qos-ch/logback, EPL 1.0
-    logback-core-1.1.11: https://github.com/qos-ch/logback, EPL 1.0
-    mchange-commons-java-0.2.15: https://mvnrepository.com/artifact/com.mchange/mchange-commons-java/0.2.15, EPL 1.0
+    aspectjweaver 1.8.14: https://mvnrepository.com/artifact/org.aspectj/aspectjweaver/1.9.2, EPL 1.0
+    h2 1.4.199: https://github.com/h2database/h2database/blob/master/LICENSE.txt, MPL 2.0 or EPL 1.0
+    logback-classic 1.1.11: https://github.com/qos-ch/logback, EPL 1.0
+    logback-core 1.1.11: https://github.com/qos-ch/logback, EPL 1.0
+    mchange-commons-java 0.2.15: https://github.com/swaldman/mchange-commons-java/tree/mchange-commons-java-0.2.15, EPL 1.0
 
 ========================================================================
 MIT licenses
@@ -327,9 +323,9 @@ The following components are provided under the MIT License. See project link fo
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
     checker-qual-2.11.1: https://github.com/typetools/checker-framework, MIT
-    jcl-over-slf4j-1.7.26: https://www.slf4j.org, MIT
-    jul-to-slf4j-1.7.26: https://www.slf4j.org, MIT
-    slf4j-api-1.7.26: https://mvnrepository.com/artifact/org.slf4j/slf4j-api/1.7.26, MIT
+    jcl-over-slf4j-1.7.26: https://github.com/qos-ch/slf4j, MIT
+    jul-to-slf4j-1.7.26: https://github.com/qos-ch/slf4j, MIT
+    slf4j-api-1.7.26: https://github.com/qos-ch/slf4j, MIT
     axios 0.18.0: https://github.com/axios/axios, MIT
     element-ui 2.4.9: https://github.com/ElemeFE/element, MIT
     lodash 4.17.11: https://github.com/lodash/lodash, MIT
