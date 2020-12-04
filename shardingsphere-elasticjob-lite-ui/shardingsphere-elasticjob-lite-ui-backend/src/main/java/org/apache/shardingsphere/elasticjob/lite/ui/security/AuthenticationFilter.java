@@ -94,6 +94,6 @@ public final class AuthenticationFilter implements Filter {
     private void respondWithUnauthorized(final HttpServletResponse httpResponse) throws IOException {
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("UTF-8");
-        httpResponse.getWriter().write(new Gson().toJson(ResponseResultUtil.handleUnauthorizedException("Unauthorized.")));
+        httpResponse.getWriter().write(gson.toJson(ResponseResultUtil.handleUnauthorizedException("Unauthorized.")));
     }
 }
