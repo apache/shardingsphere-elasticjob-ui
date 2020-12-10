@@ -71,7 +71,7 @@ public final class EventTraceHistoryController {
      * @param jobNamePrefix job name prefix
      * @return matched job names
      */
-    @GetMapping(value = {"/execution/jobNames", "/execution/jobNames/{jobNamePrefix}"})
+    @GetMapping(value = {"/execution/jobNames", "/execution/jobNames/{jobNamePrefix:.+}"})
     public ResponseResult<List<String>> findJobNamesByPrefix(@PathVariable(required = false) final String jobNamePrefix) {
         return ResponseResultUtil.build(eventTraceHistoryService.findJobNamesInExecutionLog(Optional.ofNullable(jobNamePrefix).orElse("")));
     }
@@ -81,7 +81,7 @@ public final class EventTraceHistoryController {
      * @param ipPrefix ip prefix
      * @return matched ip addresses
      */
-    @GetMapping(value = {"/execution/ip", "/execution/ip/{ipPrefix}"})
+    @GetMapping(value = {"/execution/ip", "/execution/ip/{ipPrefix:.+}"})
     public ResponseResult<List<String>> findIpByPrefix(@PathVariable(required = false) final String ipPrefix) {
         return ResponseResultUtil.build(eventTraceHistoryService.findIpInExecutionLog(Optional.ofNullable(ipPrefix).orElse("")));
     }
@@ -104,7 +104,7 @@ public final class EventTraceHistoryController {
      * @param jobNamePrefix job name prefix
      * @return matched job names
      */
-    @GetMapping(value = {"/status/jobNames", "/status/jobNames/{jobNamePrefix}"})
+    @GetMapping(value = {"/status/jobNames", "/status/jobNames/{jobNamePrefix:.+}"})
     public ResponseResult<List<String>> findJobNamesByPrefixInStatusTraceLog(@PathVariable(required = false) final String jobNamePrefix) {
         return ResponseResultUtil.build(eventTraceHistoryService.findJobNamesInStatusTraceLog(Optional.ofNullable(jobNamePrefix).orElse("")));
     }

@@ -50,7 +50,7 @@ public final class JobConfigController {
      * @param jobName job name
      * @return job configuration
      */
-    @GetMapping(value = "/{jobName}")
+    @GetMapping(value = "/{jobName:.+}")
     public ResponseResult<JobConfigurationPOJO> getJobConfig(@PathVariable("jobName") final String jobName) {
         JobConfigurationPOJO data = jobAPIService.getJobConfigurationAPI().getJobConfiguration(jobName);
         return ResponseResultUtil.build(data);
@@ -72,7 +72,7 @@ public final class JobConfigController {
      *
      * @param jobName job name
      */
-    @DeleteMapping("/{jobName}")
+    @DeleteMapping("/{jobName:.+}")
     public ResponseResult<Boolean> removeJob(@PathVariable("jobName") final String jobName) {
         jobAPIService.getJobConfigurationAPI().removeJobConfiguration(jobName);
         return ResponseResultUtil.build(Boolean.TRUE);

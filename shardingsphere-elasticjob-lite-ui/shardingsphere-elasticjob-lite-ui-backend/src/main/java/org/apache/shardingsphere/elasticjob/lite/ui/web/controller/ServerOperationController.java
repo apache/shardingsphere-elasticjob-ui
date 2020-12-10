@@ -109,7 +109,7 @@ public final class ServerOperationController {
      *
      * @param serverIp server IP address
      */
-    @DeleteMapping("/{serverIp}")
+    @DeleteMapping("/{serverIp:.+}")
     public ResponseResult<Boolean> removeServer(@PathVariable("serverIp") final String serverIp) {
         jobAPIService.getJobOperatorAPI().remove(null, serverIp);
         return ResponseResultUtil.build(Boolean.TRUE);
@@ -169,7 +169,7 @@ public final class ServerOperationController {
      * @param serverIp server IP address
      * @param jobName job name
      */
-    @DeleteMapping("/{serverIp}/jobs/{jobName}")
+    @DeleteMapping("/{serverIp}/jobs/{jobName:.+}")
     public ResponseResult<Boolean> removeServerJob(@PathVariable("serverIp") final String serverIp, @PathVariable("jobName") final String jobName) {
         jobAPIService.getJobOperatorAPI().remove(jobName, serverIp);
         return ResponseResultUtil.build(Boolean.TRUE);
