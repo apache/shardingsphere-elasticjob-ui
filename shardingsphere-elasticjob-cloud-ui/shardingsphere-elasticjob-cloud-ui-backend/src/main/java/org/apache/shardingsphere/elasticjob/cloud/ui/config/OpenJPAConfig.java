@@ -54,6 +54,7 @@ public class OpenJPAConfig extends JpaBaseConfiguration {
         result.put("openjpa.ClassLoadEnhancement", "false");
         result.put("openjpa.DynamicEnhancementAgent", "false");
         result.put("openjpa.RuntimeUnenhancedClasses", "supported");
+        result.put("openjpa.Log", "slf4j");
         return result;
     }
     
