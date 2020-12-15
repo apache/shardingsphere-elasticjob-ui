@@ -51,6 +51,7 @@
         <mockito.version>2.7.21</mockito.version>
         <commons-dbcp2.version>2.2.0</commons-dbcp2.version>
         <h2.version>1.4.196</h2.version>
+        <postgresql.version>42.2.5</postgresql.version>
         <lombok.version>1.16.20</lombok.version>
         <commons.codec.version>1.10</commons.codec.version>
         <maven.deploy.skip>true</maven.deploy.skip>
@@ -170,6 +171,11 @@
                 <artifactId>h2</artifactId>
                 <version>${h2.version}</version>
                 <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>${postgresql.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
