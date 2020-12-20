@@ -183,18 +183,27 @@ export default {
         pageSize: this.pageSize,
         pageNumber: val
       }
-      API.loadExecution(Object.assign(this.searchForm, page)).then(res => {
+      API.loadExecution(Object.assign(this.getSearchForm(), page)).then(res => {
         const data = res.model.rows
         this.total = res.model.total
         this.tableData = data
       })
     },
     getJobTrace() {
-      API.loadExecution(this.searchForm).then(res => {
+      API.loadExecution(this.getSearchForm()).then(res => {
         const data = res.model.rows
         this.total = res.model.total
         this.tableData = data
       })
+    },
+    getSearchForm() {
+      const requestBody = Object.assign({}, this.searchForm)
+      requestBody.jobName = this.getNullIfEmpty(requestBody.jobName)
+      requestBody.ip = this.getNullIfEmpty(requestBody.ip)
+      return requestBody
+    },
+    getNullIfEmpty(value) {
+      return value === '' ? null : value
     }
   }
 }
