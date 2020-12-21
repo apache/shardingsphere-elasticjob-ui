@@ -165,18 +165,27 @@ export default {
         pageSize: this.pageSize,
         pageNumber: val
       }
-      API.loadStatus(Object.assign(this.searchForm, page)).then(res => {
+      API.loadStatus(Object.assign(this.getSearchForm(), page)).then(res => {
         const data = res.model.rows
         this.total = res.model.total
         this.tableData = data
       })
     },
     getJobStatus() {
-      API.loadStatus(this.searchForm).then(res => {
+      API.loadStatus(this.getSearchForm()).then(res => {
         const data = res.model.rows
         this.total = res.model.total
         this.tableData = data
       })
+    },
+    getSearchForm() {
+      const requestBody = Object.assign({}, this.searchForm)
+      requestBody.jobName = this.getNullIfEmpty(requestBody.jobName)
+      requestBody.state = this.getNullIfEmpty(requestBody.state)
+      return requestBody
+    },
+    getNullIfEmpty(value) {
+      return value === '' ? null : value
     }
   }
 }
