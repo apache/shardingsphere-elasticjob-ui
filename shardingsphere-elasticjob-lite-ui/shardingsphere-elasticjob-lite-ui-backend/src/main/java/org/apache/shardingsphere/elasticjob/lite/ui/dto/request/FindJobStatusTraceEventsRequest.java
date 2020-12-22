@@ -17,8 +17,6 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,21 +41,17 @@ public class FindJobStatusTraceEventsRequest extends BasePageRequest {
     
     private String state;
     
-    @JsonProperty("startTime")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date start;
+    private Date creationTimeFrom;
     
-    @JsonProperty("endTime")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date end;
+    private Date creationTimeTo;
     
     public FindJobStatusTraceEventsRequest(final Integer pageSize, final Integer pageNumber) {
         super(pageSize, pageNumber, null, null);
     }
     
-    public FindJobStatusTraceEventsRequest(final Integer pageSize, final Integer pageNumber, final String sortBy, final String orderType, final Date startTime, final Date endTime) {
+    public FindJobStatusTraceEventsRequest(final Integer pageSize, final Integer pageNumber, final String sortBy, final String orderType, final Date creationTimeFrom, final Date creationTimeTo) {
         super(pageSize, pageNumber, sortBy, orderType);
-        this.start = startTime;
-        this.end = endTime;
+        this.creationTimeFrom = creationTimeFrom;
+        this.creationTimeTo = creationTimeTo;
     }
 }

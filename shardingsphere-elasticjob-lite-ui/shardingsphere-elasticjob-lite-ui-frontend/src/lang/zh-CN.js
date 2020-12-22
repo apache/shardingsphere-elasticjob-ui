@@ -278,8 +278,9 @@ export default {
     },
     searchForm: {
       jobName: '请输入作业名称',
-      startTime: '请输入创建开始时间',
-      CompleteTime: '请输入创建结束时间',
+      creationTimeRange: '创建时间范围',
+      creationTimeFrom: '创建时间起始',
+      creationTimeTo: '创建时间截止',
       state: '选择状态',
       stateStaging: '等待运行',
       stateFailed: '运行失败',

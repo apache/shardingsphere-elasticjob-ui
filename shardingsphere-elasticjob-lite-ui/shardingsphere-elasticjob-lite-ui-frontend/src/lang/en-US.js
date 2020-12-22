@@ -278,8 +278,9 @@ export default {
     },
     searchForm: {
       jobName: 'Job name',
-      startTime: 'Creation start time',
-      CompleteTime: 'Creation end time',
+      creationTimeRange: 'Creation time range',
+      creationTimeFrom: 'Creation time from',
+      creationTimeTo: 'Creation time to',
       state: 'Select state',
       stateStaging: 'Staging',
       stateFailed: 'Failed',

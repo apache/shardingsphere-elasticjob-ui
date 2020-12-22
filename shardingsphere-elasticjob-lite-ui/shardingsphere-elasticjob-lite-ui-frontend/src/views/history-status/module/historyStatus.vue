@@ -25,16 +25,12 @@
         clearable>
       </el-autocomplete>
       <el-date-picker
-        :placeholder="$t('historyStatus.searchForm.startTime')"
-        v-model="searchForm.start"
-        type="datetime"
-        clearable>
-      </el-date-picker>
-      <el-date-picker
-        :placeholder="$t('historyStatus.searchForm.CompleteTime')"
-        v-model="searchForm.end"
-        type="datetime"
-        clearable>
+        v-model="creationTimeRange"
+        :placeholder="$t('historyStatus.searchForm.creationTimeRange')"
+        :start-placeholder="$t('historyStatus.searchForm.creationTimeFrom')"
+        :end-placeholder="$t('historyStatus.searchForm.creationTimeTo')"
+        type="datetimerange"
+      >
       </el-date-picker>
       <el-select
         :placeholder="$t('historyStatus.searchForm.state')"
@@ -79,6 +75,8 @@
 <script>
 import { mapActions } from 'vuex'
 import API from '../api'
+import clone from 'lodash/clone'
+
 export default {
   name: 'HistoryStatus',
   data() {
@@ -138,9 +136,10 @@ export default {
       searchForm: {
         jobName: '',
         state: '',
-        start: '',
-        end: ''
+        creationTimeFrom: null,
+        creationTimeTo: null
       },
+      creationTimeRange: [],
       tableData: [],
       cloneTableData: [],
       currentPage: 1,
@@ -172,6 +171,8 @@ export default {
       })
     },
     getJobStatus() {
+      this.currentPage = 1
+      this.total = 0
       API.loadStatus(this.getSearchForm()).then(res => {
         const data = res.model.rows
         this.total = res.model.total
@@ -179,9 +180,13 @@ export default {
       })
     },
     getSearchForm() {
-      const requestBody = Object.assign({}, this.searchForm)
+      const requestBody = clone(this.searchForm)
       requestBody.jobName = this.getNullIfEmpty(requestBody.jobName)
       requestBody.state = this.getNullIfEmpty(requestBody.state)
+      if (this.creationTimeRange) {
+        requestBody.creationTimeFrom = this.creationTimeRange[0]
+        requestBody.creationTimeTo = this.creationTimeRange[1]
+      }
       return requestBody
     },
     getNullIfEmpty(value) {
