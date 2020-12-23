@@ -261,8 +261,9 @@ export default {
     searchForm: {
       jobName: 'Job name',
       serverIp: 'Server ip',
-      startTime: 'Start time',
-      CompleteTime: 'Complete time',
+      startTimeRange: 'Start time range',
+      startTimeFrom: 'Start time from',
+      startTimeTo: 'Start time to',
       executeResult: 'Select execute result',
       executeSuccess: 'Success',
       executeFailed: 'Failure'

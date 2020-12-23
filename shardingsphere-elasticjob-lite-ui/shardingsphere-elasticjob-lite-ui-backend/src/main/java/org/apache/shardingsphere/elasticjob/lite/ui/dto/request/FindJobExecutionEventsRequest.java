@@ -17,8 +17,6 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,13 +39,9 @@ public class FindJobExecutionEventsRequest extends BasePageRequest {
     
     private Boolean isSuccess;
     
-    @JsonProperty("startTime")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date start;
+    private Date startTimeFrom;
     
-    @JsonProperty("endTime")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date end;
+    private Date startTimeTo;
     
     /**
      * Create new FindJobExecutionEventsRequest with pageSize and pageNumber.
@@ -64,13 +58,13 @@ public class FindJobExecutionEventsRequest extends BasePageRequest {
      * @param pageSize page size
      * @param sortBy the field name sort by
      * @param orderType order type, asc or desc
-     * @param startTime start time
-     * @param endTime end time
+     * @param startTimeFrom start time from
+     * @param startTimeTo start time to
      */
     public FindJobExecutionEventsRequest(final Integer pageSize, final Integer pageNumber, final String sortBy,
-                                         final String orderType, final Date startTime, final Date endTime) {
+                                         final String orderType, final Date startTimeFrom, final Date startTimeTo) {
         super(pageSize, pageNumber, sortBy, orderType);
-        this.start = startTime;
-        this.end = endTime;
+        this.startTimeFrom = startTimeFrom;
+        this.startTimeTo = startTimeTo;
     }
 }

@@ -31,15 +31,11 @@
         clearable>
       </el-autocomplete>
       <el-date-picker
-        :placeholder="$t('historyTrace.searchForm.startTime')"
-        v-model="searchForm.start"
-        type="datetime"
-        clearable>
-      </el-date-picker>
-      <el-date-picker
-        :placeholder="$t('historyTrace.searchForm.CompleteTime')"
-        v-model="searchForm.end"
-        type="datetime"
+        :placeholder="$t('historyTrace.searchForm.startTimeRange')"
+        :start-placeholder="$t('historyTrace.searchForm.startTimeFrom')"
+        :end-placeholder="$t('historyTrace.searchForm.startTimeTo')"
+        v-model="startTimeRange"
+        type="datetimerange"
         clearable>
       </el-date-picker>
       <el-select
@@ -148,10 +144,11 @@ export default {
       searchForm: {
         jobName: '',
         ip: '',
-        start: '',
-        end: '',
+        startTimeFrom: null,
+        startTimeTo: null,
         isSuccess: ''
       },
+      startTimeRange: [],
       tableData: [],
       cloneTableData: [],
       currentPage: 1,
@@ -190,6 +187,8 @@ export default {
       })
     },
     getJobTrace() {
+      this.currentPage = 1
+      this.total = 0
       API.loadExecution(this.getSearchForm()).then(res => {
         const data = res.model.rows
         this.total = res.model.total
@@ -200,6 +199,10 @@ export default {
       const requestBody = Object.assign({}, this.searchForm)
       requestBody.jobName = this.getNullIfEmpty(requestBody.jobName)
       requestBody.ip = this.getNullIfEmpty(requestBody.ip)
+      if (this.startTimeRange) {
+        requestBody.startTimeFrom = this.startTimeRange[0]
+        requestBody.startTimeTo = this.startTimeRange[1]
+      }
       return requestBody
     },
     getNullIfEmpty(value) {

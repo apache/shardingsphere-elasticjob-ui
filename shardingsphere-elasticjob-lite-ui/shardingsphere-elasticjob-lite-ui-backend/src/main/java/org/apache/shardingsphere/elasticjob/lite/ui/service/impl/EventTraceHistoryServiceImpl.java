@@ -29,7 +29,7 @@ import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.BasePageRequest;
 import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.FindJobExecutionEventsRequest;
 import org.apache.shardingsphere.elasticjob.lite.ui.dto.request.FindJobStatusTraceEventsRequest;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.EventTraceHistoryService;
-import org.apache.shardingsphere.elasticjob.lite.ui.util.BeanUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -65,9 +65,8 @@ public final class EventTraceHistoryServiceImpl implements EventTraceHistoryServ
     @Override
     public Page<JobExecutionEvent> findJobExecutionEvents(final FindJobExecutionEventsRequest findJobExecutionEventsRequest) {
         Example<JobExecutionLog> jobExecutionLogExample = getExample(findJobExecutionEventsRequest, JobExecutionLog.class);
-        Specification<JobExecutionLog> specification = getSpecWithExampleAndDate(jobExecutionLogExample, findJobExecutionEventsRequest.getStart(),
-            findJobExecutionEventsRequest.getEnd(), "startTime");
-
+        Specification<JobExecutionLog> specification = getSpecWithExampleAndDate(jobExecutionLogExample, findJobExecutionEventsRequest.getStartTimeFrom(),
+            findJobExecutionEventsRequest.getStartTimeTo(), "startTime");
         Page<JobExecutionLog> page = jobExecutionLogRepository.findAll(specification, getPageable(findJobExecutionEventsRequest, JobExecutionLog.class));
         return new PageImpl<>(page.getContent().stream().map(JobExecutionLog::toJobExecutionEvent).collect(Collectors.toList()), null, page.getTotalElements());
     }
@@ -140,7 +139,7 @@ public final class EventTraceHistoryServiceImpl implements EventTraceHistoryServ
     }
     
     private <T> Example<T> getExample(final Object source, final Class<T> clazz) {
-        T instance = BeanUtils.newInstance(clazz);
+        T instance = BeanUtils.instantiateClass(clazz);
         BeanUtils.copyProperties(source, instance);
         return Example.of(instance);
     }
