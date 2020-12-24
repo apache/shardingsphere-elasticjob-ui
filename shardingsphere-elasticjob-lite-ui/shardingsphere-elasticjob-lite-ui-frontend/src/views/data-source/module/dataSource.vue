@@ -89,9 +89,9 @@
         </el-form-item>
         <el-form-item :label="$t('dataSource.addDialog.driver')" prop="driver">
           <el-select
-            style="width: 100%;"
             v-model="form.driver"
             :placeholder="$t('dataSource.rules.driver')"
+            style="width: 100%;"
             allow-create
             default-first-option
             filterable>
