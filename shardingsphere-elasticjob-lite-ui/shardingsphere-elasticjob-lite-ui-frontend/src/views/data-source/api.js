@@ -18,6 +18,7 @@
 import API from '@/utils/api'
 
 export default {
+  availableDriverClasses: (params = {}) => API.get(`/api/data-source/drivers`, params),
   load: (params = {}) => API.get(`/api/data-source/load`, params),
   delete: (params = {}) => API.delete(`/api/data-source`, params),
   add: (params = {}) => API.post(`/api/data-source/add`, params),

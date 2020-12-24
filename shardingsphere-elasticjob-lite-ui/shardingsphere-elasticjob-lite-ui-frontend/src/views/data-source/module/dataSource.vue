@@ -88,11 +88,20 @@
           <el-input :placeholder="$t('dataSource.rules.name')" v-model="form.name" autocomplete="off" />
         </el-form-item>
         <el-form-item :label="$t('dataSource.addDialog.driver')" prop="driver">
-          <el-input
-            :placeholder="$t('dataSource.rules.driver')"
+          <el-select
+            style="width: 100%;"
             v-model="form.driver"
-            autocomplete="off"
-          />
+            :placeholder="$t('dataSource.rules.driver')"
+            allow-create
+            default-first-option
+            filterable>
+            <el-option
+              v-for="each in availableDriverClasses"
+              :label="each"
+              :key="each"
+              :value="each">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item :label="$t('dataSource.addDialog.url')" prop="url">
           <el-input
@@ -140,6 +149,7 @@ export default {
   data() {
     return {
       regustDialogVisible: false,
+      availableDriverClasses: [],
       isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
@@ -215,10 +225,16 @@ export default {
     }
   },
   created() {
+    this.loadAvailableDriverClasses()
     this.load()
   },
   methods: {
     ...mapActions(['setRegCenterActivated']),
+    loadAvailableDriverClasses() {
+      API.availableDriverClasses().then(res => {
+        this.availableDriverClasses = res.model
+      })
+    },
     handleCurrentChange(val) {
       const data = clone(this.cloneTableData)
       this.tableData = data.splice(val - 1, this.pageSize)
