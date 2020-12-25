@@ -49,13 +49,13 @@ public class BeanConfiguration {
     
     @Bean
     public StatisticRdbRepository rdbRepository() {
-        Optional<TracingConfiguration> tracingConfiguration = traceConfiguration.getTracingConfiguration();
-        return tracingConfiguration.map(each -> new StatisticRdbRepository((DataSource) each.getStorage(), true)).orElse(new StatisticRdbRepository(null, false));
+        Optional<TracingConfiguration<DataSource>> tracingConfiguration = traceConfiguration.getTracingConfiguration();
+        return tracingConfiguration.map(each -> new StatisticRdbRepository(each.getTracingStorageConfiguration().getStorage(), true)).orElse(new StatisticRdbRepository(null, false));
     }
     
     @Bean
     public JobEventRdbSearch jobEventRdbSearch() {
-        Optional<TracingConfiguration> tracingConfiguration = traceConfiguration.getTracingConfiguration();
-        return tracingConfiguration.map(each -> new JobEventRdbSearch((DataSource) each.getStorage(), true)).orElse(new JobEventRdbSearch(null, false));
+        Optional<TracingConfiguration<DataSource>> tracingConfiguration = traceConfiguration.getTracingConfiguration();
+        return tracingConfiguration.map(each -> new JobEventRdbSearch(each.getTracingStorageConfiguration().getStorage(), true)).orElse(new JobEventRdbSearch(null, false));
     }
 }
