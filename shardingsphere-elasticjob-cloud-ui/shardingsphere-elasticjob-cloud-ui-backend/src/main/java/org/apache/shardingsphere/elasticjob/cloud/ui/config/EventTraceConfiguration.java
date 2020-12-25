@@ -19,7 +19,7 @@ package org.apache.shardingsphere.elasticjob.cloud.ui.config;
 
 import com.google.common.base.Strings;
 import lombok.Setter;
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.shardingsphere.elasticjob.tracing.api.TracingConfiguration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -40,15 +40,14 @@ public final class EventTraceConfiguration {
 
     private String rdbPassword;
     
-    public Optional<TracingConfiguration> getTracingConfiguration() {
-        
+    public Optional<TracingConfiguration<DataSource>> getTracingConfiguration() {
         if (!Strings.isNullOrEmpty(rdbDriver) && !Strings.isNullOrEmpty(rdbUrl) && !Strings.isNullOrEmpty(rdbUsername)) {
             BasicDataSource dataSource = new BasicDataSource();
             dataSource.setDriverClassName(rdbDriver);
             dataSource.setUrl(rdbUrl);
             dataSource.setUsername(rdbUsername);
             dataSource.setPassword(rdbPassword);
-            return Optional.of(new TracingConfiguration<DataSource>("RDB", dataSource));
+            return Optional.of(new TracingConfiguration<>("RDB", dataSource));
         }
         return Optional.empty();
     }
