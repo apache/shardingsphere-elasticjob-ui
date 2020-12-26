@@ -138,10 +138,8 @@ public final class EventTraceDataSourceConfigurationServiceImpl implements Event
     }
     
     private void afterLoad(final EventTraceDataSourceConfiguration config) {
-        if (config.isActivated()) {
-            DataSource dataSource = DataSourceFactory.createDataSource(config);
-            dynamicDataSource.addDataSource(config.getName(), dataSource);
-            DynamicDataSourceConfig.DynamicDataSourceContextHolder.setDataSourceName(config.getName());
-        }
+        DataSource dataSource = DataSourceFactory.createDataSource(config);
+        dynamicDataSource.addDataSource(config.getName(), dataSource);
+        DynamicDataSourceConfig.DynamicDataSourceContextHolder.setDataSourceName(config.getName());
     }
 }
