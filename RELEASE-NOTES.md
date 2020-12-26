@@ -1,3 +1,24 @@
+## 3.0.0-RC1
+
+### Enhancement
+
+1. Support querying job history without conditions in Lite Console
+1. Discover available JDBC driver classes to reduce manual input in Lite Console
+
+### Bug Fixes
+
+1. Some APIs don't work properly when the job name contains dot character
+1. Fix time range criteria doesn't work in history pages
+1. Fix cannot switch DataSource in Lite Console
+
+### Build & Dependencies
+
+1. Add PostgreSQL JDBC Driver to Lite UI by default
+
+###  Change Logs
+
+1. [MILESTONE 3.0.0-RC1](https://github.com/apache/shardingsphere-elasticjob-ui/milestone/3)
+
 ## 3.0.0-beta
 
 ### Enhancement
