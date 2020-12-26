@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.apache.shardingsphere</groupId>
         <artifactId>shardingsphere-elasticjob-ui-distribution</artifactId>
-        <version>3.0.0-RC1</version>
+        <version>3.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>shardingsphere-elasticjob-cloud-ui-bin-distribution</artifactId>
     <name>${project.artifactId}</name>
