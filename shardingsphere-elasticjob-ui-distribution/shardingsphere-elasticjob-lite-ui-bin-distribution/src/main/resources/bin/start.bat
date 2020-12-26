@@ -21,7 +21,7 @@ cd %~dp0
 
 set SERVER_NAME=ShardingSphere-ElasticJob-UI
 
-set CLASS_PATH=".;..\conf;..\lib\*"
+set CLASS_PATH=".;..\conf;..\lib\*;..\ext-lib\*"
 
 set JAVA_OPTS=-server -Xmx1g -Xms1g -Xmn512m -Xss256k -XX:+DisableExplicitGC -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70
 
