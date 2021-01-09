@@ -224,7 +224,6 @@ Apache 2.0 licenses
 The following components are provided under the Apache License. See project link for details.
 The text of each license is the standard Apache 2.0 license.
 
-    HikariCP-java7 2.4.13: https://github.com/brettwooldridge/HikariCP, Apache 2.0
     audience-annotations 0.5.0: https://github.com/apache/yetus, Apache 2.0
     commons-codec 1.10: https://github.com/apache/commons-codec, Apache 2.0
     commons-collections4 4.4: http://commons.apache.org/proper/commons-collections, Apache 2.0
@@ -241,11 +240,14 @@ The text of each license is the standard Apache 2.0 license.
     curator-recipes 5.1.0: https://github.com/apache/curator, Apache 2.0
     error_prone_annotations 2.3.4: https://github.com/google/error-prone, Apache 2.0
     failureaccess 1.0.1:https://github.com/google/guava, Apache 2.0 
+    geronimo-jpa_2.2_spec 1.1: https://github.com/apache/geronimo-specs, Apache 2.0
+    geronimo-jta_1.1_spec 1.1.1: https://github.com/apache/geronimo-specs, Apache 2.0
     gson 2.8.5: https://github.com/google/gson, Apache 2.0
     guava 29.0-jre: https://github.com/google/guava, Apache 2.0
     jackson-annotations 2.8.0: https://github.com/FasterXML/jackson-annotations, Apache 2.0
     jackson-core 2.8.11: https://github.com/FasterXML/jackson-core, Apache 2.0
     jackson-databind 2.8.11.3: https://github.com/FasterXML/jackson-databind, Apache 2.0
+    jsr305 3.0.2: https://code.google.com/p/jsr-305, Apache 2.0
     listenablefuture 9999.0-empty-to-avoid-conflict-with-guava:https://github.com/google/guava, Apache 2.0
     log4j 1.2.17: http://logging.apache.org/log4j/1.2/, Apache 2.0
     log4j-over-slf4j 1.7.26: https://github.com/qos-ch/slf4j, Apache 2.0
