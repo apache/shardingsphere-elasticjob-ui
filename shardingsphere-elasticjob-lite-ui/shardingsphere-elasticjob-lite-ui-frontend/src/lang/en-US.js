@@ -210,6 +210,7 @@ export default {
       DISABLED: 'Disabled',
       CRASHED: 'Crashed',
       PENDING: 'Staging',
+      RUNNING: 'Running',
       SHARDING_FLAG: 'SHARDING_FLAG'
     },
     actionText: {
