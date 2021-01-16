@@ -210,6 +210,7 @@ export default {
       DISABLED: '已失效',
       CRASHED: '已下线',
       PENDING: '等待运行',
+      RUNNING: '正在运行',
       SHARDING_FLAG: '分片待调整'
     },
     actionText: {
