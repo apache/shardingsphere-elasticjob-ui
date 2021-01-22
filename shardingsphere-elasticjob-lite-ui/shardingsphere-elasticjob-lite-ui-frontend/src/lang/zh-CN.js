@@ -221,6 +221,9 @@ export default {
       enable: '生效',
       shutdown: '终止',
       remove: '删除'
+    },
+    actionConfirm: {
+      shutdown: '您确定要终止调度吗？'
     }
   },
   operationServers: {
@@ -247,6 +250,9 @@ export default {
       enable: '生效',
       shutdown: '终止',
       remove: '删除'
+    },
+    actionConfirm: {
+      shutdown: '您确定要下线服务器吗？'
     }
   },
   historyTrace: {
