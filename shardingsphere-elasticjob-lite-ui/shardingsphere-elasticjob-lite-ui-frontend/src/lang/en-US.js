@@ -221,6 +221,9 @@ export default {
       enable: 'Enable',
       shutdown: 'Shutdown',
       remove: 'Remove'
+    },
+    actionConfirm: {
+      shutdown: 'Are you sure to shutdown the job?'
     }
   },
   operationServers: {
@@ -247,6 +250,9 @@ export default {
       enable: 'Enable',
       shutdown: 'Shutdown',
       remove: 'Remove'
+    },
+    actionConfirm: {
+      shutdown: 'Are you sure to shutdown the server?'
     }
   },
   historyTrace: {

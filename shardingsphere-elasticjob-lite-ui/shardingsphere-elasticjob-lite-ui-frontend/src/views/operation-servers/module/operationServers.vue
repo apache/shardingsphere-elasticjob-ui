@@ -206,6 +206,9 @@ export default {
       })
     },
     handleShutdown(row) {
+      if (!confirm(this.$t('operationServers').actionConfirm.shutdown)) {
+        return
+      }
       const params = {
         serverIp: row.serverIp
       }

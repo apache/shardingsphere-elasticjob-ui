@@ -517,6 +517,9 @@ export default {
       })
     },
     handleShutdown(row) {
+      if (!confirm(this.$t('operationJobs').actionConfirm.shutdown)) {
+        return
+      }
       const params = {
         jobName: row.jobName
       }
