@@ -33,6 +33,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Install required dependencies
+        run: |
+          sudo apt install -y libxss1
       - name: Build with Maven
         run: |
           mvn --batch-mode --no-transfer-progress clean install cobertura:cobertura -Dmaven.javadoc.skip=true
