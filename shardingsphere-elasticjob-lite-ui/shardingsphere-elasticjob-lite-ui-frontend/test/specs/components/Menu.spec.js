@@ -68,7 +68,7 @@ describe('Menu/index.vue', () => {
       store,
       router
     })
-    wrapper.setProps({ isCollapse: true })
+    wrapper.setData({ isCollapse: true })
     expect(wrapper.vm.isCollapse).to.equal(true)
   })
 })
