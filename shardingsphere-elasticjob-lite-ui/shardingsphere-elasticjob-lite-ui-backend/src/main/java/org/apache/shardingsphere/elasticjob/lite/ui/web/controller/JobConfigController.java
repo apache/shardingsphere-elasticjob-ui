@@ -53,6 +53,7 @@ public final class JobConfigController {
     @GetMapping(value = "/{jobName:.+}")
     public ResponseResult<JobConfigurationPOJO> getJobConfig(@PathVariable("jobName") final String jobName) {
         JobConfigurationPOJO data = jobAPIService.getJobConfigurationAPI().getJobConfiguration(jobName);
+        data.setJobExtraConfigurations(null);
         return ResponseResultUtil.build(data);
     }
     
@@ -63,6 +64,7 @@ public final class JobConfigController {
      */
     @PutMapping
     public ResponseResult<Boolean> updateJobConfig(@RequestBody final JobConfigurationPOJO jobConfiguration) {
+        jobConfiguration.setJobExtraConfigurations(jobAPIService.getJobConfigurationAPI().getJobConfiguration(jobConfiguration.getJobName()).getJobExtraConfigurations());
         jobAPIService.getJobConfigurationAPI().updateJobConfiguration(jobConfiguration);
         return ResponseResultUtil.build(Boolean.TRUE);
     }
