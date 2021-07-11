@@ -8,11 +8,11 @@
 
 ### Bug Fixes
 
-1. Error occur when operating the jobs have TracingConfiguration
+1. Error occurs when operating the jobs have TracingConfiguration
 
 ### Build
 
-1. Supports building project on the macOS with Apple Silicon
+1. Supports building frontend modules on macOS with Apple Silicon
 
 ### Change Logs
 
