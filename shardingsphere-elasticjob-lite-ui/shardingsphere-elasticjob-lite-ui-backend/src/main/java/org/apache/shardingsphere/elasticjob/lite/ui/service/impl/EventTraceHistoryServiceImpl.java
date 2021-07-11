@@ -133,6 +133,7 @@ public final class EventTraceHistoryServiceImpl implements EventTraceHistoryServ
             if (to != null) {
                 predicates.add(builder.lessThan(root.get(field), to));
             }
+            query.orderBy(builder.desc(root.get(field)));
             predicates.add(QueryByExamplePredicateBuilder.getPredicate(root, builder, example));
             return builder.and(predicates.toArray(new Predicate[0]));
         };
