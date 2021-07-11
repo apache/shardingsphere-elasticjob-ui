@@ -1,3 +1,23 @@
+## 3.0.0
+
+### Enhancements
+
+1. Order event trace history records by descending time 
+1. Add confirm for shutdown operations
+1. Some improvements for i18n
+
+### Bug Fixes
+
+1. Error occur when operating the jobs have TracingConfiguration
+
+### Build
+
+1. Supports building project on the macOS with Apple Silicon
+
+### Change Logs
+
+1. [MILESTONE 3.0.0](https://github.com/apache/shardingsphere-elasticjob-ui/milestone/4)
+
 ## 3.0.0-RC1
 
 ### Enhancement
