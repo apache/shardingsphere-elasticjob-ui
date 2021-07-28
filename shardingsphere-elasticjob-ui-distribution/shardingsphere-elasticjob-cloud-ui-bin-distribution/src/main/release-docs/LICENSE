@@ -337,3 +337,12 @@ The text of each license is also included at licenses/LICENSE-[project].txt.
     vue-echarts 4.1.0: https://github.com/ecomfe/vue-echarts, MIT
     moment 2.27.0: https://github.com/moment/moment, MIT
     normalize.css 8.0.1: https://github.com/necolas/normalize.css, MIT
+
+========================================================================
+CDDL licenses
+========================================================================
+
+The following components are provided under the GDDL License. See project link for details.
+The text of each license is also included at licenses/LICENSE-[project].txt.
+
+    jaxb-v2 2.3: https://github.com/javaee/jaxb-v2, CDLL
