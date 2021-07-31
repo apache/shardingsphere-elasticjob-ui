@@ -326,3 +326,12 @@ The text of each license is also included at licenses/LICENSE-[project].txt.
     vue-i18n 8.4.0: https://github.com/kazupon/vue-i18n, MIT
     vue-router 3.0.1: https://github.com/vuejs/vue-router, MIT
     vuex 3.0.1: https://github.com/vuejs/vuex, MIT
+
+========================================================================
+CDDL licenses
+========================================================================
+
+The following components are provided under the GDDL License. See project link for details.
+The text of each license is also included at licenses/LICENSE-[project].txt.
+
+    jaxb-v2 2.3: https://github.com/javaee/jaxb-v2, CDLL
