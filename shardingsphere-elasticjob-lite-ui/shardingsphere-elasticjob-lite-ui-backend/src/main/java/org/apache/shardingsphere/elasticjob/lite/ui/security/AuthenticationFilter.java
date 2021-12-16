@@ -17,8 +17,8 @@
 
 package org.apache.shardingsphere.elasticjob.lite.ui.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
-import com.google.gson.Gson;
 import lombok.Setter;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
 
@@ -41,7 +41,7 @@ public final class AuthenticationFilter implements Filter {
     
     private static final String LOGIN_URI = "/api/login";
     
-    private final Gson gson = new Gson();
+    private final ObjectMapper objectMapper = new ObjectMapper();
     
     @Setter
     private UserAuthenticationService userAuthenticationService;
@@ -56,14 +56,14 @@ public final class AuthenticationFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
         if (LOGIN_URI.equals(httpRequest.getRequestURI())) {
             handleLogin(httpRequest, httpResponse);
-        } else {
-            String accessToken = httpRequest.getHeader("Access-Token");
-            if (!Strings.isNullOrEmpty(accessToken) && accessToken.equals(userAuthenticationService.getToken())) {
-                filterChain.doFilter(httpRequest, httpResponse);
-            } else {
-                respondWithUnauthorized(httpResponse);
-            }
+            return;
         }
+        String accessToken = httpRequest.getHeader("Access-Token");
+        if (Strings.isNullOrEmpty(accessToken) || !userAuthenticationService.isValidToken(accessToken)) {
+            respondWithUnauthorized(httpResponse);
+            return;
+        }
+        filterChain.doFilter(httpRequest, httpResponse);
     }
     
     @Override
@@ -72,28 +72,27 @@ public final class AuthenticationFilter implements Filter {
     
     private void handleLogin(final HttpServletRequest httpRequest, final HttpServletResponse httpResponse) {
         try {
-            UserAccount user = gson.fromJson(httpRequest.getReader(), UserAccount.class);
+            UserAccount user = objectMapper.readValue(httpRequest.getReader(), UserAccount.class);
             AuthenticationResult authenticationResult = userAuthenticationService.checkUser(user);
-            if (null != authenticationResult && authenticationResult.isSuccess()) {
-                httpResponse.setContentType("application/json");
-                httpResponse.setCharacterEncoding("UTF-8");
-                Map<String, Object> result = new HashMap<>();
-                result.put("username", authenticationResult.getUsername());
-                result.put("accessToken", userAuthenticationService.getToken());
-                result.put("isGuest", authenticationResult.isGuest());
-                httpResponse.getWriter().write(gson.toJson(ResponseResultUtil.build(result)));
-            } else {
+            if (!authenticationResult.isSuccess()) {
                 respondWithUnauthorized(httpResponse);
+                return;
             }
+            httpResponse.setContentType("application/json");
+            httpResponse.setCharacterEncoding("UTF-8");
+            Map<String, Object> result = new HashMap<>(4, 1);
+            result.put("username", authenticationResult.getUsername());
+            result.put("accessToken", userAuthenticationService.getToken(authenticationResult.getUsername(), authenticationResult.isGuest()));
+            result.put("isGuest", authenticationResult.isGuest());
+            objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
     }
     
     private void respondWithUnauthorized(final HttpServletResponse httpResponse) throws IOException {
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("UTF-8");
-        httpResponse.getWriter().write(gson.toJson(ResponseResultUtil.handleUnauthorizedException("Unauthorized.")));
+        objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.handleUnauthorizedException("Unauthorized."));
     }
 }
