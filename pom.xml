@@ -36,7 +36,6 @@
     </modules>
     
     <properties>
-        <revision>3.0.0-RC1-SNAPSHOT</revision>
         <elasticjob.version>3.0.1</elasticjob.version>
         <java.version>1.8</java.version>
         <springframework.version>4.3.24.RELEASE</springframework.version>
@@ -56,7 +55,6 @@
         <lombok.version>1.18.20</lombok.version>
         <commons.codec.version>1.10</commons.codec.version>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <flatten-maven-plugin.version>1.2.5</flatten-maven-plugin.version>
         <jaxb-api.version>2.3.1</jaxb-api.version>
         <jaxb-core.version>2.3.0.1</jaxb-core.version>
         <jaxb-impl.version>2.3.4</jaxb-impl.version>
@@ -323,31 +321,6 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <version>${flatten-maven-plugin.version}</version>
-                <configuration>
-                    <updatePomFile>true</updatePomFile>
-                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
                         </goals>
                     </execution>
                 </executions>
