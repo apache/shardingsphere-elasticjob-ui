@@ -324,6 +324,7 @@ The following components are provided under the MIT License. See project link fo
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
     checker-qual-2.11.1: https://github.com/typetools/checker-framework, MIT
+    java-jwt-3.18.2: https://github.com/auth0/java-jwt, MIT
     jcl-over-slf4j-1.7.26: https://github.com/qos-ch/slf4j, MIT
     jul-to-slf4j-1.7.26: https://github.com/qos-ch/slf4j, MIT
     slf4j-api-1.7.26: https://github.com/qos-ch/slf4j, MIT

@@ -17,12 +17,20 @@
 
 package org.apache.shardingsphere.elasticjob.cloud.ui.security;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.google.common.base.Strings;
-import com.google.gson.Gson;
 import lombok.Setter;
-import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User authentication service.
@@ -32,6 +40,12 @@ import org.springframework.stereotype.Component;
 @Setter
 public final class UserAuthenticationService {
     
+    private static final String JWT_TOKEN_ISSUER = "shardingsphere-elasticjob-ui";
+    
+    private final Algorithm algorithm = Algorithm.HMAC256(RandomStringUtils.randomAlphanumeric(256));
+    
+    private final JWTVerifier verifier = JWT.require(algorithm).withIssuer(JWT_TOKEN_ISSUER).build();
+    
     private String rootUsername;
     
     private String rootPassword;
@@ -40,9 +54,7 @@ public final class UserAuthenticationService {
     
     private String guestPassword;
     
-    private final Base64 base64 = new Base64();
-    
-    private Gson gson = new Gson();
+    private int tokenExpiresAfterSeconds = 3600;
     
     /**
      * Check user.
@@ -60,7 +72,7 @@ public final class UserAuthenticationService {
         if (guestUsername.equals(userAccount.getUsername()) && guestPassword.equals(userAccount.getPassword())) {
             return new AuthenticationResult(guestUsername, guestPassword, true, true);
         }
-        return new AuthenticationResult(null ,null, false, false);
+        return new AuthenticationResult(null, null, false, false);
     }
     
     /**
@@ -68,7 +80,26 @@ public final class UserAuthenticationService {
      *
      * @return authentication token
      */
-    public String getToken() {
-        return base64.encodeToString(gson.toJson(this).getBytes());
+    public String getToken(final String username, final boolean isGuest) {
+        Map<String, Object> payload = new HashMap<>(2, 1);
+        payload.put("username", username);
+        payload.put("isGuest", isGuest);
+        Date expiresAt = new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(tokenExpiresAfterSeconds));
+        return JWT.create().withExpiresAt(expiresAt).withIssuer(JWT_TOKEN_ISSUER).withPayload(payload).sign(algorithm);
+    }
+    
+    /**
+     * Check if token is valid.
+     *
+     * @param token token
+     * @return is valid
+     */
+    public boolean isValidToken(final String token) {
+        try {
+            verifier.verify(token);
+        } catch (JWTVerificationException ignored) {
+            return false;
+        }
+        return true;
     }
 }
