@@ -1,3 +1,18 @@
+## 3.0.1
+
+### Enhancements
+
+1. Using JWT for authentication
+
+### Build & Dependencies
+
+1. Upgrade ElasticJob to 3.0.1
+1. Supports JDK 11
+
+### Change Logs
+
+1. [MILESTONE 3.0.1](https://github.com/apache/shardingsphere-elasticjob-ui/milestone/5)
+
 ## 3.0.0
 
 ### Enhancements
