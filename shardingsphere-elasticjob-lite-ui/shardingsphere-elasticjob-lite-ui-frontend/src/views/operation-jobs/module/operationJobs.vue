@@ -69,7 +69,7 @@
                 plain
                 @click="handleModify(scope.row)">{{ $t("operationJobs.actionText.modify") }}</el-button>
               <el-button
-                v-if="'CRASHED'!==scope.row.status"
+                v-if="'CRASHED'!==scope.row.status && 'SHARDING_FLAG'!==scope.row.status"
                 size="mini"
                 type="info"
                 plain
