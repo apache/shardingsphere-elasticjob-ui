@@ -30,6 +30,7 @@ export default {
   disableServerJob: (params) => API.post('/api/servers/' + params.serverIp + '/jobs/' + params.jobName + '/disable'),
   enableServerJob: (params) => API.post('/api/servers/' + params.serverIp + '/jobs/' + params.jobName + '/enable'),
   shutdownServerJob: (params) => API.post('/api/servers/' + params.serverIp + '/jobs/' + params.jobName + '/shutdown'),
+  dumpServerJob: (params) => API.post('/api/servers/' + params.serverIp + '/' + params.dumpPort + '/jobs/' + params.jobName + '/dump'),
   removeServerJob: (params) => API.delete('/api/servers/' + params.serverIp + '/jobs/' + params.jobName + '')
 
 }

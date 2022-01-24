@@ -17,6 +17,53 @@
 
 <template>
   <el-row class="box-card">
+
+    <div>
+      <el-dialog
+        :title="dumpInfo.title"
+        :visible.sync="dumpConfigDialogVisible"
+        :close-on-click-modal="true"
+        :modal="true"
+        :show-close="true"
+        :center="true"
+        style="text-align:center">
+        <span style="padding-right: 5vh;">
+          <span style="font-weight: bolder;">{{ $t("operationServers.dumpText.jobName") }}：</span>
+          <span >{{ jobName }}</span>
+        </span>
+        <span >
+          <span style="font-weight: bolder;">{{ $t("operationServers.dumpText.dumpPort") }}：</span>
+          <el-input-number
+            ref="dumPort"
+            v-model="dumpPort"
+            :min="1025"
+            :max="65535"
+            autocomplete="off"
+          />
+          <input ref="jobName" type="hidden">
+        </span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dumpConfigDialogVisible = false">{{ $t('operationServers.dumpText.cancel') }}</el-button>
+          <el-button type="primary" @click="handleDump">{{ $t('operationServers.dumpText.dumpBtn') }}</el-button>
+        </span>
+      </el-dialog>
+
+      <!--弹框-->
+      <el-dialog
+        :title="dumpInfo.title"
+        :visible.sync="dialogVisible"
+        :close-on-click-modal="true"
+        :modal="true"
+        :show-close="true"
+        :center="true"
+        style="height: 80%;">
+        <span style="white-space: pre-wrap;" class="dumpContent">{{ dumpContent }}</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="copy">{{ $t('operationServers.dumpText.copy') }}</el-button>
+        </span>
+      </el-dialog>
+    </div>
+
     <el-form :model="searchForm" class="demo-form-inline">
       <el-form-item>
         <el-col :span="4">
@@ -138,6 +185,13 @@
                 plain
                 @click="handleShutdown(scope.row)">{{ $t("operationServers.actionText.shutdown") }}</el-button>
               <el-button
+                v-if="scope.row.instanceCount"
+                :disabled="isGuest"
+                size="mini"
+                type="danger"
+                plain
+                @click="dumpDialog(scope.row)">{{ $t("operationServers.actionText.dump") }}</el-button>
+              <el-button
                 v-if="!scope.row.instanceCount"
                 :disabled="isGuest"
                 size="mini"
@@ -169,6 +223,11 @@ export default {
   name: 'OperationServers',
   data() {
     return {
+      dumpConfigDialogVisible: false,
+      dialogVisible: false,
+      jobName: '',
+      dumpPort: 9888,
+      dumpContent: '',
       isGuest: window.localStorage.getItem('isGuest') === 'true',
       serverIp: '',
       columnJobName: {
@@ -182,6 +241,14 @@ export default {
       columnStatus: {
         label: this.$t('operationServers').labelInfo.status,
         prop: 'status'
+      },
+      dumpInfo: {
+        title: this.$t('operationServers').dumpText.title,
+        jobName: this.$t('operationServers').dumpText.jobName,
+        dumpPort: this.$t('operationServers').dumpText.dumpPort,
+        dumpBtn: this.$t('operationServers').dumpText.dumpBtn,
+        cancel: this.$t('operationServers').dumpText.cancel,
+        copy: this.$t('operationServers').dumpText.copy
       },
       statusColor: {
         OK: 'success',
@@ -280,6 +347,25 @@ export default {
         this.search()
       })
     },
+    dumpDialog(row) {
+      this.dumpPort = 9888
+      this.dumpConfigDialogVisible = true
+      this.jobName = row.jobName
+    },
+    handleDump() {
+      const params = {
+        serverIp: this.serverIp,
+        dumpPort: this.$refs.dumPort.value,
+        jobName: this.jobName
+      }
+      API.dumpServerJob(params).then(res => {
+        this.dumpConfigDialogVisible = false
+        this.dialogVisible = true
+        // alert(res.model)
+        // this.dumpContent=res.model.replace(/\n/g, '<br>')
+        this.dumpContent = res.model
+      })
+    },
     handleRemove(row) {
       const params = {
         serverIp: this.serverIp,
@@ -296,6 +382,29 @@ export default {
     },
     search() {
       this.getJobs()
+    },
+
+    copy() {
+      const text = document.querySelector('.dumpContent').innerText
+      const target = document.createElement('textarea')
+      target.id = 'creatDom'
+      target.value = text
+      document.body.appendChild(target)
+      target.select()
+      try {
+        document.execCommand('Copy')
+        console.log('复制成功')
+        const creatDom = document.getElementById('creatDom')
+        creatDom.parentNode.removeChild(creatDom)
+        this.$notify({
+          title: this.$t('common').notify.title,
+          message: this.$t('common').notify.actionSucMessage,
+          type: 'success'
+        })
+      } catch (e) {
+        console.log('复制失败')
+      }
+      this.dialogVisible = false
     }
   }
 }

@@ -36,7 +36,7 @@
     </modules>
     
     <properties>
-        <elasticjob.version>3.0.1</elasticjob.version>
+        <elasticjob.version>3.1.0-SNAPSHOT</elasticjob.version>
         <java.version>1.8</java.version>
         <springframework.version>4.3.24.RELEASE</springframework.version>
         <spring-boot.version>1.5.21.RELEASE</spring-boot.version>

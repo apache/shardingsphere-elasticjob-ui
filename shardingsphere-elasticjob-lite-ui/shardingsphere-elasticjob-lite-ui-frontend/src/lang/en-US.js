@@ -249,7 +249,16 @@ export default {
       disable: 'Disable',
       enable: 'Enable',
       shutdown: 'Shutdown',
+      dump: 'Dump',
       remove: 'Remove'
+    },
+    dumpText: {
+      title: 'Dump Job',
+      jobName: 'Job Name',
+      dumpPort: 'Dump Port',
+      dumpBtn: 'Dump',
+      cancel: 'Cancel',
+      copy: 'Copy'
     },
     actionConfirm: {
       shutdown: 'Are you sure to shutdown the server?'
