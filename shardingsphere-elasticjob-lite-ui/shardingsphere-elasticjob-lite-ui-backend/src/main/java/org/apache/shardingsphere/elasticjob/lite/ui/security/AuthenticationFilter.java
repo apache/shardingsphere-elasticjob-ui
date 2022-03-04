@@ -21,13 +21,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import lombok.Setter;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
+import org.casbin.casdoor.config.CasdoorConfiguration;
+import org.casbin.casdoor.entity.CasdoorUser;
+import org.casbin.casdoor.service.CasdoorAuthService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -40,14 +40,24 @@ import java.util.Map;
 public final class AuthenticationFilter implements Filter {
     
     private static final String LOGIN_URI = "/api/login";
+
+    private static final String CASDOOR_LOGIN_URL = "/api/casdoor-login-url";
+
+    private static final String CASDOOR_LOGIN = "/api/casdoor-login";
     
     private final ObjectMapper objectMapper = new ObjectMapper();
     
     @Setter
     private UserAuthenticationService userAuthenticationService;
+
+    private CasdoorAuthService casdoorAuthService;
     
     @Override
     public void init(final FilterConfig filterConfig) {
+        ServletContext servletContext = filterConfig.getServletContext();
+        ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+        CasdoorConfiguration config = ctx.getBean(CasdoorConfiguration.class);
+        casdoorAuthService = new CasdoorAuthService(config);
     }
     
     @Override
@@ -58,14 +68,22 @@ public final class AuthenticationFilter implements Filter {
             handleLogin(httpRequest, httpResponse);
             return;
         }
+        if (CASDOOR_LOGIN_URL.equals(httpRequest.getRequestURI())) {
+            handleCasdoorLoginUrl(httpRequest, httpResponse);
+            return;
+        }
+        if (CASDOOR_LOGIN.equals(httpRequest.getRequestURI())) {
+            handleCasdoorLogin(httpRequest, httpResponse);
+            return;
+        }
         String accessToken = httpRequest.getHeader("Access-Token");
-        if (Strings.isNullOrEmpty(accessToken) || !userAuthenticationService.isValidToken(accessToken)) {
+        if (Strings.isNullOrEmpty(accessToken) || (!userAuthenticationService.isValidToken(accessToken) && casdoorAuthService.parseJwtToken(accessToken) == null)) {
             respondWithUnauthorized(httpResponse);
             return;
         }
         filterChain.doFilter(httpRequest, httpResponse);
     }
-    
+
     @Override
     public void destroy() {
     }
@@ -84,6 +102,37 @@ public final class AuthenticationFilter implements Filter {
             result.put("username", authenticationResult.getUsername());
             result.put("accessToken", userAuthenticationService.getToken(authenticationResult.getUsername(), authenticationResult.isGuest()));
             result.put("isGuest", authenticationResult.isGuest());
+            objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleCasdoorLoginUrl(final HttpServletRequest httpRequest, final HttpServletResponse httpResponse) {
+        try {
+            String origin = httpRequest.getParameter("origin");
+            String url = casdoorAuthService.getSigninUrl(origin + "/login/casdoor");
+            httpResponse.setContentType("application/json");
+            httpResponse.setCharacterEncoding("UTF-8");
+            Map<String, Object> result = new HashMap<>(1, 1);
+            result.put("casdoorLoginUrl", url);
+            objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleCasdoorLogin(final HttpServletRequest httpRequest, final HttpServletResponse httpResponse) {
+        try {
+            OAuthCode code = objectMapper.readValue(httpRequest.getReader(), OAuthCode.class);
+            String token = casdoorAuthService.getOAuthToken(code.getCode(), code.getState());
+            CasdoorUser user = casdoorAuthService.parseJwtToken(token);
+            httpResponse.setContentType("application/json");
+            httpResponse.setCharacterEncoding("UTF-8");
+            Map<String, Object> result = new HashMap<>(4, 1);
+            result.put("username", user.getName());
+            result.put("accessToken", token);
+            result.put("isGuest", false);
             objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
         } catch (IOException e) {
             e.printStackTrace();

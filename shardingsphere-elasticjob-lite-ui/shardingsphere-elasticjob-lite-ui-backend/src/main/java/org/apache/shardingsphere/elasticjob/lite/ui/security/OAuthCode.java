@@ -15,10 +15,19 @@
  * limitations under the License.
  */
 
-import API from '@/utils/api'
+package org.apache.shardingsphere.elasticjob.lite.ui.security;
 
-export default {
-  getLogin: (params = {}) => API.post(`/api/login`, params),
-  getCasdoorLoginUrl: (params = {}) => API.get(`/api/casdoor-login-url`, params),
-  getCasdoorLogin: (params = {}) => API.post(`/api/casdoor-login`, params)
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * OAuth code
+ **/
+@Getter
+@Setter
+public final class OAuthCode {
+
+    private String code;
+
+    private String state;
 }

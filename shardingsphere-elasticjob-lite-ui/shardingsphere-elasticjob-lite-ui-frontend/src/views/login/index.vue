@@ -64,6 +64,10 @@
 <script>
 import SFooter from '../../components/Footer/index'
 import API from './api'
+import Casdoor from './casdoor'
+
+Casdoor.loginByCasdoor()
+
 export default {
   name: 'Login',
   components: {
