@@ -19,11 +19,13 @@ package org.apache.shardingsphere.elasticjob.lite.ui.web.controller;
 
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.EventTraceDataSourceConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.domain.EventTraceDataSourceFactory;
+import org.apache.shardingsphere.elasticjob.lite.ui.exception.DriverClassNotInWhitelistException;
 import org.apache.shardingsphere.elasticjob.lite.ui.service.EventTraceDataSourceConfigurationService;
 import org.apache.shardingsphere.elasticjob.lite.ui.util.SessionEventTraceDataSourceConfiguration;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +39,7 @@ import java.sql.Driver;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.ServiceLoader;
+import java.util.Set;
 
 /**
  * Event trace data source RESTful API.
@@ -48,6 +51,9 @@ public final class EventTraceDataSourceController {
     public static final String DATA_SOURCE_CONFIG_KEY = "data_source_config_key";
     
     private final EventTraceDataSourceConfigurationService eventTraceDataSourceConfigurationService;
+    
+    @Value("#{${dynamic.datasource.allowed-driver-classes:{}}}")
+    private Set<String> dynamicDataSourceAllowedDriverClasses;
     
     @Autowired
     public EventTraceDataSourceController(final EventTraceDataSourceConfigurationService eventTraceDataSourceConfigurationService) {
@@ -97,6 +103,7 @@ public final class EventTraceDataSourceController {
      */
     @PostMapping("/add")
     public ResponseResult<Boolean> add(@RequestBody final EventTraceDataSourceConfiguration config) {
+        failedIfDriverClassNotAllowed(config.getDriver());
         return ResponseResultUtil.build(eventTraceDataSourceConfigurationService.add(config));
     }
     
@@ -120,8 +127,15 @@ public final class EventTraceDataSourceController {
      */
     @PostMapping(value = "/connectTest")
     public ResponseResult<Boolean> connectTest(@RequestBody final EventTraceDataSourceConfiguration config, final HttpServletRequest request) {
+        failedIfDriverClassNotAllowed(config.getDriver());
         setDataSourceNameToSession(config, request.getSession());
         return ResponseResultUtil.build(true);
+    }
+    
+    private void failedIfDriverClassNotAllowed(final String driverClass) {
+        if (!dynamicDataSourceAllowedDriverClasses.contains(driverClass)) {
+            throw new DriverClassNotInWhitelistException(driverClass);
+        }
     }
     
     /**
