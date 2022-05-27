@@ -79,14 +79,12 @@
             <el-button-group>
               <el-button
                 v-if="'DISABLED'===scope.row.status"
-                :disabled="isGuest"
                 size="mini"
                 type="success"
                 plain
                 @click="handleEnable(scope.row)">{{ $t("operationJobs.actionText.enable") }}</el-button>
               <el-button
                 v-if="'PENDING'===scope.row.status"
-                :disabled="isGuest"
                 size="mini"
                 type="warning"
                 plain
@@ -106,7 +104,6 @@ export default {
   name: 'OperationJobs',
   data() {
     return {
-      isGuest: window.localStorage.getItem('isGuest') === 'true',
       jobName: '',
       column: [
         {

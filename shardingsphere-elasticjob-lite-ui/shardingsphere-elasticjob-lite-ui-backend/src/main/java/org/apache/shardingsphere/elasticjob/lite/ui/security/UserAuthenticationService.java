@@ -46,13 +46,9 @@ public final class UserAuthenticationService {
     
     private final JWTVerifier verifier = JWT.require(algorithm).withIssuer(JWT_TOKEN_ISSUER).build();
     
-    private String rootUsername;
+    private String username;
     
-    private String rootPassword;
-    
-    private String guestUsername;
-    
-    private String guestPassword;
+    private String password;
     
     private int tokenExpiresAfterSeconds = 3600;
     
@@ -64,15 +60,12 @@ public final class UserAuthenticationService {
      */
     public AuthenticationResult checkUser(final UserAccount userAccount) {
         if (null == userAccount || Strings.isNullOrEmpty(userAccount.getUsername()) || Strings.isNullOrEmpty(userAccount.getPassword())) {
-            return new AuthenticationResult(null, null, false, false);
+            return new AuthenticationResult(null, null, false);
         }
-        if (rootUsername.equals(userAccount.getUsername()) && rootPassword.equals(userAccount.getPassword())) {
-            return new AuthenticationResult(rootUsername, rootPassword, true, false);
+        if (username.equals(userAccount.getUsername()) && password.equals(userAccount.getPassword())) {
+            return new AuthenticationResult(username, password, true);
         }
-        if (guestUsername.equals(userAccount.getUsername()) && guestPassword.equals(userAccount.getPassword())) {
-            return new AuthenticationResult(guestUsername, guestPassword, true, true);
-        }
-        return new AuthenticationResult(null, null, false, false);
+        return new AuthenticationResult(null, null, false);
     }
     
     /**
@@ -80,10 +73,9 @@ public final class UserAuthenticationService {
      *
      * @return authentication token
      */
-    public String getToken(final String username, final boolean isGuest) {
-        Map<String, Object> payload = new HashMap<>(2, 1);
+    public String getToken(final String username) {
+        Map<String, Object> payload = new HashMap<>(1, 1);
         payload.put("username", username);
-        payload.put("isGuest", isGuest);
         Date expiresAt = new Date(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(tokenExpiresAfterSeconds));
         return JWT.create().withExpiresAt(expiresAt).withIssuer(JWT_TOKEN_ISSUER).withPayload(payload).sign(algorithm);
     }
