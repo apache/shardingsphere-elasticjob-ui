@@ -32,7 +32,4 @@ public final class AuthenticationResult {
     private final String password;
     
     private final boolean success;
-    
-    private final boolean isGuest;
-    
 }

@@ -19,7 +19,6 @@
   <el-row class="box-card">
     <div class="btn-group">
       <el-button
-        :disabled="isGuest"
         class="btn-plus"
         type="primary"
         icon="el-icon-plus"
@@ -39,25 +38,21 @@
           <template slot-scope="scope">
             <el-button-group>
               <el-button
-                :disabled="isGuest"
                 size="mini"
                 type="primary"
                 plain
                 @click="handleDetail(scope.row)">{{ $t("appConfig.table.operateDetail") }}</el-button>
               <el-button
-                :disabled="isGuest"
                 size="mini"
                 type="primary"
                 plain
                 @click="handleModify(scope.row)">{{ $t("appConfig.table.operateModify") }}</el-button>
               <el-button
-                :disabled="isGuest"
                 size="mini"
                 type="primary"
                 plain
                 @click="handleDelete(scope.row)">{{ $t("appConfig.table.operateDel") }}</el-button>
               <el-button
-                :disabled="isGuest"
                 size="mini"
                 type="primary"
                 plain
@@ -207,7 +202,6 @@ export default {
       addDialogVisible: false,
       editDialogVisible: false,
       isEdit: false,
-      isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
           label: this.$t('appConfig').table.appName,

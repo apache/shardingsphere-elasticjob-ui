@@ -182,7 +182,6 @@ export default {
   name: 'JobStatus',
   data() {
     return {
-      isGuest: window.localStorage.getItem('isGuest') === 'true',
       activeTabName: 'running',
       lazyInit: true,
       columnRunning: [

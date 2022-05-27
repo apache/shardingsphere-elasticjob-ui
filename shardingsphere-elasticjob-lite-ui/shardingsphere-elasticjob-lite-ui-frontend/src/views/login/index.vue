@@ -104,7 +104,6 @@ export default {
         const store = window.localStorage
         store.setItem('Access-Token', data.accessToken)
         store.setItem('username', data.username)
-        store.setItem('isGuest', data.isGuest)
         location.href = '#/registry-center'
       })
     }

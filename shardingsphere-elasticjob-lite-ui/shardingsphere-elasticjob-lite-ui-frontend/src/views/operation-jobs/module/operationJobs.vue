@@ -63,7 +63,6 @@
           <template slot-scope="scope">
             <el-button-group>
               <el-button
-                :disabled="isGuest"
                 size="mini"
                 type="primary"
                 plain
@@ -76,35 +75,30 @@
                 @click="handleDetail(scope.row)">{{ $t("operationJobs.actionText.detail") }}</el-button>
               <el-button
                 v-if="'OK'===scope.row.status"
-                :disabled="isGuest"
                 size="mini"
                 type="success"
                 plain
                 @click="handleTrigger(scope.row)">{{ $t("operationJobs.actionText.trigger") }}</el-button>
               <el-button
                 v-if="'DISABLED'===scope.row.status"
-                :disabled="isGuest"
                 size="mini"
                 type="success"
                 plain
                 @click="handleEnable(scope.row)">{{ $t("operationJobs.actionText.enable") }}</el-button>
               <el-button
                 v-if="'OK'===scope.row.status"
-                :disabled="isGuest"
                 size="mini"
                 type="warning"
                 plain
                 @click="handleDisable(scope.row)">{{ $t("operationJobs.actionText.disable") }}</el-button>
               <el-button
                 v-if="'CRASHED'!==scope.row.status"
-                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 plain
                 @click="handleShutdown(scope.row)">{{ $t("operationJobs.actionText.shutdown") }}</el-button>
               <el-button
                 v-if="'CRASHED'===scope.row.status"
-                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 icon="el-icon-delete"
@@ -331,7 +325,6 @@ export default {
   data() {
     return {
       modifyDialogVisible: false,
-      isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
           label: this.$t('operationJobs').labelInfo.jobName,
