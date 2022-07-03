@@ -196,7 +196,7 @@ export default {
     ...mapActions(['setRegCenterActivated']),
     handleCurrentChange(val) {
       const data = clone(this.cloneTableData)
-      this.tableData = data.splice(val - 1, this.pageSize)
+      this.tableData = data.splice((val - 1) * this.pageSize, this.pageSize)
     },
     getRegCenter() {
       API.getRegCenter().then(res => {
