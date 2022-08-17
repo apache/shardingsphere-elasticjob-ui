@@ -51,7 +51,7 @@
         <mockito.version>2.7.21</mockito.version>
         <commons-dbcp2.version>2.2.0</commons-dbcp2.version>
         <h2.version>1.4.196</h2.version>
-        <postgresql.version>42.2.5</postgresql.version>
+        <postgresql.version>42.4.1</postgresql.version>
         <lombok.version>1.18.20</lombok.version>
         <commons.codec.version>1.10</commons.codec.version>
         <maven.deploy.skip>true</maven.deploy.skip>
