@@ -56,12 +56,6 @@
                     </configuration>
                     <version>${maven-compiler-plugin.version}</version>
                 </plugin>
-                <!-- mvn -N io.takari:maven:wrapper -Dmaven=3.5.4 -->
-                <plugin>
-                    <groupId>io.takari</groupId>
-                    <artifactId>maven</artifactId>
-                    <version>${takari-maven-plugin.version}</version>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
