@@ -87,6 +87,9 @@
                 <!-- system ignore -->
                 <exclude>**/.DS_Store</exclude>
                 <exclude>**/Thumbs.db</exclude>
+    
+                <!-- NPM ignore -->
+                <exclude>**/package-lock.json</exclude>
             </excludes>
         </fileSet>
     </fileSets>
