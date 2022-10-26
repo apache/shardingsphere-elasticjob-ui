@@ -54,6 +54,7 @@
         <lombok.version>1.18.20</lombok.version>
         <commons.codec.version>1.10</commons.codec.version>
         <maven.deploy.skip>true</maven.deploy.skip>
+        <activation-api.version>1.2.0</activation-api.version>
         <jaxb-api.version>2.3.0</jaxb-api.version>
         <jaxb-core.version>2.3.0</jaxb-core.version>
         <jaxb-impl.version>2.3.0</jaxb-impl.version>
@@ -223,6 +224,11 @@
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>${commons.codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>javax.activation-api</artifactId>
+                <version>${activation-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
