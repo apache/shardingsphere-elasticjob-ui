@@ -218,13 +218,11 @@ The text of each license is the standard Apache 2.0 license.
     audience-annotations 0.5.0: https://github.com/apache/yetus, Apache 2.0
     commons-codec 1.10: https://github.com/apache/commons-codec, Apache 2.0
     commons-collections4 4.4: http://commons.apache.org/proper/commons-collections, Apache 2.0
-    commons-dbcp 1.4: https://github.com/apache/commons-dbcp, Apache 2.0
-    commons-dbcp2 2.1.1: https://github.com/apache/commons-dbcp, Apache 2.0
+    commons-dbcp2 2.2.0: https://github.com/apache/commons-dbcp, Apache 2.0
     commons-exec 1.3: http://commons.apache.org/proper/commons-exec, Apache 2.0
     commons-lang 2.6: https://github.com/apache/commons-lang, Apache 2.0
     commons-lang3 3.4: https://github.com/apache/commons-lang, Apache 2.0
     commons-logging 1.2: http://commons.apache.org/proper/commons-logging, Apache 2.0
-    commons-pool 1.6: https://github.com/apache/commons-pool, Apache 2.0
     commons-pool2 2.4.3: https://github.com/apache/commons-pool, Apache 2.0
     curator-client 5.1.0: https://github.com/apache/curator, Apache 2.0
     curator-framework 5.1.0: https://github.com/apache/curator, Apache 2.0
@@ -303,7 +301,7 @@ The following components are provided under the EPL License. See project link fo
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
     aspectjweaver 1.8.14: https://mvnrepository.com/artifact/org.aspectj/aspectjweaver/1.9.2, EPL 1.0
-    h2 1.4.199: https://github.com/h2database/h2database/blob/master/LICENSE.txt, MPL 2.0 or EPL 1.0
+    h2 1.4.196: https://github.com/h2database/h2database/blob/master/LICENSE.txt, MPL 2.0 or EPL 1.0
     logback-classic 1.1.11: https://github.com/qos-ch/logback, EPL 1.0
     logback-core 1.1.11: https://github.com/qos-ch/logback, EPL 1.0
     mchange-commons-java 0.2.15: https://github.com/swaldman/mchange-commons-java/tree/mchange-commons-java-0.2.15, EPL 1.0
@@ -315,7 +313,7 @@ MIT licenses
 The following components are provided under the MIT License. See project link for details.
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
-    checker-qual-2.11.1: https://github.com/typetools/checker-framework, MIT
+    checker-qual-3.5.0: https://github.com/typetools/checker-framework, MIT
     java-jwt-3.18.2: https://github.com/auth0/java-jwt, MIT
     jcl-over-slf4j-1.7.26: https://github.com/qos-ch/slf4j, MIT
     jul-to-slf4j-1.7.26: https://github.com/qos-ch/slf4j, MIT
@@ -335,4 +333,5 @@ CDDL licenses
 The following components are provided under the GDDL License. See project link for details.
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
-    jaxb-v2 2.3: https://github.com/javaee/jaxb-v2, CDLL
+    activation-api 1.2.0: https://github.com/javaee/activation, CDDL
+    jaxb-v2 2.3: https://github.com/javaee/jaxb-v2, CDDL
