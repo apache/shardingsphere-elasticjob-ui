@@ -311,7 +311,7 @@ The following components are provided under the EPL License. See project link fo
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
     aspectjweaver 1.8.14: https://mvnrepository.com/artifact/org.aspectj/aspectjweaver/1.9.2, EPL 1.0
-    h2 1.4.199: https://github.com/h2database/h2database/blob/master/LICENSE.txt, MPL 2.0 or EPL 1.0
+    h2 1.4.196: https://github.com/h2database/h2database/blob/master/LICENSE.txt, MPL 2.0 or EPL 1.0
     logback-classic 1.1.11: https://github.com/qos-ch/logback, EPL 1.0
     logback-core 1.1.11: https://github.com/qos-ch/logback, EPL 1.0
     mchange-commons-java 0.2.15: https://github.com/swaldman/mchange-commons-java/tree/mchange-commons-java-0.2.15, EPL 1.0
@@ -346,4 +346,4 @@ CDDL licenses
 The following components are provided under the GDDL License. See project link for details.
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
-    jaxb-v2 2.3: https://github.com/javaee/jaxb-v2, CDLL
+    jaxb-v2 2.3: https://github.com/javaee/jaxb-v2, CDDL
