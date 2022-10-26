@@ -333,4 +333,5 @@ CDDL licenses
 The following components are provided under the GDDL License. See project link for details.
 The text of each license is also included at licenses/LICENSE-[project].txt.
 
+    activation-api 1.2.0: https://github.com/javaee/activation, CDDL
     jaxb-v2 2.3: https://github.com/javaee/jaxb-v2, CDDL
