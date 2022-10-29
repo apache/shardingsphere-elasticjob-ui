@@ -56,6 +56,14 @@
           @click.native.prevent="handleLogin"
         >{{ $t("login.btnTxt") }}</el-button>
       </el-form-item>
+      <el-form-item class="btn-login">
+        <el-button
+          :loading="loading"
+          type="primary"
+          style="width:100%;"
+          @click.native.prevent="toLoginUrl()"
+        >{{ $t("Login with Casdoor") }}</el-button>
+      </el-form-item>
     </el-form>
     <s-footer style="position: fixed;bottom: 0;" />
   </div>
@@ -64,6 +72,9 @@
 <script>
 import SFooter from '../../components/Footer/index'
 import API from './api'
+import casdoor from './casdoor'
+
+casdoor.loginByCasdoor()
 export default {
   name: 'Login',
   components: {
@@ -105,6 +116,13 @@ export default {
         store.setItem('Access-Token', data.accessToken)
         store.setItem('username', data.username)
         location.href = '#/registry-center'
+      })
+    },
+    toLoginUrl() {
+    // redirect to casdoor login page
+      API.getCasdoorLoginUrl({ origin: window.location.origin }).then(res => {
+        const data = res.model
+        window.location.href = data.casdoorLoginUrl
       })
     }
   }
