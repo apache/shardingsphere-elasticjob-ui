@@ -1,3 +1,22 @@
+## 3.0.2
+
+### Enhancement
+1. Add driver whitelist for event trace configuration
+
+### Bug fix
+1. Pagination in some pages may not work well.
+
+### Refactor
+1. Remove unnecessary guest user
+
+### Dependency
+1. Bump ElasticJob to 3.0.2
+
+### Change Logs
+
+1. [MILESTONE 3.0.2](https://github.com/apache/shardingsphere-elasticjob-ui/milestone/6)
+
+
 ## 3.0.1
 
 ### Enhancements
