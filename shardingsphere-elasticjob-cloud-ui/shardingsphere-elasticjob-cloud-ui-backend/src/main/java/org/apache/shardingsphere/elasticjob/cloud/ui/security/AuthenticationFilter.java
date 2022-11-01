@@ -80,10 +80,9 @@ public final class AuthenticationFilter implements Filter {
             }
             httpResponse.setContentType("application/json");
             httpResponse.setCharacterEncoding("UTF-8");
-            Map<String, Object> result = new HashMap<>(4, 1);
+            Map<String, Object> result = new HashMap<>(2, 1);
             result.put("username", authenticationResult.getUsername());
-            result.put("accessToken", userAuthenticationService.getToken(authenticationResult.getUsername(), authenticationResult.isGuest()));
-            result.put("isGuest", authenticationResult.isGuest());
+            result.put("accessToken", userAuthenticationService.getToken(authenticationResult.getUsername()));
             objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
         } catch (IOException e) {
             e.printStackTrace();

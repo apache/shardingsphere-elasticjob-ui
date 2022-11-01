@@ -18,6 +18,7 @@
 package org.apache.shardingsphere.elasticjob.lite.ui.web.handler;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.elasticjob.lite.ui.exception.DriverClassNotInWhitelistException;
 import org.apache.shardingsphere.elasticjob.lite.ui.exception.JdbcDriverNotFoundException;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResult;
 import org.apache.shardingsphere.elasticjob.lite.ui.web.response.ResponseResultUtil;
@@ -34,13 +35,19 @@ import java.util.Optional;
 public final class RestExceptionHandler {
     
     @ExceptionHandler(JdbcDriverNotFoundException.class)
-    public ResponseResult handleJdbcDriverNotFoundException(final JdbcDriverNotFoundException ex) {
+    public ResponseResult<?> handleJdbcDriverNotFoundException(final JdbcDriverNotFoundException ex) {
         log.error(ex.getLocalizedMessage(), ex);
         return ResponseResultUtil.handleUncaughtException(ex.getLocalizedMessage());
     }
     
+    @ExceptionHandler(DriverClassNotInWhitelistException.class)
+    public ResponseResult<?> handleDriverClassNotInWhitelistException(final DriverClassNotInWhitelistException ex) {
+        log.warn(ex.getMessage(), ex);
+        return ResponseResultUtil.handleIllegalArgumentException(ex.getMessage());
+    }
+    
     @ExceptionHandler(Exception.class)
-    public ResponseResult handleException(final Exception ex) {
+    public ResponseResult<?> handleException(final Exception ex) {
         Throwable cause = Optional.ofNullable(ex.getCause()).orElse(ex);
         log.error(cause.getLocalizedMessage(), cause);
         return ResponseResultUtil.handleUncaughtException(cause.getLocalizedMessage());

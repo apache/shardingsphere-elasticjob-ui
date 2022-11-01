@@ -165,21 +165,18 @@
             <el-button-group>
               <el-button
                 v-if="scope.row.instanceCount && 'DISABLED'===scope.row.status"
-                :disabled="isGuest"
                 size="mini"
                 type="success"
                 plain
                 @click="handleEnable(scope.row)">{{ $t("operationServers.actionText.enable") }}</el-button>
               <el-button
                 v-if="scope.row.instanceCount && 'OK'===scope.row.status"
-                :disabled="isGuest"
                 size="mini"
                 type="warning"
                 plain
                 @click="handleDisable(scope.row)">{{ $t("operationServers.actionText.disable") }}</el-button>
               <el-button
                 v-if="scope.row.instanceCount"
-                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 plain
@@ -193,7 +190,6 @@
                 @click="dumpDialog(scope.row)">{{ $t("operationServers.actionText.dump") }}</el-button>
               <el-button
                 v-if="!scope.row.instanceCount"
-                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 plain
@@ -228,7 +224,6 @@ export default {
       jobName: '',
       dumpPort: 9888,
       dumpContent: '',
-      isGuest: window.localStorage.getItem('isGuest') === 'true',
       serverIp: '',
       columnJobName: {
         label: this.$t('operationServers').labelInfo.jobName,

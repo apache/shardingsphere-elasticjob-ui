@@ -15,21 +15,14 @@
  * limitations under the License.
  */
 
-package org.apache.shardingsphere.elasticjob.cloud.ui.security;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+package org.apache.shardingsphere.elasticjob.lite.ui.exception;
 
 /**
- * Authentication result.
- **/
-@Getter
-@RequiredArgsConstructor
-public final class AuthenticationResult {
+ * Driver class not in whitelist exception.
+ */
+public final class DriverClassNotInWhitelistException extends RuntimeException {
     
-    private final String username;
-
-    private final String password;
-    
-    private final boolean success;
+    public DriverClassNotInWhitelistException(final String driverClass) {
+        super("Please add '" + driverClass + "' to [dynamic.datasource.allowed-driver-classes] in application.properties");
+    }
 }

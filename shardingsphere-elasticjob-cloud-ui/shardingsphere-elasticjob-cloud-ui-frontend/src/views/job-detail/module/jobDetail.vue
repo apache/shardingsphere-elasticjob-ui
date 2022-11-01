@@ -278,7 +278,6 @@ export default {
   name: 'OperationJobs',
   data() {
     return {
-      isGuest: window.localStorage.getItem('isGuest') === 'true',
       viewMode: true,
       jobName: '',
       searchForm: {

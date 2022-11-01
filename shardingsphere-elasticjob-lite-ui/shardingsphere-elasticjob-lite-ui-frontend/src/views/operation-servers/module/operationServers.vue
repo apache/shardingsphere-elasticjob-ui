@@ -63,28 +63,24 @@
                 @click="handleDetail(scope.row)">{{ $t("operationServers.actionText.detail") }}</el-button>
               <el-button
                 v-if="scope.row.instancesNum && scope.row.disabledJobsNum"
-                :disabled="isGuest"
                 size="mini"
                 type="success"
                 plain
                 @click="handleEnable(scope.row)">{{ $t("operationServers.actionText.enable") }}</el-button>
               <el-button
                 v-if="0===scope.row.disabledJobsNum && scope.row.instancesNum"
-                :disabled="isGuest"
                 size="mini"
                 type="warning"
                 plain
                 @click="handleDisable(scope.row)">{{ $t("operationServers.actionText.disable") }}</el-button>
               <el-button
                 v-if="scope.row.instancesNum"
-                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 plain
                 @click="handleShutdown(scope.row)">{{ $t("operationServers.actionText.shutdown") }}</el-button>
               <el-button
                 v-if="0===scope.row.instancesNum"
-                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 icon="el-icon-delete"
@@ -114,7 +110,6 @@ export default {
   name: 'OperationServers',
   data() {
     return {
-      isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
           label: this.$t('operationServers').labelInfo.serverIp,

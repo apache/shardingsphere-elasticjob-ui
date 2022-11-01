@@ -21,7 +21,6 @@
       <el-form-item>
         <el-col :span="4">
           <el-button
-            :disabled="isGuest"
             class="btn-plus"
             type="primary"
             icon="el-icon-plus"
@@ -75,13 +74,11 @@
                 plain
                 @click="handleDetail(scope.row)">{{ $t("jobConfig.actionText.detail") }}</el-button>
               <el-button
-                :disabled="isGuest"
                 size="mini"
                 type="primary"
                 plain
                 @click="handleModify(scope.row)">{{ $t("jobConfig.actionText.modify") }}</el-button>
               <el-button
-                :disabled="isGuest"
                 size="mini"
                 type="danger"
                 icon="el-icon-delete"
@@ -89,14 +86,12 @@
                 @click="handlerRemove(scope.row)">{{ $t("jobConfig.actionText.remove") }}</el-button>
               <el-button
                 v-if="scope.row.disabled"
-                :disabled="isGuest"
                 size="mini"
                 type="success"
                 plain
                 @click="handleEnable(scope.row)">{{ $t("jobConfig.actionText.enable") }}</el-button>
               <el-button
                 v-if="!scope.row.disabled"
-                :disabled="isGuest"
                 size="mini"
                 type="warning"
                 plain
@@ -319,7 +314,6 @@ export default {
   data() {
     return {
       modifyDialogVisible: false,
-      isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
           label: this.$t('jobConfig').labelInfo.jobName,

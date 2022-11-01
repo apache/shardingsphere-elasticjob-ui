@@ -19,7 +19,6 @@
   <el-row class="box-card">
     <div class="btn-group">
       <el-button
-        :disabled="isGuest"
         class="btn-plus"
         type="primary"
         icon="el-icon-plus"
@@ -45,7 +44,6 @@
             >
               <el-button
                 :type="scope.row.activated ? 'success' : 'primary'"
-                :disabled="isGuest"
                 icon="el-icon-link"
                 size="small"
                 @click="handleConnect(scope.row)"
@@ -58,7 +56,6 @@
               placement="top"
             >
               <el-button
-                :disabled="isGuest"
                 size="small"
                 type="danger"
                 icon="el-icon-delete"
@@ -128,7 +125,6 @@ export default {
   data() {
     return {
       addDialogVisible: false,
-      isGuest: window.localStorage.getItem('isGuest') === 'true',
       column: [
         {
           label: this.$t('registryCenter').registDialog.name,
@@ -200,7 +196,7 @@ export default {
     ...mapActions(['setRegCenterActivated']),
     handleCurrentChange(val) {
       const data = clone(this.cloneTableData)
-      this.tableData = data.splice(val - 1, this.pageSize)
+      this.tableData = data.splice((val - 1) * this.pageSize, this.pageSize)
     },
     getRegCenter() {
       API.getRegCenter().then(res => {

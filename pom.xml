@@ -36,28 +36,28 @@
     </modules>
     
     <properties>
-        <elasticjob.version>3.1.0-SNAPSHOT</elasticjob.version>
+        <elasticjob.version>3.0.2</elasticjob.version>
         <java.version>1.8</java.version>
         <springframework.version>4.3.24.RELEASE</springframework.version>
         <spring-boot.version>1.5.21.RELEASE</spring-boot.version>
-        <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
+        <apache-rat-plugin.version>0.15</apache-rat-plugin.version>
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
         <frontend-maven-plugin.version>1.12.0</frontend-maven-plugin.version>
         <os-maven-plugin.version>1.5.0.Final</os-maven-plugin.version>
-        <takari-maven-plugin.version>0.6.1</takari-maven-plugin.version>
         <openjpa.version>3.1.2</openjpa.version>
         <junit.version>4.12</junit.version>
         <hamcrest.version>1.3</hamcrest.version>
         <mockito.version>2.7.21</mockito.version>
         <commons-dbcp2.version>2.2.0</commons-dbcp2.version>
         <h2.version>1.4.196</h2.version>
-        <postgresql.version>42.2.5</postgresql.version>
+        <postgresql.version>42.4.1</postgresql.version>
         <lombok.version>1.18.20</lombok.version>
         <commons.codec.version>1.10</commons.codec.version>
         <maven.deploy.skip>true</maven.deploy.skip>
-        <jaxb-api.version>2.3.1</jaxb-api.version>
-        <jaxb-core.version>2.3.0.1</jaxb-core.version>
-        <jaxb-impl.version>2.3.4</jaxb-impl.version>
+        <activation-api.version>1.2.0</activation-api.version>
+        <jaxb-api.version>2.3.0</jaxb-api.version>
+        <jaxb-core.version>2.3.0</jaxb-core.version>
+        <jaxb-impl.version>2.3.0</jaxb-impl.version>
         <java-jwt.version>3.18.2</java-jwt.version>
     </properties>
     
@@ -224,6 +224,11 @@
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>${commons.codec.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>javax.activation-api</artifactId>
+                <version>${activation-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
