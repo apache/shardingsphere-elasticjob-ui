@@ -76,7 +76,11 @@ public final class AuthenticationFilter implements Filter {
             return;
         }
         String accessToken = httpRequest.getHeader("Access-Token");
-        if (Strings.isNullOrEmpty(accessToken) || (!userAuthenticationService.isValidToken(accessToken)&& casdoorAuthService.parseJwtToken(accessToken) == null)) {
+        if (Strings.isNullOrEmpty(accessToken)) {
+            respondWithUnauthorized(httpResponse);
+            return;
+        }
+        if(!userAuthenticationService.isValidToken(accessToken)|| casdoorAuthService.parseJwtToken(accessToken) == null){
             respondWithUnauthorized(httpResponse);
             return;
         }
@@ -130,7 +134,6 @@ public final class AuthenticationFilter implements Filter {
             Map<String, Object> result = new HashMap<>(4, 1);
             result.put("username", user.getName());
             result.put("accessToken", token);
-            result.put("isGuest", false);
             objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
         } catch (IOException e) {
             e.printStackTrace();
