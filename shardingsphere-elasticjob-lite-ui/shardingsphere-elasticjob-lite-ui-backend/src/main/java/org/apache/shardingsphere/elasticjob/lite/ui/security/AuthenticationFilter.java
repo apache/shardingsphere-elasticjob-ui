@@ -51,6 +51,8 @@ public final class AuthenticationFilter implements Filter {
 
     private CasdoorAuthService casdoorAuthService;
 
+    private String loginMethod = "default";
+
     @Override
     public void init(final FilterConfig filterConfig) {
         ServletContext servletContext = filterConfig.getServletContext();
@@ -76,13 +78,16 @@ public final class AuthenticationFilter implements Filter {
             return;
         }
         String accessToken = httpRequest.getHeader("Access-Token");
-        if (Strings.isNullOrEmpty(accessToken)) {
-            respondWithUnauthorized(httpResponse);
-            return;
-        }
-        if(!userAuthenticationService.isValidToken(accessToken)|| casdoorAuthService.parseJwtToken(accessToken) == null){
-            respondWithUnauthorized(httpResponse);
-            return;
+        if(loginMethod == "default"){
+            if (Strings.isNullOrEmpty(accessToken) || !userAuthenticationService.isValidToken(accessToken)) {
+                respondWithUnauthorized(httpResponse);
+                return;
+            }
+        }else{
+            if(casdoorAuthService.parseJwtToken(accessToken) == null){
+                respondWithUnauthorized(httpResponse);
+                return;
+            }
         }
         filterChain.doFilter(httpRequest, httpResponse);
     }
@@ -104,6 +109,7 @@ public final class AuthenticationFilter implements Filter {
             Map<String, Object> result = new HashMap<>(2, 1);
             result.put("username", authenticationResult.getUsername());
             result.put("accessToken", userAuthenticationService.getToken(authenticationResult.getUsername()));
+            loginMethod = "default";
             objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
         } catch (IOException e) {
             e.printStackTrace();
@@ -118,6 +124,7 @@ public final class AuthenticationFilter implements Filter {
             httpResponse.setCharacterEncoding("UTF-8");
             Map<String, Object> result = new HashMap<>(1, 1);
             result.put("casdoorLoginUrl", url);
+            loginMethod = "casdoor";
             objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
         } catch (IOException e) {
             e.printStackTrace();
