@@ -15,10 +15,25 @@
  * limitations under the License.
  */
 
-import API from '@/utils/api'
+import API from './api'
 
 export default {
-  getLogin: (params = {}) => API.post(`/api/login`, params),
-  getCasdoorLoginUrl: (params = {}) => API.get(`/api/casdoor-login-url`, params),
-  getCasdoorLogin: (params = {}) => API.post(`/api/casdoor-login`, params)
+  loginByCasdoor: () => {
+    // callback
+    const urlSearchParams = new URLSearchParams(window.location.search)
+    const params = {
+      code: urlSearchParams.get('code'),
+      state: urlSearchParams.get('state')
+    }
+    if (params.code != null && params.state != null) {
+      API.getCasdoorLogin(params).then(res => {
+        const data = res.model
+        const store = window.localStorage
+        store.setItem('Access-Token', data.accessToken)
+        store.setItem('username', data.username)
+        store.setItem('isGuest', data.isGuest)
+        location.href = '/#/registry-center'
+      })
+    }
+  }
 }
