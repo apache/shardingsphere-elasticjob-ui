@@ -27,7 +27,13 @@ import org.casbin.casdoor.service.CasdoorAuthService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -50,8 +56,6 @@ public final class AuthenticationFilter implements Filter {
     private UserAuthenticationService userAuthenticationService;
 
     private CasdoorAuthService casdoorAuthService;
-
-    private String loginMethod = "default";
 
     @Override
     public void init(final FilterConfig filterConfig) {
@@ -78,16 +82,9 @@ public final class AuthenticationFilter implements Filter {
             return;
         }
         String accessToken = httpRequest.getHeader("Access-Token");
-        if(loginMethod == "default"){
-            if (Strings.isNullOrEmpty(accessToken) || !userAuthenticationService.isValidToken(accessToken)) {
-                respondWithUnauthorized(httpResponse);
-                return;
-            }
-        }else{
-            if(casdoorAuthService.parseJwtToken(accessToken) == null){
-                respondWithUnauthorized(httpResponse);
-                return;
-            }
+        if (Strings.isNullOrEmpty(accessToken) || !userAuthenticationService.isValidToken(accessToken) && !isValidCasdoorToken(accessToken)) {
+            respondWithUnauthorized(httpResponse);
+            return;
         }
         filterChain.doFilter(httpRequest, httpResponse);
     }
@@ -109,7 +106,6 @@ public final class AuthenticationFilter implements Filter {
             Map<String, Object> result = new HashMap<>(2, 1);
             result.put("username", authenticationResult.getUsername());
             result.put("accessToken", userAuthenticationService.getToken(authenticationResult.getUsername()));
-            loginMethod = "default";
             objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
         } catch (IOException e) {
             e.printStackTrace();
@@ -124,7 +120,6 @@ public final class AuthenticationFilter implements Filter {
             httpResponse.setCharacterEncoding("UTF-8");
             Map<String, Object> result = new HashMap<>(1, 1);
             result.put("casdoorLoginUrl", url);
-            loginMethod = "casdoor";
             objectMapper.writeValue(httpResponse.getWriter(), ResponseResultUtil.build(result));
         } catch (IOException e) {
             e.printStackTrace();
@@ -146,7 +141,15 @@ public final class AuthenticationFilter implements Filter {
             e.printStackTrace();
         }
     }
-
+    
+    private boolean isValidCasdoorToken(final String accessToken) {
+        try {
+            return null == casdoorAuthService.parseJwtToken(accessToken);
+        } catch (final Exception ignored) {
+            return false;
+        }
+    }
+    
     private void respondWithUnauthorized(final HttpServletResponse httpResponse) throws IOException {
         httpResponse.setContentType("application/json");
         httpResponse.setCharacterEncoding("UTF-8");
