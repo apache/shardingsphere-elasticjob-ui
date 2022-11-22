@@ -48,7 +48,7 @@
         </span>
       </el-dialog>
 
-      <!--弹框-->
+      <!--dump dialog-->
       <el-dialog
         :title="dumpInfo.title"
         :visible.sync="dialogVisible"
@@ -388,7 +388,7 @@ export default {
       target.select()
       try {
         document.execCommand('Copy')
-        console.log('复制成功')
+        console.log('copy success.')
         const creatDom = document.getElementById('creatDom')
         creatDom.parentNode.removeChild(creatDom)
         this.$notify({
@@ -397,7 +397,7 @@ export default {
           type: 'success'
         })
       } catch (e) {
-        console.log('复制失败')
+        console.log('copy failure.')
       }
       this.dialogVisible = false
     }
