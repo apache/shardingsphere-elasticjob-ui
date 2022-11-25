@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
@@ -150,7 +151,26 @@ public final class ServerOperationController {
         jobAPIService.getJobOperatorAPI().enable(jobName, serverIp);
         return ResponseResultUtil.build(Boolean.TRUE);
     }
-    
+
+    /**
+     * Enable server job.
+     *
+     * @param serverIp server IP address
+     * @param jobName job name
+     */
+    @PostMapping("/{serverIp}/{dumpPort}/jobs/{jobName}/dump")
+    public ResponseResult<String> dumpJob(@PathVariable("serverIp") final String serverIp,
+                                           @PathVariable("dumpPort") final int dumpPort,
+                                           @PathVariable("jobName") final String jobName) {
+        String result;
+        try {
+            result = jobAPIService.getJobOperatorAPI().dump(jobName, serverIp, dumpPort);
+        } catch (IOException e) {
+            result = e.getMessage();
+        }
+        return ResponseResultUtil.build(result);
+    }
+
     /**
      * Shutdown server job.
      *

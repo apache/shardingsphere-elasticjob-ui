@@ -249,7 +249,16 @@ export default {
       disable: '失效',
       enable: '生效',
       shutdown: '终止',
+      dump: '导出',
       remove: '删除'
+    },
+    dumpText: {
+      title: '导出作业',
+      jobName: '作业名称',
+      dumpPort: '导出端口',
+      dumpBtn: '导出',
+      cancel: '取消',
+      copy: '复制'
     },
     actionConfirm: {
       shutdown: '您确定要下线服务器吗？'
