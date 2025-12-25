@@ -16,7 +16,7 @@
   -->
 
 <template>
-  <el-row class="box-card">
+  <div class="box-card">
     <div class="btn-group pull-right" style="float: right;">
       <el-input
         v-model="searchForm.serverIp"
@@ -25,11 +25,12 @@
         autocomplete="off"
         @clear="search"
         @change="search" >
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
-        <el-button
-          slot="append"
-          icon="el-icon-search"
-          @click="search"></el-button>
+        <template #prefix>
+          <el-icon class="el-input__icon"><Search /></el-icon>
+        </template>
+        <template #append>
+          <el-button icon="Search" @click="search"></el-button>
+        </template>
       </el-input>
     </div>
     <div class="table-wrap">
@@ -45,7 +46,7 @@
           :label="item.label"
           :width="item.width"
         >
-          <template slot-scope="scope">
+          <template #default="scope">
             <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
           </template>
         </el-table-column>
@@ -53,37 +54,37 @@
           :label="$t('operationServers.labelInfo.operate')"
           fixed="right"
           width="300">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button-group>
               <el-button
                 v-if="scope.row.instancesNum"
-                size="mini"
+                size="small"
                 type="info"
                 plain
                 @click="handleDetail(scope.row)">{{ $t("operationServers.actionText.detail") }}</el-button>
               <el-button
                 v-if="scope.row.instancesNum && scope.row.disabledJobsNum"
-                size="mini"
+                size="small"
                 type="success"
                 plain
                 @click="handleEnable(scope.row)">{{ $t("operationServers.actionText.enable") }}</el-button>
               <el-button
                 v-if="0===scope.row.disabledJobsNum && scope.row.instancesNum"
-                size="mini"
+                size="small"
                 type="warning"
                 plain
                 @click="handleDisable(scope.row)">{{ $t("operationServers.actionText.disable") }}</el-button>
               <el-button
                 v-if="scope.row.instancesNum"
-                size="mini"
+                size="small"
                 type="danger"
                 plain
                 @click="handleShutdown(scope.row)">{{ $t("operationServers.actionText.shutdown") }}</el-button>
               <el-button
                 v-if="0===scope.row.instancesNum"
-                size="mini"
+                size="small"
                 type="danger"
-                icon="el-icon-delete"
+                icon="Delete"
                 plain
                 @click="handlerRemove(scope.row)">{{ $t("operationServers.actionText.remove") }}</el-button>
             </el-button-group>
@@ -100,7 +101,7 @@
         />
       </div>
     </div>
-  </el-row>
+  </div>
 </template>
 <script>
 import { mapActions } from 'vuex'
@@ -112,19 +113,19 @@ export default {
     return {
       column: [
         {
-          label: this.$t('operationServers').labelInfo.serverIp,
+          label: this.$t('operationServers.labelInfo.serverIp'),
           prop: 'serverIp'
         },
         {
-          label: this.$t('operationServers').labelInfo.instancesNum,
+          label: this.$t('operationServers.labelInfo.instancesNum'),
           prop: 'instancesNum'
         },
         {
-          label: this.$t('operationServers').labelInfo.jobsNum,
+          label: this.$t('operationServers.labelInfo.jobsNum'),
           prop: 'jobsNum'
         },
         {
-          label: this.$t('operationServers').labelInfo.disabledJobsNum,
+          label: this.$t('operationServers.labelInfo.disabledJobsNum'),
           prop: 'disabledJobsNum'
         }
       ],
@@ -180,8 +181,8 @@ export default {
       }
       API.enableServer(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -193,15 +194,15 @@ export default {
       }
       API.disableServer(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
       })
     },
     handleShutdown(row) {
-      if (!confirm(this.$t('operationServers').actionConfirm.shutdown)) {
+      if (!confirm(this.$t('operationServers.actionConfirm.shutdown'))) {
         return
       }
       const params = {
@@ -209,8 +210,8 @@ export default {
       }
       API.shutdownServer(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -222,8 +223,8 @@ export default {
       }
       API.removeServer(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.delSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.delSucMessage'),
           type: 'success'
         })
         this.search()

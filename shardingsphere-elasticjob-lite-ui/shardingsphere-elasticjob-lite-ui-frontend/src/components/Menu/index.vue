@@ -29,16 +29,16 @@
     >
       <s-logo/>
       <template v-for="(item, index) in menuData">
-        <el-submenu v-if="item.child && item.child.length" :index="String(index)" :key="String(index)">
-          <template slot="title">
+        <el-sub-menu v-if="item.child && item.child.length" :key="index + '_submenu'" :index="String(index)">
+          <template #title>
             <i class="icon-sidebar"/>
-            <span slot="title">{{ item.title }}</span>
+            <span>{{ item.title }}</span>
           </template>
           <a v-for="(itm, idx) in item.child" :href="'#' + itm.href" :key="String(idx)">
             <el-menu-item :index="itm.href">{{ itm.title }}</el-menu-item>
           </a>
-        </el-submenu>
-        <a v-else :href="'#' + item.href" :key="String(index)">
+        </el-sub-menu>
+        <a v-else :key="index + '_item'" :href="'#' + item.href">
           <el-menu-item :index="item.href">{{ item.title }}</el-menu-item>
         </a>
       </template>
@@ -47,6 +47,8 @@
 </template>
 <script>
 import SLogo from '../Logo/index.vue'
+import Language from '@/lang/index'
+
 export default {
   name: 'Menu',
   components: {
@@ -59,14 +61,16 @@ export default {
     }
   },
   data() {
+    const lang = localStorage.getItem('language') || 'en-US'
     return {
-      menuData: this.$t('common').menuData,
+      menuData: (Language[lang] || Language['en-US']).common.menuData,
       defActive: ''
     }
   },
   watch: {
     $route: {
       handler(route) {
+        if (!this.menuData) return
         for (const v of this.menuData) {
           if (!v.child) {
             if (v.href === route.path) {
@@ -103,7 +107,7 @@ export default {
     height: 100%;
     width: 80px;
     .s-pro-components-sider-menu-index-logo {
-      padding-left: 22px;
+      padding-left: 0;
     }
   }
   .el-menu-vertical-menu:not(.el-menu--collapse) {
@@ -112,11 +116,13 @@ export default {
   }
   .el-menu-item {
     background: #090a01;
+    display: flex;
+    align-items: center;
   }
   .el-menu {
     border-right: none;
   }
-  .el-submenu {
+  .el-sub-menu {
     .el-menu {
       background: #090a01;
     }
@@ -129,6 +135,7 @@ export default {
     display: inline-block;
     width: 16px;
     height: 16px;
+    margin-right: 8px;
   }
   .el-menu--collapse {
     img {

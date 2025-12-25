@@ -67,6 +67,16 @@ export default {
     connection: 'Connection',
     noRegistry: 'No connected registry center',
     del: 'Delete',
+    networkError: {
+      timeout: 'Request timeout, please try again',
+      network: 'Network connection failed, please check your network settings',
+      notFound: 'The requested resource does not exist',
+      unauthorized: 'Unauthorized, please login again',
+      forbidden: 'Access denied',
+      badRequest: 'Bad request parameters',
+      serverError: 'Internal server error, please try again later',
+      unknown: 'Request failed, please try again later'
+    },
     notify: {
       title: 'Prompt',
       addSucMessage: 'Add Succeeded',
@@ -87,7 +97,7 @@ export default {
         command: 'zh-CN'
       },
       {
-        title: 'English',
+        title: 'en-US',
         command: 'en-US'
       }
     ]

@@ -67,6 +67,16 @@ export default {
     connection: '连接',
     noRegistry: '无已连接注册中心',
     del: '删除',
+    networkError: {
+      timeout: '请求超时，请稍后重试',
+      network: '网络连接失败，请检查网络设置',
+      notFound: '请求的资源不存在',
+      unauthorized: '未授权，请重新登录',
+      forbidden: '没有权限访问该资源',
+      badRequest: '请求参数错误',
+      serverError: '服务器内部错误，请稍后重试',
+      unknown: '请求失败，请稍后重试'
+    },
     notify: {
       title: '提示',
       addSucMessage: '添加成功',
@@ -84,11 +94,11 @@ export default {
     dropdownList: [
       {
         title: '中文',
-        command: 'Chinese'
+        command: 'zh-CN'
       },
       {
-        title: 'English',
-        command: 'English'
+        title: 'en-US',
+        command: 'en-US'
       }
     ]
   },

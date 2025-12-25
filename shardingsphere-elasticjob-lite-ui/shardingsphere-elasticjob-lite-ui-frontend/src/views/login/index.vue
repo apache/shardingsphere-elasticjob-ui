@@ -30,10 +30,12 @@
           v-model="loginForm.username"
           name="username"
           type="text"
-          auto-complete="off"
+          autocomplete="off"
           placeholder="username"
         >
-          <i slot="prefix" class="icon-user icon-iem" />
+          <template #prefix>
+             <i class="icon-user icon-iem" />
+          </template>
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -41,11 +43,13 @@
           :type="pwdType"
           v-model="loginForm.password"
           name="password"
-          auto-complete="on"
+          autocomplete="on"
           placeholder="password"
-          @keyup.enter.native="handleLogin"
+          @keyup.enter="handleLogin"
         >
-          <i slot="prefix" class="icon-password icon-iem" />
+          <template #prefix>
+            <i class="icon-password icon-iem" />
+          </template>
         </el-input>
       </el-form-item>
       <el-form-item class="btn-login">
@@ -53,7 +57,7 @@
           :loading="loading"
           type="primary"
           style="width:100%;"
-          @click.native.prevent="handleLogin"
+          @click.prevent="handleLogin"
         >{{ $t("login.btnTxt") }}</el-button>
       </el-form-item>
       <el-form-item class="btn-login">
@@ -61,8 +65,9 @@
           :loading="loading"
           type="primary"
           style="width:100%;"
-          @click.native.prevent="toLoginUrl()"
+          @click.prevent="toLoginUrl()"
         >{{ $t("Login with Casdoor") }}</el-button>
+
       </el-form-item>
     </el-form>
     <s-footer style="position: fixed;bottom: 0;" />
@@ -137,16 +142,24 @@ $light_gray: #f2f2f2;
 .login-container {
   .el-input {
     display: inline-block;
-    // height: 47px;
-    width: 85%;
+    width: 100%;
+    
+    .el-input__wrapper {
+      background: transparent;
+      box-shadow: none !important;
+      padding: 0 0 0 10px;
+      width: 100%;
+    }
+
     input {
       background: transparent;
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
-      padding: 12px 5px 12px 60px;
+      padding: 12px 5px 12px 5px;
       color: $light_gray;
-      // height: 47px;
+      height: 47px;
+      
       &:-webkit-autofill {
         -webkit-box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: #fff !important;
@@ -160,20 +173,22 @@ $light_gray: #f2f2f2;
     color: #454545;
   }
   .el-form-item__content {
-    background: #070601;
+    background: rgba(0,0,0, 0.3);
     border-radius: 6px;
   }
   .icon-iem {
-    margin: 8px 7px;
     width: 24px;
     height: 24px;
     display: inline-block;
+    vertical-align: middle;
   }
   .icon-user {
     background: url('../../assets/img/user.png') no-repeat left center;
+    background-size: contain;
   }
   .icon-password {
     background: url('../../assets/img/password.png') no-repeat left center;
+    background-size: contain;
   }
   .btn-login {
     margin-top: 50px;

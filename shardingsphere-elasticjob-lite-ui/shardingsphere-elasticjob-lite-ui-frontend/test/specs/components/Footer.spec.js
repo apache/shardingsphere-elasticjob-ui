@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { expect } from 'chai'
+import { expect } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import Footer from '../../../src/components/Footer/index.vue'
 

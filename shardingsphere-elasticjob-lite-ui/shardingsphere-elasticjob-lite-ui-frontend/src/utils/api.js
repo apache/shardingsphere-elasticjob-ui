@@ -16,7 +16,8 @@
  */
 
 import axios from 'axios'
-import { Message } from 'element-ui'
+import { ElMessage as Message } from 'element-plus'
+import Language from '../lang/index'
 import C from './conf'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json; charset=UTF-8'
@@ -60,10 +61,57 @@ function ajax(url, type, options, config) {
         }
       })
       .catch(error => {
+        const lang = window.localStorage.getItem('language') || 'en-US'
+        const langData = Language[lang]
+        let errorMessage = ''
+
+        try {
+          const errorMsg = error.message || ''
+
+          // 判断错误类型并获取对应的国际化提示
+          if (error.code === 'ECONNABORTED' || errorMsg.includes('timeout')) {
+            // 超时错误
+            errorMessage = langData.common.networkError.timeout
+          } else if (errorMsg === 'Network Error' || !error.response) {
+            // 网络连接错误
+            errorMessage = langData.common.networkError.network
+          } else if (error.response) {
+            // HTTP 状态码错误
+            const status = error.response.status
+            switch (status) {
+              case 400:
+                errorMessage = langData.common.networkError.badRequest
+                break
+              case 401:
+                errorMessage = langData.common.networkError.unauthorized
+                break
+              case 403:
+                errorMessage = langData.common.networkError.forbidden
+                break
+              case 404:
+                errorMessage = langData.common.networkError.notFound
+                break
+              case 500:
+              case 502:
+              case 503:
+              case 504:
+                errorMessage = langData.common.networkError.serverError
+                break
+              default:
+                errorMessage = langData.common.networkError.unknown
+            }
+          } else {
+            errorMessage = langData.common.networkError.unknown
+          }
+        } catch (e) {
+          // 如果获取国际化提示失败，使用原始错误信息
+          errorMessage = error.message || error.toString()
+        }
+
         Message({
-          message: error,
+          message: errorMessage,
           type: 'error',
-          duration: 2 * 1000
+          duration: 3 * 1000
         })
       })
   })

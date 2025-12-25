@@ -16,12 +16,12 @@
   -->
 
 <template>
-  <el-row class="box-card">
+  <div class="box-card">
 
     <div>
       <el-dialog
         :title="dumpInfo.title"
-        :visible.sync="dumpConfigDialogVisible"
+        v-model="dumpConfigDialogVisible"
         :close-on-click-modal="true"
         :modal="true"
         :show-close="true"
@@ -42,32 +42,36 @@
           />
           <input ref="jobName" type="hidden">
         </span>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="dumpConfigDialogVisible = false">{{ $t('operationServers.dumpText.cancel') }}</el-button>
-          <el-button type="primary" @click="handleDump">{{ $t('operationServers.dumpText.dumpBtn') }}</el-button>
-        </span>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="dumpConfigDialogVisible = false">{{ $t('operationServers.dumpText.cancel') }}</el-button>
+            <el-button type="primary" @click="handleDump">{{ $t('operationServers.dumpText.dumpBtn') }}</el-button>
+          </span>
+        </template>
       </el-dialog>
 
       <!--dump dialog-->
       <el-dialog
         :title="dumpInfo.title"
-        :visible.sync="dialogVisible"
+        v-model="dialogVisible"
         :close-on-click-modal="true"
         :modal="true"
         :show-close="true"
         :center="true"
         style="height: 80%;">
         <span style="white-space: pre-wrap;" class="dumpContent">{{ dumpContent }}</span>
-        <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="copy">{{ $t('operationServers.dumpText.copy') }}</el-button>
-        </span>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button type="primary" @click="copy">{{ $t('operationServers.dumpText.copy') }}</el-button>
+          </span>
+        </template>
       </el-dialog>
     </div>
 
     <el-form :model="searchForm" class="demo-form-inline">
       <el-form-item>
         <el-col :span="4">
-          <el-button type="info" icon="el-icon-arrow-left" @click="goBack">Back</el-button>
+          <el-button type="info" icon="ArrowLeft" @click="goBack">Back</el-button>
         </el-col>
         <el-col :span="14">
           <el-link type="info" disabled> {{ $t('operationServers.labelInfo.serverIp') }}:</el-link>
@@ -81,11 +85,12 @@
             autocomplete="off"
             @clear="search"
             @change="search" >
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="search"></el-button>
+            <template #prefix>
+              <el-icon class="el-input__icon"><Search /></el-icon>
+            </template>
+            <template #append>
+              <el-button icon="Search" @click="search"></el-button>
+            </template>
           </el-input>
         </el-col>
       </el-form-item>
@@ -103,7 +108,7 @@
           :prop="columnJobName.prop"
           :label="columnJobName.label"
           :width="columnJobName.width">
-          <template slot-scope="scope">
+          <template #default="scope">
             <span>{{ scope.row.jobName }}</span>
           </template>
         </el-table-column>
@@ -111,7 +116,7 @@
           :prop="columnInstanceCount.prop"
           :label="columnInstanceCount.label"
           :width="columnInstanceCount.width">
-          <template slot-scope="scope">
+          <template #default="scope">
             <span>{{ scope.row.instanceCount }}</span>
           </template>
         </el-table-column>
@@ -119,39 +124,39 @@
           :prop="columnStatus.prop"
           :label="columnStatus.label"
           :width="columnStatus.width">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button
               v-if="'OK'===scope.row.status && scope.row.instanceCount"
               :type="statusColor.OK"
-              size="mini"
+              size="small"
               plain>
               {{ $t("operationServers.statusText.OK") }}
             </el-button>
             <el-button
               v-if="'DISABLED'===scope.row.status && scope.row.instanceCount"
               :type="statusColor.DISABLED"
-              size="mini"
+              size="small"
               plain>
               {{ $t("operationServers.statusText.DISABLED") }}
             </el-button>
             <el-button
               v-if="'SHARDING_FLAG'===scope.row.status && scope.row.instanceCount"
               :type="statusColor.SHARDING_FLAG"
-              size="mini"
+              size="small"
               plain>
               {{ $t("operationServers.statusText.SHARDING_FLAG") }}
             </el-button>
             <el-button
               v-if="'PENDING'===scope.row.status && scope.row.instanceCount"
               :type="statusColor.PENDING"
-              size="mini"
+              size="small"
               plain>
               {{ $t("operationServers.statusText.PENDING") }}
             </el-button>
             <el-button
               v-if="!scope.row.instanceCount || 'CRASHED'===scope.row.status"
               :type="statusColor.CRASHED"
-              size="mini"
+              size="small"
               plain>
               {{ $t("operationServers.statusText.CRASHED") }}
             </el-button>
@@ -161,36 +166,36 @@
           :label="$t('operationServers.labelInfo.operate')"
           fixed="right"
           width="300">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button-group>
               <el-button
                 v-if="scope.row.instanceCount && 'DISABLED'===scope.row.status"
-                size="mini"
+                size="small"
                 type="success"
                 plain
                 @click="handleEnable(scope.row)">{{ $t("operationServers.actionText.enable") }}</el-button>
               <el-button
                 v-if="scope.row.instanceCount && 'OK'===scope.row.status"
-                size="mini"
+                size="small"
                 type="warning"
                 plain
                 @click="handleDisable(scope.row)">{{ $t("operationServers.actionText.disable") }}</el-button>
               <el-button
                 v-if="scope.row.instanceCount"
-                size="mini"
+                size="small"
                 type="danger"
                 plain
                 @click="handleShutdown(scope.row)">{{ $t("operationServers.actionText.shutdown") }}</el-button>
               <el-button
                 v-if="scope.row.instanceCount"
                 :disabled="isGuest"
-                size="mini"
+                size="small"
                 type="danger"
                 plain
                 @click="dumpDialog(scope.row)">{{ $t("operationServers.actionText.dump") }}</el-button>
               <el-button
                 v-if="!scope.row.instanceCount"
-                size="mini"
+                size="small"
                 type="danger"
                 plain
                 @click="handleRemove(scope.row)">{{ $t("operationServers.actionText.remove") }}</el-button>
@@ -208,7 +213,7 @@
         />
       </div>
     </div>
-  </el-row>
+  </div>
 </template>
 <script>
 import { mapActions } from 'vuex'
@@ -226,24 +231,24 @@ export default {
       dumpContent: '',
       serverIp: '',
       columnJobName: {
-        label: this.$t('operationServers').labelInfo.jobName,
+        label: this.$t('operationServers.labelInfo.jobName'),
         prop: 'jobName'
       },
       columnInstanceCount: {
-        label: this.$t('operationServers').labelInfo.instanceCount,
+        label: this.$t('operationServers.labelInfo.instanceCount'),
         prop: 'instanceCount'
       },
       columnStatus: {
-        label: this.$t('operationServers').labelInfo.status,
+        label: this.$t('operationServers.labelInfo.status'),
         prop: 'status'
       },
       dumpInfo: {
-        title: this.$t('operationServers').dumpText.title,
-        jobName: this.$t('operationServers').dumpText.jobName,
-        dumpPort: this.$t('operationServers').dumpText.dumpPort,
-        dumpBtn: this.$t('operationServers').dumpText.dumpBtn,
-        cancel: this.$t('operationServers').dumpText.cancel,
-        copy: this.$t('operationServers').dumpText.copy
+        title: this.$t('operationServers.dumpText.title'),
+        jobName: this.$t('operationServers.dumpText.jobName'),
+        dumpPort: this.$t('operationServers.dumpText.dumpPort'),
+        dumpBtn: this.$t('operationServers.dumpText.dumpBtn'),
+        cancel: this.$t('operationServers.dumpText.cancel'),
+        copy: this.$t('operationServers.dumpText.copy')
       },
       statusColor: {
         OK: 'success',
@@ -260,6 +265,11 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 0
+    }
+  },
+  computed: {
+    isGuest() {
+      return false
     }
   },
   created() {
@@ -307,8 +317,8 @@ export default {
       }
       API.enableServerJob(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -321,8 +331,8 @@ export default {
       }
       API.disableServerJob(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -335,8 +345,8 @@ export default {
       }
       API.shutdownServerJob(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -368,8 +378,8 @@ export default {
       }
       API.removeServerJob(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -392,8 +402,8 @@ export default {
         const creatDom = document.getElementById('creatDom')
         creatDom.parentNode.removeChild(creatDom)
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
       } catch (e) {

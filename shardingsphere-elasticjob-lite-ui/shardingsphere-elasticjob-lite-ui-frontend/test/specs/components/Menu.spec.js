@@ -14,61 +14,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { expect } from 'chai'
-import { shallowMount, createLocalVue, mount } from '@vue/test-utils'
-import VueI18n from 'vue-i18n'
-import Vuex from 'vuex'
+import { expect } from 'vitest'
+import { shallowMount } from '@vue/test-utils'
+import { createI18n } from 'vue-i18n'
 import Menu from '../../../src/components/Menu/index.vue'
 import Language from '../../../src/lang/index'
 import store from '../../../src/store'
 import router from '../../../src/router'
 
-const localVue = createLocalVue()
-
-localVue.use(VueI18n)
-localVue.use(Vuex)
-
 // language setting init
 const navLang = navigator.language
 const localLang = navLang === 'zh-CN' || navLang === 'en-US' ? navLang : false
 const lang = window.localStorage.getItem('language') || localLang || 'zh-CN'
-localVue.config.lang = lang
 
 // language setting
-const locales = Language
-const mergeZH = locales['zh-CN']
-const mergeEN = locales['en-US']
-
-const i18n = new VueI18n({
+const i18n = createI18n({
   locale: 'en-US',
-  messages: {
-    'zh-CN': mergeZH,
-    'en-US': mergeEN
-  }
+  messages: Language,
+  legacy: true
 })
 
 describe('Menu/index.vue', () => {
   it('Menu Does the component exist？', () => {
     const wrapper = shallowMount(Menu, {
-      localVue,
-      i18n,
-      store,
-      router,
-      propsData: {
+      global: {
+        plugins: [store, i18n, router]
+      },
+      props: {
         isCollapse: false
       }
     })
-    expect(wrapper.isVueInstance()).to.be.true
+    expect(wrapper.exists()).toBe(true)
   })
 
-  it('setData()', () => {
+  it('setData()', async () => {
     const wrapper = shallowMount(Menu, {
-      localVue,
-      i18n,
-      store,
-      router
+      global: {
+        plugins: [store, i18n, router]
+      }
     })
-    wrapper.setData({ isCollapse: true })
-    expect(wrapper.vm.isCollapse).to.equal(true)
+    await wrapper.setData({ isCollapse: true })
+    expect(wrapper.vm.isCollapse).toBe(true)
   })
 })

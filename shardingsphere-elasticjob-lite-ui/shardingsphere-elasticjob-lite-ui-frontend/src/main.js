@@ -15,47 +15,40 @@
  * limitations under the License.
  */
 
-import Vue from 'vue'
-import App from './App'
+import { createApp } from 'vue'
+import App from './App.vue'
 import router from './router'
-import ElementUI from 'element-ui'
-import locale from 'element-ui/lib/locale/lang/en'
-import VueI18n from 'vue-i18n'
-import Language from './lang/index'
 import store from './store'
-import Vuex from 'vuex'
+import { createI18n } from 'vue-i18n'
+import Language from './lang/index'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'normalize.css/normalize.css'
 import '@/assets/styles/theme.scss'
 import '@/assets/styles/index.scss'
 
-Vue.config.productionTip = false
-Vue.use(ElementUI, { locale })
-Vue.use(VueI18n)
-Vue.use(Vuex)
+const app = createApp(App)
+
+// Register all icons
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
 
 // language setting init
 const lang = localStorage.getItem('language') || 'en-US'
-Vue.config.lang = lang
 
-// language setting
-const locales = Language
-const mergeZH = locales['zh-CN']
-const mergeEN = locales['en-US']
-
-const i18n = new VueI18n({
+const i18n = createI18n({
+  legacy: true, // Support Options API
+  globalInjection: true,
   locale: lang,
-  messages: {
-    'zh-CN': mergeZH,
-    'en-US': mergeEN
-  }
+  messages: Language,
+  fallbackLocale: 'en-US'
 })
 
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  store,
-  i18n,
-  components: { App },
-  template: '<App/>'
-})
+app.use(router)
+app.use(store)
+app.use(i18n)
+app.use(ElementPlus)
+
+app.mount('#app')

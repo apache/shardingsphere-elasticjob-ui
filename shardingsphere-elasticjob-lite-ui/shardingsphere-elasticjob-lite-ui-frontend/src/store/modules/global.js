@@ -18,12 +18,13 @@
 import * as types from '../mutation-types'
 
 const state = {
-  regCenterActivated: ''
+  regCenterActivated: localStorage.getItem('regCenterActivated') || ''
 }
 
 const mutations = {
   [types.REG_CENTER_ACTIVATED](state, params) {
     state.regCenterActivated = params
+    localStorage.setItem('regCenterActivated', params)
   }
 }
 

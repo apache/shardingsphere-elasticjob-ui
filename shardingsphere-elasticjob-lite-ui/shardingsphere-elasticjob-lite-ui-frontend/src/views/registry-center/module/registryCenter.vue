@@ -16,12 +16,12 @@
   -->
 
 <template>
-  <el-row class="box-card">
+  <div class="box-card">
     <div class="btn-group">
       <el-button
         class="btn-plus"
         type="primary"
-        icon="el-icon-plus"
+        icon="Plus"
         @click="add"
       >{{ $t("registryCenter.btnTxt") }}</el-button>
     </div>
@@ -35,7 +35,7 @@
           :width="item.width"
         />
         <el-table-column :label="$t('registryCenter.table.operate')" fixed="right" width="200">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-tooltip
               :content="!scope.row.activated ? $t('registryCenter.table.operateConnect'): $t('registryCenter.table.operateConnected')"
               class="item"
@@ -44,7 +44,7 @@
             >
               <el-button
                 :type="scope.row.activated ? 'success' : 'primary'"
-                icon="el-icon-link"
+                icon="Link"
                 size="small"
                 @click="handleConnect(scope.row)"
               />
@@ -58,7 +58,7 @@
               <el-button
                 size="small"
                 type="danger"
-                icon="el-icon-delete"
+                icon="Delete"
                 @click="handlerDel(scope.row)"
               />
             </el-tooltip>
@@ -77,7 +77,7 @@
     </div>
     <el-dialog
       :title="$t('registryCenter.registDialog.title')"
-      :visible.sync="addDialogVisible"
+      v-model="addDialogVisible"
       width="1010px"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="170px">
@@ -106,15 +106,17 @@
           />
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="addDialogVisible = false">{{ $t("registryCenter.registDialog.btnCancelTxt") }}</el-button>
-        <el-button
-          type="primary"
-          @click="onConfirm('form')"
-        >{{ $t("registryCenter.registDialog.btnConfirmTxt") }}</el-button>
-      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="addDialogVisible = false">{{ $t("registryCenter.registDialog.btnCancelTxt") }}</el-button>
+          <el-button
+            type="primary"
+            @click="onConfirm('form')"
+          >{{ $t("registryCenter.registDialog.btnConfirmTxt") }}</el-button>
+        </div>
+      </template>
     </el-dialog>
-  </el-row>
+  </div>
 </template>
 <script>
 import { mapActions } from 'vuex'
@@ -127,15 +129,15 @@ export default {
       addDialogVisible: false,
       column: [
         {
-          label: this.$t('registryCenter').registDialog.name,
+          label: this.$t('registryCenter.registDialog.name'),
           prop: 'name'
         },
         {
-          label: this.$t('registryCenter').registDialog.address,
+          label: this.$t('registryCenter.registDialog.address'),
           prop: 'zkAddressList'
         },
         {
-          label: this.$t('registryCenter').registDialog.namespaces,
+          label: this.$t('registryCenter.registDialog.namespaces'),
           prop: 'namespace'
         }
       ],
@@ -149,35 +151,35 @@ export default {
         name: [
           {
             required: true,
-            message: this.$t('registryCenter').rules.name,
+            message: this.$t('registryCenter.rules.name'),
             trigger: 'change'
           }
         ],
         zkAddressList: [
           {
             required: true,
-            message: this.$t('registryCenter').rules.address,
+            message: this.$t('registryCenter.rules.address'),
             trigger: 'change'
           }
         ],
         namespace: [
           {
             required: true,
-            message: this.$t('registryCenter').rules.namespaces,
+            message: this.$t('registryCenter.rules.namespaces'),
             trigger: 'change'
           }
         ],
         instanceType: [
           {
             required: true,
-            message: this.$t('registryCenter').rules.centerType,
+            message: this.$t('registryCenter.rules.centerType'),
             trigger: 'change'
           }
         ],
         orchestrationName: [
           {
             required: true,
-            message: this.$t('registryCenter').rules.orchestrationName,
+            message: this.$t('registryCenter.rules.orchestrationName'),
             trigger: 'change'
           }
         ]
@@ -186,7 +188,7 @@ export default {
       cloneTableData: [],
       currentPage: 1,
       pageSize: 10,
-      total: null
+      total: 0 // Initialize as 0 instead of null
     }
   },
   created() {
@@ -215,8 +217,8 @@ export default {
     handleConnect(row) {
       if (row.activated) {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').connected,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.connected'),
           type: 'success'
         })
       } else {
@@ -225,8 +227,8 @@ export default {
         }
         API.postRegCenterConnect(params).then(res => {
           this.$notify({
-            title: this.$t('common').notify.title,
-            message: this.$t('common').notify.conSucMessage,
+            title: this.$t('common.notify.title'),
+            message: this.$t('common.notify.conSucMessage'),
             type: 'success'
           })
           this.getRegCenter()
@@ -239,8 +241,8 @@ export default {
       }
       API.deleteRegCenter(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.delSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.delSucMessage'),
           type: 'success'
         })
         this.getRegCenter()
@@ -252,8 +254,8 @@ export default {
           API.postRegCenter(this.form).then(res => {
             this.addDialogVisible = false
             this.$notify({
-              title: this.$t('common').notify.title,
-              message: this.$t('common').notify.addSucMessage,
+              title: this.$t('common.notify.title'),
+              message: this.$t('common.notify.addSucMessage'),
               type: 'success'
             })
             this.getRegCenter()

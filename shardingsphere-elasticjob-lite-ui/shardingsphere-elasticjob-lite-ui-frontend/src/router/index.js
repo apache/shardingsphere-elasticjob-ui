@@ -15,79 +15,79 @@
  * limitations under the License.
  */
 
-import Vue from 'vue'
-import Router from 'vue-router'
-
-Vue.use(Router)
+import { createRouter, createWebHashHistory } from 'vue-router'
 
 export const constantRouterMap = [
   {
     path: '/',
-    component: () => import('@/views/login'),
+    component: () => import('@/views/login/index.vue'),
     hidden: true
   },
   {
     path: '/login',
-    component: () => import('@/views/login'),
+    component: () => import('@/views/login/index.vue'),
     hidden: true
   },
   {
     path: '/registry-center',
-    component: () => import('@/views/registry-center'),
+    component: () => import('@/views/registry-center/index.vue'),
     hidden: true,
     name: 'Registry center'
   },
   {
     path: '/data-source',
-    component: () => import('@/views/data-source'),
+    component: () => import('@/views/data-source/index.vue'),
     hidden: true,
     name: 'Data source'
   },
   {
     path: '/operation-jobs',
-    component: () => import('@/views/operation-jobs'),
+    component: () => import('@/views/operation-jobs/index.vue'),
     hidden: true,
     name: 'Operation-jobs'
   },
   {
     path: '/operation-jobs/status-detail',
-    component: () => import('@/views/operation-jobs-detail'),
+    component: () => import('@/views/operation-jobs-detail/index.vue'),
     hidden: true,
     name: 'Operation-jobs-detail'
   },
   {
     path: '/operation-servers',
-    component: () => import('@/views/operation-servers'),
+    component: () => import('@/views/operation-servers/index.vue'),
     hidden: true,
     name: 'Operation-servers'
   },
   {
     path: '/operation-servers/status-detail',
-    component: () => import('@/views/operation-servers-detail'),
+    component: () => import('@/views/operation-servers-detail/index.vue'),
     hidden: true,
     name: 'Operation-servers-detail'
   },
   {
     path: '/job-help',
-    component: () => import('@/views/help'),
+    component: () => import('@/views/help/index.vue'),
     hidden: true,
     name: 'Help'
   },
   {
     path: '/history-trace',
-    component: () => import('@/views/history-trace'),
+    component: () => import('@/views/history-trace/index.vue'),
     hidden: true,
     name: 'History trace'
   },
   {
     path: '/history-status',
-    component: () => import('@/views/history-status'),
+    component: () => import('@/views/history-status/index.vue'),
     hidden: true,
     name: 'History status'
   }
 ]
 
-export default new Router({
-  scrollBehavior: () => ({ y: 0 }),
+const router = createRouter({
+  history: createWebHashHistory(), // hash mode
+  scrollBehavior: () => ({ top: 0 }),
   routes: constantRouterMap
 })
+
+export default router

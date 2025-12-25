@@ -14,6 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+:root {
+  --el-color-primary: #E17425;
+  --el-color-primary-light-3: #ea9e66;
+  --el-color-primary-light-5: #f0b992;
+  --el-color-primary-light-7: #f6d5be;
+  --el-color-primary-light-8: #f9e3d3;
+  --el-color-primary-light-9: #fcf1e9;
+  --el-color-primary-dark-2: #b45d1e;
+}
+
 body {
   height: 100%;
   -moz-osx-font-smoothing: grayscale;

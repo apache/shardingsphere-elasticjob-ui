@@ -16,36 +16,29 @@
   -->
 
 <template>
-  <el-row class="box-card">
-    <el-form :model="searchForm" class="demo-form-inline">
-      <el-form-item>
-        <el-col :span="4">
-          <el-button type="info" icon="el-icon-arrow-left" @click="goBack">Back</el-button>
-        </el-col>
-        <el-col :span="14">
-          <el-link type="info" disabled> {{ $t('operationJobs.labelInfo.jobName') }}:</el-link>
-          <el-link type="info" disabled>{{ jobName || "-" }}</el-link>
-        </el-col>
-        <el-col :span="6">
-          <el-input
-            v-model="searchForm.jobName"
-            placeholder="Search"
-            clearable
-            autocomplete="off"
-            @clear="search"
-            @change="search" >
-            <i slot="prefix" class="el-input__icon el-icon-search"></i>
-            <el-button
-              slot="append"
-              icon="el-icon-search"
-              @click="search"></el-button>
-          </el-input>
-        </el-col>
-      </el-form-item>
-    </el-form>
-    <div class="btn-group pull-right" style="float: right;">
-
+  <div class="box-card">
+    <div class="header-section">
+      <div class="left-section">
+        <el-button link icon="ArrowLeft" class="back-btn" @click="goBack">Back</el-button>
+        <span class="divider">|</span>
+        <span class="page-title">{{ $t('operationJobs.labelInfo.jobName') }}: <span class="job-name">{{ jobName || "-" }}</span></span>
+      </div>
+      <div class="right-section">
+        <el-input
+          v-model="searchForm.jobName"
+          :placeholder="$t('common.searchPlaceholder')" 
+          clearable
+          @clear="search"
+          @change="search"
+          class="search-input"
+        >
+          <template #prefix>
+            <el-icon><Search /></el-icon>
+          </template>
+        </el-input>
+      </div>
     </div>
+    
     <div class="table-wrap">
       <el-table
         :data="tableData"
@@ -59,13 +52,13 @@
           :label="item.label"
           :width="item.width"
         >
-          <template slot-scope="scope">
+          <template #default="scope">
             <span v-if="'item'===item.prop || 'serverIp'===item.prop || 'instanceId'===item.prop">{{ scope.row[item.prop] }}</span>
             <span v-if="'failover'===item.prop">{{ scope.row.failover? scope.row.failover : "-" }}</span>
             <el-button
               v-if="'status'===item.prop"
               :type="statusColor[scope.row.status]"
-              size="mini"
+              size="small"
               plain>
               {{ $t("operationJobs.statusText."+scope.row[item.prop]) }}
             </el-button>
@@ -74,27 +67,26 @@
         <el-table-column
           :label="$t('operationJobs.table.operate')"
           fixed="right"
-          width="100">
-          <template slot-scope="scope">
-            <el-button-group>
-              <el-button
-                v-if="'DISABLED'===scope.row.status"
-                size="mini"
-                type="success"
-                plain
-                @click="handleEnable(scope.row)">{{ $t("operationJobs.actionText.enable") }}</el-button>
-              <el-button
-                v-if="'PENDING'===scope.row.status"
-                size="mini"
-                type="warning"
-                plain
-                @click="handleDisable(scope.row)">{{ $t("operationJobs.actionText.disable") }}</el-button>
-            </el-button-group>
+          width="140"
+          align="center">
+          <template #default="scope">
+            <el-button
+              v-if="'DISABLED'===scope.row.status"
+              size="small"
+              type="success"
+              link
+              @click="handleEnable(scope.row)">{{ $t("operationJobs.actionText.enable") }}</el-button>
+            <el-button
+              v-if="'PENDING'===scope.row.status"
+              size="small"
+              type="warning"
+              link
+              @click="handleDisable(scope.row)">{{ $t("operationJobs.actionText.disable") }}</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-  </el-row>
+  </div>
 </template>
 <script>
 import { mapActions } from 'vuex'
@@ -107,23 +99,23 @@ export default {
       jobName: '',
       column: [
         {
-          label: this.$t('operationJobs').labelInfo.item,
+          label: this.$t('operationJobs.labelInfo.item'),
           prop: 'item'
         },
         {
-          label: this.$t('operationJobs').labelInfo.serverIp,
+          label: this.$t('operationJobs.labelInfo.serverIp'),
           prop: 'serverIp'
         },
         {
-          label: this.$t('operationJobs').labelInfo.instanceId,
+          label: this.$t('operationJobs.labelInfo.instanceId'),
           prop: 'instanceId'
         },
         {
-          label: this.$t('operationJobs').labelInfo.status,
+          label: this.$t('operationJobs.labelInfo.status'),
           prop: 'status'
         },
         {
-          label: this.$t('operationJobs').labelInfo.failover,
+          label: this.$t('operationJobs.labelInfo.failover'),
           prop: 'failover'
         }
       ],
@@ -189,8 +181,8 @@ export default {
       }
       API.enableSharding(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -203,8 +195,8 @@ export default {
       }
       API.disableSharding(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -217,11 +209,69 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-.btn-group {
-  margin-bottom: 20px;
+.box-card {
+  background: #fff;
+  border-radius: 4px;
+  padding: 24px;
 }
+
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  .left-section {
+    display: flex;
+    align-items: center;
+
+    .back-btn {
+      font-size: 14px;
+      font-weight: 500;
+      color: #606266;
+      padding-left: 0;
+      
+      &:hover {
+        color: #409eff;
+      }
+    }
+
+    .divider {
+      color: #DCDFE6;
+      margin: 0 12px;
+      font-size: 12px;
+    }
+
+    .page-title {
+      font-size: 14px;
+      color: #606266;
+      
+      .job-name {
+        color: #303133;
+        font-weight: 600;
+        font-size: 16px;
+        margin-left: 4px;
+      }
+    }
+  }
+
+  .right-section {
+    .search-input {
+      width: 240px;
+    }
+  }
+}
+
+.table-wrap {
+  :deep(.el-table) {
+    th {
+      background-color: #F5F7FA;
+    }
+  }
+}
+
 .pagination {
   float: right;
-  margin: 10px -10px 10px 0;
+  margin: 20px 0;
 }
 </style>

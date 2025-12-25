@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { expect } from 'chai'
+import { expect } from 'vitest'
 import { shallowMount } from '@vue/test-utils'
 import Logo from '../../../src/components/Logo/index.vue'
 
 describe('Logo/index.vue', () => {
   it('Logo Does the component exist？', () => {
     const wrapper = shallowMount(Logo)
-    expect(wrapper.isVueInstance()).to.be.true
+    expect(wrapper.exists()).toBe(true)
   })
 })

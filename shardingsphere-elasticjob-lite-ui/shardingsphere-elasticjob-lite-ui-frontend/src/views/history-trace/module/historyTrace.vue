@@ -16,43 +16,61 @@
   -->
 
 <template>
-  <el-row class="box-card">
-    <div class="btn-group" style="">
-      <el-autocomplete
-        :placeholder="$t('historyTrace.searchForm.jobName')"
-        :fetch-suggestions="fetchJobNameSuggestions"
-        v-model="searchForm.jobName"
-        clearable>
-      </el-autocomplete>
-      <el-autocomplete
-        :placeholder="$t('historyTrace.searchForm.serverIp')"
-        :fetch-suggestions="fetchIpSuggestions"
-        v-model="searchForm.ip"
-        clearable>
-      </el-autocomplete>
-      <el-date-picker
-        :placeholder="$t('historyTrace.searchForm.startTimeRange')"
-        :start-placeholder="$t('historyTrace.searchForm.startTimeFrom')"
-        :end-placeholder="$t('historyTrace.searchForm.startTimeTo')"
-        v-model="startTimeRange"
-        type="datetimerange"
-        clearable>
-      </el-date-picker>
-      <el-select
-        :placeholder="$t('historyTrace.searchForm.executeResult')"
-        v-model="searchForm.isSuccess"
-        clearable>
-        <el-option
-          v-for="item in executeResultItems"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
-      <el-button
-        icon="el-icon-search"
-        @click="getJobTrace"
-      ></el-button>
+  <div class="box-card">
+    <div class="btn-group">
+      <div class="search-item">
+        <el-autocomplete
+          :placeholder="$t('historyTrace.searchForm.jobName')"
+          :fetch-suggestions="fetchJobNameSuggestions"
+          v-model="searchForm.jobName"
+          @select="getJobTrace"
+          @change="getJobTrace"
+          @clear="getJobTrace"
+          clearable
+        >
+        </el-autocomplete>
+      </div>
+      <div class="search-item">
+        <el-autocomplete
+          :placeholder="$t('historyTrace.searchForm.serverIp')"
+          :fetch-suggestions="fetchIpSuggestions"
+          v-model="searchForm.ip"
+          @select="getJobTrace"
+          @change="getJobTrace"
+          @clear="getJobTrace"
+          clearable
+        >
+        </el-autocomplete>
+      </div>
+      <div class="search-item date-item">
+        <el-date-picker
+          :placeholder="$t('historyTrace.searchForm.startTimeRange')"
+          :start-placeholder="$t('historyTrace.searchForm.startTimeFrom')"
+          :end-placeholder="$t('historyTrace.searchForm.startTimeTo')"
+          v-model="startTimeRange"
+          type="datetimerange"
+          @change="getJobTrace"
+          clearable
+        >
+        </el-date-picker>
+      </div>
+      <div class="search-item">
+        <el-select
+          :placeholder="$t('historyTrace.searchForm.executeResult')"
+          v-model="searchForm.isSuccess"
+          @change="getJobTrace"
+          clearable
+        >
+          <el-option
+            v-for="item in executeResultItems"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
+      </div>
+      <el-button icon="Search" @click="getJobTrace"></el-button>
     </div>
     <div class="table-wrap">
       <el-table :data="tableData" border style="width: 100%">
@@ -62,164 +80,204 @@
           :prop="item.prop"
           :label="item.label"
           :width="item.width"
-          :formatter = "item.formatter"
+          :formatter="item.formatter"
         />
       </el-table>
       <div class="pagination">
         <el-pagination
           :total="total"
           :current-page="currentPage"
+          :page-size="pageSize"
           background
           layout="prev, pager, next"
           @current-change="handleCurrentChange"
         />
       </div>
     </div>
-
-  </el-row>
+  </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import API from '../api'
+import { mapActions } from "vuex";
+import API from "../api";
 export default {
-  name: 'HistoryTrace',
+  name: "HistoryTrace",
   data() {
     return {
       column: [
         {
-          label: this.$t('historyTrace').column.jobName,
-          prop: 'jobName'
+          label: this.$t("historyTrace.column.jobName"),
+          prop: "jobName",
         },
         {
-          label: this.$t('historyTrace').column.serverIp,
-          prop: 'ip'
+          label: this.$t("historyTrace.column.serverIp"),
+          prop: "ip",
         },
         {
-          label: this.$t('historyTrace').column.shardingItem,
-          prop: 'shardingItem'
+          label: this.$t("historyTrace.column.shardingItem"),
+          prop: "shardingItem",
         },
         {
-          label: this.$t('historyTrace').column.executeResult,
-          prop: 'success',
-          formatter: function(row, cell, value) {
-            return value + ''
-          }
+          label: this.$t("historyTrace.column.executeResult"),
+          prop: "success",
+          formatter: function (row, cell, value) {
+            return value + "";
+          },
         },
         {
-          label: this.$t('historyTrace').column.failureCause,
-          prop: 'failureCause'
+          label: this.$t("historyTrace.column.failureCause"),
+          prop: "failureCause",
         },
         {
-          label: this.$t('historyTrace').column.startTime,
-          prop: 'startTime',
-          formatter: function(row, cell, value) {
-            var t = new Date(value)
+          label: this.$t("historyTrace.column.startTime"),
+          prop: "startTime",
+          formatter: function (row, cell, value) {
+            var t = new Date(value);
             if (!t) {
-              return ''
+              return "";
             }
-            return t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()
-          }
+            return (
+              t.getFullYear() +
+              "-" +
+              (t.getMonth() + 1) +
+              "-" +
+              t.getDate() +
+              " " +
+              t.getHours() +
+              ":" +
+              t.getMinutes() +
+              ":" +
+              t.getSeconds()
+            );
+          },
         },
         {
-          label: this.$t('historyTrace').column.completeTime,
-          prop: 'completeTime',
-          formatter: function(row, cell, value) {
-            var t = new Date(value)
+          label: this.$t("historyTrace.column.completeTime"),
+          prop: "completeTime",
+          formatter: function (row, cell, value) {
+            var t = new Date(value);
             if (!t) {
-              return ''
+              return "";
             }
-            return t.getFullYear() + '-' + (t.getMonth() + 1) + '-' + t.getDate() + ' ' + t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()
-          }
-        }
+            return (
+              t.getFullYear() +
+              "-" +
+              (t.getMonth() + 1) +
+              "-" +
+              t.getDate() +
+              " " +
+              t.getHours() +
+              ":" +
+              t.getMinutes() +
+              ":" +
+              t.getSeconds()
+            );
+          },
+        },
       ],
       executeResultItems: [
         {
           value: true,
-          label: this.$t('historyTrace').searchForm.executeSuccess
-        }, {
+          label: this.$t("historyTrace.searchForm.executeSuccess"),
+        },
+        {
           value: false,
-          label: this.$t('historyTrace').searchForm.executeFailed
-        }
+          label: this.$t("historyTrace.searchForm.executeFailed"),
+        },
       ],
       searchForm: {
-        jobName: '',
-        ip: '',
+        jobName: "",
+        ip: "",
         startTimeFrom: null,
         startTimeTo: null,
-        isSuccess: ''
+        isSuccess: "",
       },
       startTimeRange: [],
       tableData: [],
       cloneTableData: [],
       currentPage: 1,
       pageSize: 10,
-      total: null
-    }
+      total: 0,
+    };
   },
   created() {
-    this.getJobTrace()
+    this.getJobTrace();
   },
   methods: {
-    ...mapActions(['setRegCenterActivated']),
+    ...mapActions(["setRegCenterActivated"]),
     fetchJobNameSuggestions(jobNamePrefix, callback) {
-      API.getExecutionJobNameSuggestions(jobNamePrefix).then(res => {
-        const jobNames = res.model
-        const suggestions = jobNames.map(jobName => ({ value: jobName }))
-        callback(suggestions)
-      })
+      API.getExecutionJobNameSuggestions(jobNamePrefix).then((res) => {
+        const jobNames = res.model;
+        const suggestions = jobNames.map((jobName) => ({ value: jobName }));
+        callback(suggestions);
+      });
     },
     fetchIpSuggestions(ipPrefix, callback) {
-      API.getExecutionIpSuggestions(ipPrefix).then(res => {
-        const ips = res.model
-        const suggestions = ips.map(ip => ({ value: ip }))
-        callback(suggestions)
-      })
+      API.getExecutionIpSuggestions(ipPrefix).then((res) => {
+        const ips = res.model;
+        const suggestions = ips.map((ip) => ({ value: ip }));
+        callback(suggestions);
+      });
     },
     handleCurrentChange(val) {
+      this.currentPage = val;
       const page = {
         pageSize: this.pageSize,
-        pageNumber: val
-      }
-      API.loadExecution(Object.assign(this.getSearchForm(), page)).then(res => {
-        const data = res.model.rows
-        this.total = res.model.total
-        this.tableData = data
-      })
+        pageNumber: val,
+      };
+      API.loadExecution(Object.assign(this.getSearchForm(), page)).then(
+        (res) => {
+          const data = res.model.rows;
+          this.total = res.model.total;
+          this.tableData = data;
+        }
+      );
     },
     getJobTrace() {
-      this.currentPage = 1
-      this.total = 0
-      API.loadExecution(this.getSearchForm()).then(res => {
-        const data = res.model.rows
-        this.total = res.model.total
-        this.tableData = data
-      })
+      this.currentPage = 1;
+      this.total = 0;
+      API.loadExecution(this.getSearchForm()).then((res) => {
+        const data = res.model.rows;
+        this.total = res.model.total;
+        this.tableData = data;
+      });
     },
     getSearchForm() {
-      const requestBody = Object.assign({}, this.searchForm)
-      requestBody.jobName = this.getNullIfEmpty(requestBody.jobName)
-      requestBody.ip = this.getNullIfEmpty(requestBody.ip)
+      const requestBody = Object.assign({}, this.searchForm);
+      requestBody.jobName = this.getNullIfEmpty(requestBody.jobName);
+      requestBody.ip = this.getNullIfEmpty(requestBody.ip);
       if (this.startTimeRange) {
-        requestBody.startTimeFrom = this.startTimeRange[0]
-        requestBody.startTimeTo = this.startTimeRange[1]
+        requestBody.startTimeFrom = this.startTimeRange[0];
+        requestBody.startTimeTo = this.startTimeRange[1];
       }
-      return requestBody
+      return requestBody;
     },
     getNullIfEmpty(value) {
-      return value === '' ? null : value
+      return value === "" ? null : value;
+    },
+  },
+};
+</script>
+<style lang="scss" scoped>
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+  .search-item {
+    width: 200px;
+    &.date-item {
+      width: 410px;
+    }
+    :deep(.el-input),
+    :deep(.el-select),
+    :deep(.el-date-editor) {
+      width: 100%;
     }
   }
 }
-</script>
-<style lang='scss' scoped>
-.btn-group {
-  margin-bottom: 20px;
-}
 .pagination {
   float: right;
-  margin: 10px -10px 10px 0;
-}
-.el-input {
-  width: 200px;
+  margin: 10px 0;
 }
 </style>

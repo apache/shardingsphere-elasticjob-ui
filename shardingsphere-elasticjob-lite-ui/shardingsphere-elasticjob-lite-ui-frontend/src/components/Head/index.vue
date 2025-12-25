@@ -25,22 +25,26 @@
             <el-tag type="success">
               <span class="el-dropdown-link">
                 {{ username || 'Not logged in' }}
-                <i class="el-icon-arrow-down el-icon--right" />
+                <el-icon class="el-icon--right"><ArrowDown /></el-icon>
               </span>
             </el-tag>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>{{ $t("common.loginOut") }}</el-dropdown-item>
-            </el-dropdown-menu>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>{{ $t("common.loginOut") }}</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
           </el-dropdown>
         </div>
         <div class="lang-more">
           <el-dropdown @command="handleCommand">
             <span class="el-dropdown-link">
-              {{ dropdownTitle }}<i class="el-icon-arrow-down el-icon--right" />
+              {{ dropdownTitle }}<el-icon class="el-icon--right"><ArrowDown /></el-icon>
             </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item v-for="(item, index) in dropdownList" :key="index" :command="item.command">{{ item.title }}</el-dropdown-item>
-            </el-dropdown-menu>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item v-for="(item, index) in dropdownList" :key="index" :command="item.command">{{ item.title }}</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
           </el-dropdown>
         </div>
       </div>
@@ -55,15 +59,19 @@
   </div>
 </template>
 <script>
+import Language from '@/lang/index'
+
 export default {
   name: 'Head',
   data() {
+    const lang = localStorage.getItem('language') || 'en-US'
+    const list = (Language[lang] || Language['en-US']).common.dropdownList
     return {
       isCollapse: false,
       username: '',
       breadcrumbTxt: '',
-      dropdownList: this.$t('common').dropdownList,
-      dropdownTitle: localStorage.getItem('language') === 'zh-CN' ? this.$t('common').dropdownList[0].title : this.$t('common').dropdownList[1].title
+      dropdownList: list,
+      dropdownTitle: lang === 'zh-CN' ? list[0].title : list[1].title
     }
   },
   computed: {
@@ -84,8 +92,8 @@ export default {
   methods: {
     handleCommand(command) {
       this.$i18n.locale = command
-      const ls = this.$t('common').dropdownList
-      this.dropdownTitle = command === 'zh-CN' ? ls[0].title : ls[1].title
+      const list = (Language[command] || Language['en-US']).common.dropdownList
+      this.dropdownTitle = command === 'zh-CN' ? list[0].title : list[1].title
       localStorage.setItem('language', command)
       location.reload()
     },
@@ -103,61 +111,71 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.s-layout-header {
-  background: #001529;
-  padding: 0;
-  height: 64px;
-  line-height: 64px;
-  width: 100%;
-  .bread-nav {
-    float: right;
-    height: 64px;
-    line-height: 64px;
-    padding-right: 20px;
+
+  .el-dropdown-link {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
   }
-  .s-pro-components-header {
-    height: 64px;
+  .s-layout-header {
+    background: #001529;
     padding: 0;
-    background: #fff;
-    box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-    position: relative;
-    i.icon-item {
-      width: 16px;
-      height: 16px;
-      float: left;
-      cursor: pointer;
-      margin: 24px;
-    }
-    i.icon-shrink {
-      background: url('../../assets/img/shrink.png') no-repeat left center;
-    }
-    .icon-expand {
-      background: url('../../assets/img/expand.png') no-repeat left center;
-    }
-    .s-pro-components-header-right {
+    height: 64px;
+    width: 100%;
+    .bread-nav {
       float: right;
+      height: 64px;
+      padding-right: 20px;
+      display: flex;
+      align-items: center;
+    }
+    .s-pro-components-header {
+      height: 64px;
+      padding: 0;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
+      position: relative;
+      i.icon-item {
+        width: 16px;
+        height: 16px;
+        float: left;
+        cursor: pointer;
+        margin: 24px;
+      }
+      i.icon-shrink {
+        background: url('../../assets/img/shrink.png') no-repeat left center;
+      }
+      .icon-expand {
+        background: url('../../assets/img/expand.png') no-repeat left center;
+      }
+      .s-pro-components-header-right {
+        float: right;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+      }
+    }
+    .avatar {
+      cursor: pointer;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
       height: 100%;
-      overflow: hidden;
+    }
+    .lang-more {
+      cursor: pointer;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      transition: all 0.3s;
+      height: 100%;
+      // .lang-icon {
+      //   background: url('../../assets/img/lang.png') no-repeat center center;
+      //   width: 32px;
+      //   height: 60px;
+      // }
     }
   }
-  .avatar {
-    cursor: pointer;
-    padding: 0 12px;
-    display: inline-block;
-    transition: all 0.3s;
-    height: 100%;
-  }
-  .lang-more {
-    cursor: pointer;
-    padding: 0 20px;
-    display: inline-block;
-    transition: all 0.3s;
-    height: 100%;
-    // .lang-icon {
-    //   background: url('../../assets/img/lang.png') no-repeat center center;
-    //   width: 32px;
-    //   height: 60px;
-    // }
-  }
-}
 </style>

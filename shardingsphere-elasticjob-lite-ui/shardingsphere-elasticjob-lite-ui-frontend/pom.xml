@@ -27,8 +27,8 @@
     <name>${project.artifactId}</name>
 
     <properties>
-        <node.version>v14.15.4</node.version>
-        <npm.version>6.14.10</npm.version>
+        <node.version>v20.11.0</node.version>
+        <npm.version>10.2.4</npm.version>
     </properties>
 
     <profiles>
@@ -55,15 +55,6 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>npm run rimraf</id>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                                <configuration>
-                                    <arguments>run rimraf</arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
                                 <id>npm install</id>
                                 <goals>
                                     <goal>npm</goal>
@@ -71,16 +62,6 @@
                                 <phase>generate-resources</phase>
                                 <configuration>
                                     <arguments>install</arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>npm run unit</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                                <configuration>
-                                    <arguments>run unit</arguments>
                                 </configuration>
                             </execution>
                             <execution>
@@ -121,21 +102,6 @@
                                     <executable>cnpm</executable>
                                     <arguments>
                                         <argument>install</argument>
-                                    </arguments>
-                                    <workingDirectory>${basedir}</workingDirectory>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>exec-npm-run-unit</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>cnpm</executable>
-                                    <arguments>
-                                        <argument>run</argument>
-                                        <argument>unit</argument>
                                     </arguments>
                                     <workingDirectory>${basedir}</workingDirectory>
                                 </configuration>

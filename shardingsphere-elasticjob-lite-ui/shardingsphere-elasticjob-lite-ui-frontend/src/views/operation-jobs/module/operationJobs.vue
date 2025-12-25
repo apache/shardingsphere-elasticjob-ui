@@ -16,7 +16,7 @@
   -->
 
 <template>
-  <el-row class="box-card">
+  <div class="box-card">
     <div class="btn-group pull-right" style="float: right;">
       <el-input
         v-model="searchForm.jobName"
@@ -25,11 +25,12 @@
         autocomplete="off"
         @clear="search"
         @change="search" >
-        <i slot="prefix" class="el-input__icon el-icon-search"></i>
-        <el-button
-          slot="append"
-          icon="el-icon-search"
-          @click="search"></el-button>
+        <template #prefix>
+          <el-icon class="el-input__icon"><Search /></el-icon>
+        </template>
+        <template #append>
+          <el-button icon="Search" @click="search"></el-button>
+        </template>
       </el-input>
     </div>
     <div class="table-wrap">
@@ -45,12 +46,12 @@
           :label="item.label"
           :width="item.width"
         >
-          <template slot-scope="scope">
+          <template #default="scope">
             <span v-if="'status'!==item.prop">{{ scope.row[item.prop] }}</span>
             <el-button
               v-if="'status'===item.prop"
               :type="statusColor[scope.row[item.prop]]"
-              size="mini"
+              size="small"
               plain>
               {{ $t("operationJobs.statusText."+scope.row[item.prop]) }}
             </el-button>
@@ -60,48 +61,48 @@
           :label="$t('operationJobs.table.operate')"
           fixed="right"
           width="380">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-button-group>
               <el-button
-                size="mini"
+                size="small"
                 type="primary"
                 plain
                 @click="handleModify(scope.row)">{{ $t("operationJobs.actionText.modify") }}</el-button>
               <el-button
                 v-if="'CRASHED'!==scope.row.status && 'SHARDING_FLAG'!==scope.row.status"
-                size="mini"
+                size="small"
                 type="info"
                 plain
                 @click="handleDetail(scope.row)">{{ $t("operationJobs.actionText.detail") }}</el-button>
               <el-button
                 v-if="'OK'===scope.row.status"
-                size="mini"
+                size="small"
                 type="success"
                 plain
                 @click="handleTrigger(scope.row)">{{ $t("operationJobs.actionText.trigger") }}</el-button>
               <el-button
                 v-if="'DISABLED'===scope.row.status"
-                size="mini"
+                size="small"
                 type="success"
                 plain
                 @click="handleEnable(scope.row)">{{ $t("operationJobs.actionText.enable") }}</el-button>
               <el-button
                 v-if="'OK'===scope.row.status"
-                size="mini"
+                size="small"
                 type="warning"
                 plain
                 @click="handleDisable(scope.row)">{{ $t("operationJobs.actionText.disable") }}</el-button>
               <el-button
                 v-if="'CRASHED'!==scope.row.status"
-                size="mini"
+                size="small"
                 type="danger"
                 plain
                 @click="handleShutdown(scope.row)">{{ $t("operationJobs.actionText.shutdown") }}</el-button>
               <el-button
                 v-if="'CRASHED'===scope.row.status"
-                size="mini"
+                size="small"
                 type="danger"
-                icon="el-icon-delete"
+                icon="Delete"
                 plain
                 @click="handlerRemove(scope.row)">{{ $t("operationJobs.actionText.remove") }}</el-button>
             </el-button-group>
@@ -120,7 +121,7 @@
     </div>
     <el-dialog
       :title="$t('operationJobs.labelInfo.editTitle')"
-      :visible.sync="modifyDialogVisible"
+      v-model="modifyDialogVisible"
       width="1010px"
     >
       <el-form ref="editForm" :model="editForm" :rules="rules" label-width="40px">
@@ -292,7 +293,7 @@
             <el-input v-model="prop.name" :placeholder="$t('operationJobs.labelInfo.prop.name')"></el-input>
           </el-col>
           <el-col :span="10">
-            <el-input v-model="prop.value" :placeholder="$t('operationJobs.labelInfo.prop.name')"></el-input>
+            <el-input v-model="prop.value" :placeholder="$t('operationJobs.labelInfo.prop.value')"></el-input>
           </el-col>
           <el-col :span="4">
             <el-button @click="removeProperty(prop)">{{ $t('btn.remove') }}</el-button>
@@ -305,15 +306,17 @@
         </el-form-item>
 
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="modifyDialogVisible = false">{{ $t('btn.cancel') }}</el-button>
-        <el-button
-          type="primary"
-          @click="onEditConfirm('editForm')"
-        >{{ $t('btn.confirm') }}</el-button>
-      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="modifyDialogVisible = false">{{ $t('btn.cancel') }}</el-button>
+          <el-button
+            type="primary"
+            @click="onEditConfirm('editForm')"
+          >{{ $t('btn.confirm') }}</el-button>
+        </div>
+      </template>
     </el-dialog>
-  </el-row>
+  </div>
 </template>
 <script>
 import { mapActions } from 'vuex'
@@ -327,23 +330,23 @@ export default {
       modifyDialogVisible: false,
       column: [
         {
-          label: this.$t('operationJobs').labelInfo.jobName,
+          label: this.$t('operationJobs.labelInfo.jobName'),
           prop: 'jobName'
         },
         {
-          label: this.$t('operationJobs').labelInfo.shardingTotalCount,
+          label: this.$t('operationJobs.labelInfo.shardingTotalCount'),
           prop: 'shardingTotalCount'
         },
         {
-          label: this.$t('operationJobs').labelInfo.cron,
+          label: this.$t('operationJobs.labelInfo.cron'),
           prop: 'cron'
         },
         {
-          label: this.$t('operationJobs').labelInfo.description,
+          label: this.$t('operationJobs.labelInfo.description'),
           prop: 'description'
         },
         {
-          label: this.$t('operationJobs').labelInfo.status,
+          label: this.$t('operationJobs.labelInfo.status'),
           prop: 'status'
         }
       ],
@@ -377,28 +380,28 @@ export default {
         jobName: [
           {
             required: true,
-            message: this.$t('operationJobs').rules.jobName,
+            message: this.$t('operationJobs.rules.jobName'),
             trigger: 'change'
           }
         ],
         shardingTotalCount: [
           {
             required: true,
-            message: this.$t('operationJobs').rules.shardingTotalCount,
+            message: this.$t('operationJobs.rules.shardingTotalCount'),
             trigger: 'change'
           }
         ],
         cron: [
           {
             required: true,
-            message: this.$t('operationJobs').rules.cron,
+            message: this.$t('operationJobs.rules.cron'),
             trigger: 'change'
           }
         ],
         description: [
           {
             required: true,
-            message: this.$t('operationJobs').rules.description,
+            message: this.$t('operationJobs.rules.description'),
             trigger: 'change'
           }
         ]
@@ -476,8 +479,8 @@ export default {
       }
       API.triggerJob(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -489,8 +492,8 @@ export default {
       }
       API.enableJob(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -502,15 +505,15 @@ export default {
       }
       API.disableJob(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
       })
     },
     handleShutdown(row) {
-      if (!confirm(this.$t('operationJobs').actionConfirm.shutdown)) {
+      if (!confirm(this.$t('operationJobs.actionConfirm.shutdown'))) {
         return
       }
       const params = {
@@ -518,8 +521,8 @@ export default {
       }
       API.shutdownJob(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.actionSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.actionSucMessage'),
           type: 'success'
         })
         this.search()
@@ -531,8 +534,8 @@ export default {
       }
       API.removeJob(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.delSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.delSucMessage'),
           type: 'success'
         })
         this.search()
@@ -551,8 +554,8 @@ export default {
           API.updateJobConfig(data).then(res => {
             this.modifyDialogVisible = false
             this.$notify({
-              title: this.$t('common').notify.title,
-              message: this.$t('common').notify.addSucMessage,
+              title: this.$t('common.notify.title'),
+              message: this.$t('common.notify.addSucMessage'),
               type: 'success'
             })
             this.search()

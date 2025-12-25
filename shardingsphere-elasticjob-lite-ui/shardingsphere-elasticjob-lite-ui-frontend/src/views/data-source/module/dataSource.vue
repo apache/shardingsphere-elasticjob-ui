@@ -16,12 +16,12 @@
   -->
 
 <template>
-  <el-row class="box-card">
+  <div class="box-card">
     <div class="btn-group">
       <el-button
         class="btn-plus"
         type="primary"
-        icon="el-icon-plus"
+        icon="Plus"
         @click="add"
       >{{ $t("dataSource.btnTxt") }}</el-button>
     </div>
@@ -35,7 +35,7 @@
           :width="item.width"
         />
         <el-table-column :label="$t('dataSource.table.operate')" fixed="right" width="200">
-          <template slot-scope="scope">
+          <template #default="scope">
             <el-tooltip
               :content="!scope.row.activated ? $t('dataSource.table.operateConnect'): $t('dataSource.table.operateConnected')"
               class="item"
@@ -44,7 +44,7 @@
             >
               <el-button
                 :type="scope.row.activated ? 'success' : 'primary'"
-                icon="el-icon-link"
+                icon="Link"
                 size="small"
                 @click="handleConnect(scope.row)"
               />
@@ -58,7 +58,7 @@
               <el-button
                 size="small"
                 type="danger"
-                icon="el-icon-delete"
+                icon="Delete"
                 @click="handlerDel(scope.row)"
               />
             </el-tooltip>
@@ -77,7 +77,7 @@
     </div>
     <el-dialog
       :title="$t('dataSource.addDialog.title')"
-      :visible.sync="regustDialogVisible"
+      v-model="regustDialogVisible"
       width="1010px"
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="170px">
@@ -122,25 +122,28 @@
           />
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="regustDialogVisible = false">{{ $t("dataSource.addDialog.btnCancelTxt") }}</el-button>
-        <el-button
-          type="primary"
-          @click="connectTest('form')"
-        >{{ $t("dataSource.addDialog.btnConnectTestTxt") }}</el-button>
-        <el-button
-          type="primary"
-          @click="onConfirm('form')"
-        >{{ $t("dataSource.addDialog.btnConfirmTxt") }}</el-button>
-      </div>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="regustDialogVisible = false">{{ $t("dataSource.addDialog.btnCancelTxt") }}</el-button>
+          <el-button
+            type="primary"
+            @click="connectTest('form')"
+          >{{ $t("dataSource.addDialog.btnConnectTestTxt") }}</el-button>
+          <el-button
+            type="primary"
+            @click="onConfirm('form')"
+          >{{ $t("dataSource.addDialog.btnConfirmTxt") }}</el-button>
+        </div>
+      </template>
     </el-dialog>
 
-  </el-row>
+  </div>
 </template>
 <script>
 import { mapActions } from 'vuex'
 import clone from 'lodash/clone'
 import API from '../api'
+
 export default {
   name: 'DataSource',
   data() {
@@ -149,23 +152,23 @@ export default {
       availableDriverClasses: [],
       column: [
         {
-          label: this.$t('dataSource').addDialog.name,
+          label: this.$t('dataSource.addDialog.name'),
           prop: 'name'
         },
         {
-          label: this.$t('dataSource').addDialog.driver,
+          label: this.$t('dataSource.addDialog.driver'),
           prop: 'driver'
         },
         {
-          label: this.$t('dataSource').addDialog.url,
+          label: this.$t('dataSource.addDialog.url'),
           prop: 'url'
         },
         {
-          label: this.$t('dataSource').addDialog.username,
+          label: this.$t('dataSource.addDialog.username'),
           prop: 'username'
         },
         {
-          label: this.$t('dataSource').addDialog.password,
+          label: this.$t('dataSource.addDialog.password'),
           prop: 'password'
         }
       ],
@@ -180,35 +183,35 @@ export default {
         name: [
           {
             required: true,
-            message: this.$t('dataSource').rules.name,
+            message: this.$t('dataSource.rules.name'),
             trigger: 'change'
           }
         ],
         driver: [
           {
             required: true,
-            message: this.$t('dataSource').rules.driver,
+            message: this.$t('dataSource.rules.driver'),
             trigger: 'change'
           }
         ],
         url: [
           {
             required: true,
-            message: this.$t('dataSource').rules.url,
+            message: this.$t('dataSource.rules.url'),
             trigger: 'change'
           }
         ],
         username: [
           {
             required: true,
-            message: this.$t('dataSource').rules.username,
+            message: this.$t('dataSource.rules.username'),
             trigger: 'change'
           }
         ],
         password: [
           {
             required: true,
-            message: this.$t('dataSource').rules.password,
+            message: this.$t('dataSource.rules.password'),
             trigger: 'change'
           }
         ]
@@ -217,7 +220,7 @@ export default {
       cloneTableData: [],
       currentPage: 1,
       pageSize: 10,
-      total: null
+      total: 0
     }
   },
   created() {
@@ -252,8 +255,8 @@ export default {
     handleConnect(row) {
       if (row.activated) {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').connected,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.connected'),
           type: 'success'
         })
       } else {
@@ -263,14 +266,14 @@ export default {
         API.connect(params).then(res => {
           if (res.model) {
             this.$notify({
-              title: this.$t('common').notify.title,
-              message: this.$t('common').notify.conSucMessage,
+              title: this.$t('common.notify.title'),
+              message: this.$t('common.notify.conSucMessage'),
               type: 'success'
             })
           } else {
             this.$notify({
-              title: this.$t('common').notify.title,
-              message: this.$t('common').notify.conFailMessage,
+              title: this.$t('common.notify.title'),
+              message: this.$t('common.notify.conFailMessage'),
               type: 'error'
             })
           }
@@ -284,8 +287,8 @@ export default {
       }
       API.delete(params).then(res => {
         this.$notify({
-          title: this.$t('common').notify.title,
-          message: this.$t('common').notify.delSucMessage,
+          title: this.$t('common.notify.title'),
+          message: this.$t('common.notify.delSucMessage'),
           type: 'success'
         })
         this.load()
@@ -297,8 +300,8 @@ export default {
           API.add(this.form).then(res => {
             this.regustDialogVisible = false
             this.$notify({
-              title: this.$t('common').notify.title,
-              message: this.$t('common').notify.addSucMessage,
+              title: this.$t('common.notify.title'),
+              message: this.$t('common.notify.addSucMessage'),
               type: 'success'
             })
             this.load()
@@ -315,14 +318,14 @@ export default {
           API.connectTest(this.form).then(res => {
             if (res.model) {
               this.$notify({
-                title: this.$t('common').notify.title,
-                message: this.$t('common').notify.conSucMessage,
+                title: this.$t('common.notify.title'),
+                message: this.$t('common.notify.conSucMessage'),
                 type: 'success'
               })
             } else {
               this.$notify({
-                title: this.$t('common').notify.title,
-                message: this.$t('common').notify.conFailMessage,
+                title: this.$t('common.notify.title'),
+                message: this.$t('common.notify.conFailMessage'),
                 type: 'error'
               })
             }

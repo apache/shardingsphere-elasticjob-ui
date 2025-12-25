@@ -20,5 +20,5 @@ npm run build --report
 
 ```bash
 # Karma does unit testing for components and pages
-npm run unit
+npm run test
 ```

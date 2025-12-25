@@ -16,56 +16,84 @@
   -->
 
 <template>
-  <div id="app">
-    <s-container v-if="localStorage.getItem('Access-Token')">
-      <el-breadcrumb separator="/" class="bread-wrap">
-        <el-breadcrumb-item :to="{ path: '/' }">{{
-          $t('common.home')
-        }}</el-breadcrumb-item>
-        <el-breadcrumb-item v-for="each in menus" :key="each">
-          {{ each }}
-        </el-breadcrumb-item>
-      </el-breadcrumb>
-      <router-view />
-    </s-container>
-    <template v-else>
-      <router-view />
-    </template>
-  </div>
+  <el-config-provider :locale="locale">
+    <div id="app">
+      <s-container v-if="token">
+        <el-breadcrumb separator="/" class="bread-wrap">
+          <el-breadcrumb-item :to="{ path: '/' }">{{ $t('common.home') }}</el-breadcrumb-item>
+          <el-breadcrumb-item v-for="each in menus" :key="each">
+            {{ each }}
+          </el-breadcrumb-item>
+        </el-breadcrumb>
+        <router-view />
+      </s-container>
+      <template v-else>
+        <router-view />
+      </template>
+    </div>
+  </el-config-provider>
 </template>
 
 <script>
 import SContainer from '@/components/Container/index.vue'
+import { ElConfigProvider } from 'element-plus'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import en from 'element-plus/es/locale/lang/en'
+import Language from '@/lang/index'
+
 export default {
   name: 'App',
   components: {
-    SContainer
+    SContainer,
+    ElConfigProvider
   },
   data() {
     return {
       menus: [],
-      localStorage: window.localStorage
+      token: window.localStorage.getItem('Access-Token')
+    }
+  },
+  computed: {
+    locale() {
+      return this.$i18n.locale === 'zh-CN' ? zhCn : en
     }
   },
   watch: {
-    $route(to, from) {
-      for (const parentMenuItem of this.$t('common').menuData) {
+    $route(to) {
+      this.updateToken()
+      this.updateMenus(to.path)
+    }
+  },
+  methods: {
+    updateToken() {
+      this.token = window.localStorage.getItem('Access-Token')
+    },
+    updateMenus(path) {
+      const lang = this.$i18n.locale
+      const menuData = Language[lang].common.menuData
+      if (!menuData) return
+
+      for (const parentMenuItem of menuData) {
         if (!parentMenuItem.child) {
-          if (parentMenuItem.href === to.path) {
+          if (parentMenuItem.href === path) {
             this.menus = [parentMenuItem.title]
-            break
+            return
           } else {
             continue
           }
         }
         for (const childMenuItem of parentMenuItem.child) {
-          if (childMenuItem.href === to.path) {
+          if (childMenuItem.href === path) {
             this.menus = [parentMenuItem.title, childMenuItem.title]
-            break
+            return
           }
         }
       }
+      this.menus = []
     }
+  },
+  mounted() {
+    this.updateMenus(this.$route.path)
   }
 }
 </script>

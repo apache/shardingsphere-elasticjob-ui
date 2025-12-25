@@ -18,14 +18,23 @@
 <template>
   <div class="s-pro-components-sider-menu-index-logo">
     <a href="/">
-      <img src="../../assets/img/sidebar-logo.png" alt="logo" />
-      <img class="collapse-logo" src="../../assets/img/logo.png" alt="logo" />
+      <img :src="sidebarLogo" alt="logo" />
+      <img class="collapse-logo" :src="collapseLogo" alt="logo" />
     </a>
   </div>
 </template>
 <script>
+import sidebarLogo from '@/assets/img/sidebar-logo.png'
+import collapseLogo from '@/assets/img/logo.png'
+
 export default {
-  name: 'Logo'
+  name: 'Logo',
+  data() {
+    return {
+      sidebarLogo,
+      collapseLogo
+    }
+  }
 }
 </script>
 <style lang="scss">
@@ -34,7 +43,7 @@ export default {
   position: relative;
   line-height: 64px;
   transition: all 0.3s;
-  background: #2d2b2a;
+  background: #090a01;
   overflow: hidden;
   text-align: center;
   img {

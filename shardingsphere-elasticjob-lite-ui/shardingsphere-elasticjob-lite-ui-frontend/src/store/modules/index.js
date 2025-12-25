@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-const files = require.context('.', false, /\.js$/)
+const files = import.meta.glob('./*.js', { eager: true })
 const modules = {}
 
-files.keys().forEach((key) => {
-  if (key === './index.js') return
-  modules[key.replace(/(\.\/|\.js)/g, '')] = files(key).default
-})
+for (const key in files) {
+  if (key === './index.js') continue
+  modules[key.replace(/(\.\/|\.js)/g, '')] = files[key].default
+}
 
 export default modules
